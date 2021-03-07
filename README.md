@@ -4,10 +4,13 @@
 # cageminer
 
 <!-- badges: start -->
+
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-The goal of `cageminer` is to integrate SNP data from GWAS with gene
-coexpression networks to identify high-confidence candidate genes
+The goal of `cageminer` is to integrate SNP data from GWAS results with
+gene coexpression networks to identify high-confidence candidate genes
 involved in a particular phenotype.
 
 ## Installation instructions
