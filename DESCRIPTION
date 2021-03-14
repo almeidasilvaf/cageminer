@@ -18,8 +18,27 @@ Description: What the package does (one paragraph).
 License: GPL-3
 URL: https://github.com/almeidasilvaf/cageminer
 BugReports: https://support.bioconductor.org/t/cageminer
-biocViews: Software
+biocViews: 
+    Software,
+    SNP,
+    FunctionalPrediction,
+    GenomeWideAssociation,
+    GeneExpression,
+    NetworkEnrichment,
+    VariantAnnotation,
+    FunctionalGenomics,
+    Network
 Encoding: UTF-8
 LazyData: false
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+Imports:
+    ggplot2,
+    ggtext,
+    ggplotify,
+    circlize
+Depends: 
+    R (>= 4.1)
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
