@@ -7,6 +7,7 @@
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![R-CMD-check-bioc](https://github.com/almeidasilvaf/cageminer/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/almeidasilvaf/cageminer/actions)
 <!-- badges: end -->
 
 The goal of `cageminer` is to integrate SNP data from GWAS results with
