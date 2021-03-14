@@ -1,8 +1,8 @@
 
 #----Load data----
-load(gwas)
-load(maize_gr)
-load(chr_length)
+data(gwas)
+data(maize_gr)
+data(chr_length)
 
 #----Start tests----
 test_that("plot_circos() plots SNP positions in the genome", {

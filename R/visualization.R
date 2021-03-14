@@ -79,9 +79,9 @@ circos_plot <- function(genome_ranges, genes_ranges, marker_ranges) {
 #' @importFrom ggplot2 labs theme margin
 #' @importFrom ggtext element_textbox_simple
 #' @examples
-#' load(gwas)
-#' load(maize_gr)
-#' load(chr_length)
+#' data(gwas)
+#' data(maize_gr)
+#' data(chr_length)
 #' gwas_list <- split(gwas, gwas$trait)
 #' genes_ranges <- maize_gr[maize_gr$type == "gene", ]
 #' p <- plot_snp_circos(chr_length, genes_ranges, gwas_list)
