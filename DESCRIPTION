@@ -36,7 +36,8 @@ Imports:
     ggplot2,
     ggtext,
     ggplotify,
-    circlize
+    circlize,
+    GenomicRanges
 Depends: 
     R (>= 4.1)
 Suggests: 
