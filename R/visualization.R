@@ -4,8 +4,8 @@
 #' @param genome_ranges A GRanges object with chromosome lengths.
 #' @param genes_ranges A GRanges object with genomic coordinates
 #' of all genes in the genome.
-#' @param marker_ranges A GRanges object with genomic positions of
-#' molecular markers.
+#' @param marker_ranges A GRanges object or list of GRanges objects with
+#' positions of molecular markers.
 #' @return A base plot to be converted to ggplot in \code{plot_snp_circos()}.
 #'
 #' @noRd
@@ -65,8 +65,8 @@ circos_plot <- function(genome_ranges, genes_ranges, marker_ranges) {
 #' @param genome_ranges A GRanges object with chromosome lengths.
 #' @param genes_ranges A GRanges object with genomic coordinates
 #' of all genes in the genome.
-#' @param marker_ranges A GRanges object with genomic positions of
-#' molecular markers.
+#' @param marker_ranges A GRanges object or list of GRanges objects with
+#' positions of molecular markers.
 #'
 #' @return A ggplot object with a circos plot of molecular marker distribution
 #' across chromosomes.
@@ -117,4 +117,48 @@ plot_snp_circos <- function(genome_ranges, genes_ranges, marker_ranges) {
                        ))
     return(p2)
 }
+
+
+
+
+#' Plot SNP distribution across chromosomes
+#'
+#' @param marker_ranges A GRanges object with genomic positions
+#' of molecular markers.
+#' @return A ggplot object.
+#' @examples
+#' data(gwas)
+#' p <- plot_snp_distribution(gwas)
+#' @rdname plot_snp_distribution
+#' @export
+#' @importFrom ggplot2 ggplot aes geom_bar facet_wrap coord_flip theme_bw ggtitle theme element_text element_blank
+plot_snp_distribution <- function(marker_ranges) {
+
+    marker_df <- as.data.frame(marker_ranges)
+    marker_df <- as.data.frame(table(marker_df$trait, marker_df$seqnames))
+    colnames(marker_df) <- c("Trait", "Chromosome", "Frequency")
+
+    p <- ggplot2::ggplot(marker_df, ggplot2::aes(x=Chromosome, y=Frequency)) +
+        ggplot2::geom_bar(stat="identity") +
+        ggplot2::facet_wrap(~Trait, ncol=4) +
+        ggplot2::coord_flip() +
+        ggplot2::theme_bw() +
+        ggplot2::ggtitle("SNP distribution across chromosomes") +
+        ggplot2::theme(
+            plot.title = ggplot2::element_text(face="bold", size=12),
+            panel.grid.major = ggplot2::element_blank(),
+            panel.grid.minor = ggplot2::element_blank(),
+            )
+    return(p)
+}
+
+
+
+
+
+
+
+
+
+
 

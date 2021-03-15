@@ -13,4 +13,8 @@ test_that("plot_circos() plots SNP positions in the genome", {
 })
 
 
+test_that("plot_snp_distribution() plots SNP distribution", {
+    p <- plot_snp_distribution(gwas)
+    expect_equal(class(p), c("gg", "ggplot"))
+})
 
