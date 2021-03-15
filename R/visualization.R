@@ -17,17 +17,16 @@
 #'  \code{\link[circlize]{circos.genomicRect}}
 #' @importFrom circlize circos.par circos.genomicInitialize circos.genomicDensity circos.genomicTrack circos.genomicRect
 circos_plot <- function(genome_ranges, genes_ranges, marker_ranges) {
-    pal <- c("#1F77B4FF", "#FF7F0EFF", "#2CA02CFF", "#D62728FF", "#9467BDFF",
-             "#8C564BFF", "#E377C2FF", "#7F7F7FFF", "#BCBD22FF", "#17BECFFF")
-    if(is.list(marker_ranges)) {
+    pal <- c("#1F77B4FF", "#FF7F0EFF", "#2CA02CFF", "#D62728FF", "#9467BDFF")
+    if(is(marker_ranges, "GRangesList")) {
         if(length(marker_ranges) > 6) {
-            stop("The input GRangesList contains more than 6 elements.
+            stop("The input GRangesList contains more than 5 elements.
                  Reduce the number of elements in the list.")
         }
         marker_rangesdf <- lapply(marker_ranges, function(x) {
             return(as.data.frame(x[!duplicated(x)]))
         })
-        height <- 0.2 - 0.035 * length(marker_ranges)
+        height <- 0.235 - 0.035 * length(marker_ranges)
         circlize::circos.par("track.height" = height)
         circlize::circos.genomicInitialize(genome_ranges)
         circlize::circos.genomicDensity(as.data.frame(genes_ranges), col="grey50")
@@ -94,16 +93,20 @@ plot_snp_circos <- function(genome_ranges, genes_ranges, marker_ranges) {
         genome_ranges, genes_ranges, marker_ranges)
         )
 
-    traits <- unlist(lapply(seq_along(marker_ranges), function(i) {
-        return(paste0(
-            "<span style='color:", pal[i], "'>", names(marker_ranges)[i],"</span>"
-        ))
-    }))
+    if(is(marker_ranges, "GRangesList")) {
+        traits <- paste0(unlist(lapply(seq_along(marker_ranges), function(i) {
+            return(paste0(
+                "<span style='color:", pal[i], "'>",
+                names(marker_ranges)[i],"</span>"))
+        })), collapse=", ")
+    } else {
+        traits <- "trait"
+    }
     title <- paste0(
         "<b>SNP distribution across chromosomes</b><br>",
         "<span style = 'font-size:10pt'>",
         "<span style='color:#404040'>Gene density </span>and SNPs associated with ",
-        paste(traits, collapse=", "),
+        traits,
         ".</span>")
 
     p2 <- p +
@@ -140,7 +143,7 @@ plot_snp_distribution <- function(marker_ranges) {
 
     p <- ggplot2::ggplot(marker_df, ggplot2::aes(x=Chromosome, y=Frequency)) +
         ggplot2::geom_bar(stat="identity") +
-        ggplot2::facet_wrap(~Trait, ncol=4) +
+        ggplot2::facet_wrap(~Trait, ncol=nlevels(marker_df$Trait)) +
         ggplot2::coord_flip() +
         ggplot2::theme_bw() +
         ggplot2::ggtitle("SNP distribution across chromosomes") +

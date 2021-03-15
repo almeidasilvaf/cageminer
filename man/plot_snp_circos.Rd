@@ -12,8 +12,8 @@ plot_snp_circos(genome_ranges, genes_ranges, marker_ranges)
 \item{genes_ranges}{A GRanges object with genomic coordinates
 of all genes in the genome.}
 
-\item{marker_ranges}{A GRanges object with genomic positions of
-molecular markers.}
+\item{marker_ranges}{A GRanges object or list of GRanges objects with
+positions of molecular markers.}
 }
 \value{
 A ggplot object with a circos plot of molecular marker distribution
