@@ -17,7 +17,7 @@ positions of molecular markers.}
 to each SNP. Default: seq(0.1, 2, by = 0.1).}
 }
 \value{
-OUTPUT_DESCRIPTION
+A ggplot object summarizing the results of the simulations.
 }
 \description{
 This function counts genes that are contained in sliding windows related to

@@ -11,7 +11,7 @@
 #' positions of molecular markers.
 #' @param windows Sliding windows (in Mb) upstream and downstream relative
 #' to each SNP. Default: seq(0.1, 2, by = 0.1).
-#' @return OUTPUT_DESCRIPTION
+#' @return A ggplot object summarizing the results of the simulations.
 #' @details
 #' By default, the function creates 20 sliding windows by expanding upstream
 #' and downstream boundaries for each SNP from 0.1 Mb (100 kb) to 2 Mb.
@@ -73,3 +73,46 @@ simulate_windows <- function(genes_ranges, marker_ranges,
                        legend.position = legend_pos)
     return(p)
 }
+
+
+#' Get candidate genes for a given sliding window
+#'
+#' For an user-defined sliding window relative to each SNP, this function will
+#' subset all genes whose genomic positions overlap with the sliding window.
+#'
+#' @param genes_ranges A GRanges object with genomic coordinates
+#' of all genes in the genome.
+#' @param marker_ranges A GRanges or GRangesList object with
+#' positions of molecular markers.
+#' @param window Sliding window (in Mb) upstream and downstream relative
+#' to each SNP. Default: 2.
+#' @return A GRanges or GRangesList object with the genomic positions of
+#' candidate genes.
+#' @examples
+#' data(gwas)
+#' data(maize_gr)
+#' genes_ranges <- maize_gr[maize_gr$type == "gene", ]
+#' marker_ranges <- split(gwas, gwas$trait)
+#' genes <- get_all_candidates(genes_ranges, marker_ranges, window = 2)
+#' @seealso
+#'  \code{\link[IRanges]{findOverlaps-methods}}
+#' @rdname get_all_candidates
+#' @export
+#' @importFrom IRanges subsetByOverlaps
+#' @importFrom GenomicRanges GRangesList
+get_all_candidates <- function(genes_ranges, marker_ranges, window = 2) {
+    window <- window * 10^6
+    if(is(marker_ranges, "GRanges")) {
+        snp_granges <- marker_ranges + window
+        genes <- unique(IRanges::subsetByOverlaps(genes_ranges, snp_ranges))
+    } else {
+        snp_granges <- lapply(marker_ranges, function(x) return(x + window))
+        genes <- lapply(snp_granges, function(x) {
+            return(unique(IRanges::subsetByOverlaps(genes_ranges, x)))
+        })
+    }
+    return(GenomicRanges::GRangesList(genes))
+}
+
+
+

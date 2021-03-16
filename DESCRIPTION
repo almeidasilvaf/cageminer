@@ -47,7 +47,6 @@ Suggests:
     testthat (>= 3.0.0),
     knitr,
     BiocStyle,
-    RefManageR,
     sessioninfo,
     rmarkdown
 Config/testthat/edition: 3
