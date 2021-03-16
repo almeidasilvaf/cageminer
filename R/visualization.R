@@ -1,10 +1,48 @@
 
+#' Set custom ggplot2 theme
+#'
+#' @return Theme for ggplot graphics.
+#' @noRd
+#' @importFrom ggplot2 theme_bw theme element_text element_blank
+ggplot_theme <- function() {
+    theme <- ggplot2::theme_bw() +
+        ggplot2::theme(
+        plot.title = ggplot2::element_text(face="bold", size=12),
+        panel.grid.major = ggplot2::element_blank(),
+        panel.grid.minor = ggplot2::element_blank()
+    )
+    return(theme)
+}
+
+
+#' Custom color palette
+#'
+#' @param pal Color palette to use. One of 1 or 2. Default: 1.
+#' @return A color palette as a character vector.
+#' @noRd
+custom_pal <- function(pal=1) {
+    if(pal == 1) {
+        col <- c("#E64B35FF", "#4DBBD5FF", "#00A087FF", "#3C5488FF",
+                 "#F39B7FFF", "#8491B4FF", "#91D1C2FF", "#DC0000FF",
+                 "#7E6148FF", "#B09C85FF")
+    } else if(pal == 2) {
+        col <- c("#393B79FF", "#637939FF", "#8C6D31FF", "#843C39FF",
+                 "#7B4173FF", "#5254A3FF", "#8CA252FF", "#BD9E39FF",
+                 "#AD494AFF", "#A55194FF", "#6B6ECFFF", "#B5CF6BFF",
+                 "#E7BA52FF", "#D6616BFF", "#CE6DBDFF", "#9C9EDEFF",
+                 "#CEDB9CFF", "#E7CB94FF", "#E7969CFF", "#DE9ED6FF")
+    } else {
+        stop("pal must be 1 or 2.")
+    }
+    return(col)
+}
+
 #' Wrapper for the circos plot
 #'
 #' @param genome_ranges A GRanges object with chromosome lengths.
 #' @param genes_ranges A GRanges object with genomic coordinates
 #' of all genes in the genome.
-#' @param marker_ranges A GRanges object or list of GRanges objects with
+#' @param marker_ranges A GRanges or GRangesList object with
 #' positions of molecular markers.
 #' @return A base plot to be converted to ggplot in \code{plot_snp_circos()}.
 #'
@@ -64,7 +102,7 @@ circos_plot <- function(genome_ranges, genes_ranges, marker_ranges) {
 #' @param genome_ranges A GRanges object with chromosome lengths.
 #' @param genes_ranges A GRanges object with genomic coordinates
 #' of all genes in the genome.
-#' @param marker_ranges A GRanges object or list of GRanges objects with
+#' @param marker_ranges A GRanges or GRangesList object with
 #' positions of molecular markers.
 #'
 #' @return A ggplot object with a circos plot of molecular marker distribution

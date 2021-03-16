@@ -37,7 +37,10 @@ Imports:
     ggtext,
     ggplotify,
     circlize,
-    GenomicRanges
+    GenomicRanges,
+    IRanges,
+    reshape2,
+    methods
 Depends: 
     R (>= 4.1)
 Suggests: 

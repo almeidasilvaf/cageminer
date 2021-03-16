@@ -12,7 +12,7 @@ plot_snp_circos(genome_ranges, genes_ranges, marker_ranges)
 \item{genes_ranges}{A GRanges object with genomic coordinates
 of all genes in the genome.}
 
-\item{marker_ranges}{A GRanges object or list of GRanges objects with
+\item{marker_ranges}{A GRanges or GRangesList object with
 positions of molecular markers.}
 }
 \value{
