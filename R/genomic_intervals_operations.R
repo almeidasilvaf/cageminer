@@ -104,14 +104,15 @@ get_all_candidates <- function(genes_ranges, marker_ranges, window = 2) {
     window <- window * 10^6
     if(is(marker_ranges, "GRanges")) {
         snp_granges <- marker_ranges + window
-        genes <- unique(IRanges::subsetByOverlaps(genes_ranges, snp_ranges))
+        genes <- unique(IRanges::subsetByOverlaps(genes_ranges, snp_granges))
     } else {
         snp_granges <- lapply(marker_ranges, function(x) return(x + window))
         genes <- lapply(snp_granges, function(x) {
             return(unique(IRanges::subsetByOverlaps(genes_ranges, x)))
         })
+        genes <- GenomicRanges::GRangesList(genes)
     }
-    return(GenomicRanges::GRangesList(genes))
+    return(genes)
 }
 
 

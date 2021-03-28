@@ -40,7 +40,8 @@ Imports:
     GenomicRanges,
     IRanges,
     reshape2,
-    methods
+    methods,
+    BioNERO
 Depends: 
     R (>= 4.1)
 Suggests: 
@@ -51,3 +52,4 @@ Suggests:
     rmarkdown
 Config/testthat/edition: 3
 VignetteBuilder: knitr
+Remotes: almeidasilvaf/BioNERO

@@ -45,7 +45,6 @@ custom_pal <- function(pal=1) {
 #' @param marker_ranges A GRanges or GRangesList object with
 #' positions of molecular markers.
 #' @return A base plot to be converted to ggplot in \code{plot_snp_circos()}.
-#'
 #' @noRd
 #' @seealso
 #'  \code{\link[circlize]{circos.par}},
@@ -53,10 +52,11 @@ custom_pal <- function(pal=1) {
 #'  \code{\link[circlize]{circos.genomicDensity}},
 #'  \code{\link[circlize]{circos.genomicTrack}},
 #'  \code{\link[circlize]{circos.genomicRect}}
-#' @importFrom circlize circos.par circos.genomicInitialize circos.genomicDensity circos.genomicTrack circos.genomicRect
+#' @importFrom circlize circos.par circos.genomicInitialize
+#' circos.genomicDensity circos.genomicTrack circos.genomicRect
 circos_plot <- function(genome_ranges, genes_ranges, marker_ranges) {
     pal <- c("#1F77B4FF", "#FF7F0EFF", "#2CA02CFF", "#D62728FF", "#9467BDFF")
-    if(is(marker_ranges, "GRangesList")) {
+    if(is(marker_ranges, "GRangesList") | is(marker_ranges, "list")) {
         if(length(marker_ranges) > 6) {
             stop("The input GRangesList contains more than 5 elements.
                  Reduce the number of elements in the list.")
