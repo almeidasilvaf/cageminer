@@ -56,6 +56,7 @@ mine_candidates <- function(exp, metadata, gcn, guides, candidates,
     key_modules <- unique(enrichment$Module)
     genes_f1 <- gcn$genes_and_modules$Genes[gcn$genes_and_modules$Modules %in%
                                                 key_modules]
+    genes_f1 <- genes_f1[genes_f1 %in% candidates]
     exp_f1 <- exp[genes_f1, , drop = FALSE]
     genes_f2 <- BioNERO::gene_significance(
         exp_f1, genes = genes_f1, alpha = alpha, min_cor = min_cor,
