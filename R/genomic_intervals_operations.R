@@ -15,12 +15,6 @@
 #' @details
 #' By default, the function creates 20 sliding windows by expanding upstream
 #' and downstream boundaries for each SNP from 0.1 Mb (100 kb) to 2 Mb.
-#' @examples
-#' data(gwas)
-#' data(maize_gr)
-#' genes_ranges <- maize_gr[maize_gr$type == "gene", ]
-#' marker_ranges <- split(gwas, gwas$trait)
-#' simulate_windows(genes_ranges, marker_ranges)
 #' @seealso
 #'  \code{\link[IRanges]{findOverlaps-methods}}
 #' @rdname simulate_windows
@@ -29,6 +23,10 @@
 #' @importFrom reshape2 melt
 #' @importFrom ggplot2 ggplot aes geom_line geom_point scale_color_manual labs theme element_text
 #' @importFrom methods is
+#' @examples
+#' data(snp_pos)
+#' data(gene_ranges)
+#' simulate_windows(gene_ranges, snp_pos)
 simulate_windows <- function(genes_ranges, marker_ranges,
                              windows = seq(0.1, 2, by=0.1)) {
 
@@ -88,18 +86,16 @@ simulate_windows <- function(genes_ranges, marker_ranges,
 #' to each SNP. Default: 2.
 #' @return A GRanges or GRangesList object with the genomic positions of
 #' candidate genes.
-#' @examples
-#' data(gwas)
-#' data(maize_gr)
-#' genes_ranges <- maize_gr[maize_gr$type == "gene", ]
-#' marker_ranges <- split(gwas, gwas$trait)
-#' genes <- get_all_candidates(genes_ranges, marker_ranges, window = 2)
 #' @seealso
 #'  \code{\link[IRanges]{findOverlaps-methods}}
 #' @rdname get_all_candidates
 #' @export
 #' @importFrom IRanges subsetByOverlaps
 #' @importFrom GenomicRanges GRangesList
+#' @examples
+#' data(snp_pos)
+#' data(gene_ranges)
+#' genes <- get_all_candidates(gene_ranges, snp_pos, window = 2)
 get_all_candidates <- function(genes_ranges, marker_ranges, window = 2) {
     window <- window * 10^6
     if(is(marker_ranges, "GRanges")) {
