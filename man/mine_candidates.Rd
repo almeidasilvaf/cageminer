@@ -10,10 +10,11 @@ mine_candidates(
   gcn,
   guides,
   candidates,
-  min_cor = 0.2,
   sample_group,
+  min_cor = 0.2,
   alpha = 0.05,
-  continuous = FALSE
+  continuous = FALSE,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -31,16 +32,19 @@ genes in the first column and gene annotation class in the second column.}
 
 \item{candidates}{Character vector of all candidates genes to be inspected.}
 
-\item{min_cor}{Minimum correlation value for
-\code{BioNERO::gene_significance()}. Default: 0.2}
-
 \item{sample_group}{Level of sample metadata to be used for filtering
 in gene-trait correlation.}
+
+\item{min_cor}{Minimum correlation value for
+\code{BioNERO::gene_significance()}. Default: 0.2}
 
 \item{alpha}{Numeric indicating significance level. Default: 0.05}
 
 \item{continuous}{Logical indicating whether metadata is continuous or not.
 Default: FALSE}
+
+\item{verbose}{Logical indicating the verbosity of the function.
+Default: TRUE}
 }
 \value{
 A data frame with high-confidence genes, their correlations to
@@ -53,18 +57,19 @@ Mine high-confidence candidate genes
 DETAILS
 }
 \examples{
-data(maize_exp)
-data(gwas)
-data(maize_gr)
+data(pepper_se)
+data(snp_pos)
+data(gene_ranges)
 data(guides)
-genes_ranges <- maize_gr[maize_gr$type == "gene", ]
-marker_ranges <- gwas[gwas$trait == "Sucrose"]
-genes <- get_all_candidates(genes_ranges, marker_ranges, window = 2)$ID
-exp <- maize_exp
-exp <- BioNERO::exp_preprocess(exp, cor_method = "pearson", min_exp=5)
-# SFT power previously calculated
-gcn <- BioNERO::exp2gcn(exp, net_type = "signed", cor_method = "pearson",
+set.seed(1)
+# Previously selected power = 12
+sft <- BioNERO::SFT_fit(pepper_se, net_type = "signed",
+                        cor_method = "pearson")
+gcn <- BioNERO::exp2gcn(pepper_se, net_type = "signed", cor_method = "pearson",
                         module_merging_threshold = 0.8, SFTpower = 12)
+hc_genes <- mine_candidates(pepper_se, gcn = gcn, guides = guides$Gene,
+                            candidates = rownames(pepper_se),
+                            sample_group = "PRR_stress")
 }
 \seealso{
 \code{BioNERO::module_enrichment},

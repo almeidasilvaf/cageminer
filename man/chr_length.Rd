@@ -3,7 +3,7 @@
 \docType{data}
 \name{chr_length}
 \alias{chr_length}
-\title{Maize chromosome lengths}
+\title{Pepper chromosome lengths}
 \format{
 A GRanges object
 }
@@ -11,17 +11,11 @@ A GRanges object
 data(chr_length)
 }
 \description{
-Lengths of maize chromosomes 1-10 calculated as a GRanges object.
-The genome for which lengths were calculated (B73.v4) was downloaded from
-PLAZA 4.0 Monocots.
+Lengths of pepper chromosomes 1-12 in a GRanges object.
+The genome for which lengths were calculated (v1.55) was downloaded from
+http://peppergenome.snu.ac.kr/download.php
 }
 \examples{
 data(chr_length)
-}
-\references{
-Van Bel, M., Diels, T., Vancaester, E., Kreft, L., Botzki, A.,
-Van de Peer, Y., ... & Vandepoele, K. (2018). PLAZA 4.0: an integrative
-resource for functional, evolutionary and comparative plant
-genomics. Nucleic acids research, 46(D1), D1190-D1196.
 }
 \keyword{datasets}

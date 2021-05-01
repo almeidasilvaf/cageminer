@@ -23,12 +23,10 @@ across chromosomes.
 Circos plot of molecular marker distribution across chromosomes
 }
 \examples{
-data(gwas)
-data(maize_gr)
+data(snp_pos)
+data(gene_ranges)
 data(chr_length)
-gwas_list <- split(gwas, gwas$trait)
-genes_ranges <- maize_gr[maize_gr$type == "gene", ]
-p <- plot_snp_circos(chr_length, genes_ranges, gwas_list)
+p <- plot_snp_circos(chr_length, gene_ranges, snp_pos)
 }
 \seealso{
 \code{\link[ggplotify]{as.ggplot}}

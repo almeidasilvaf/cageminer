@@ -28,11 +28,9 @@ By default, the function creates 20 sliding windows by expanding upstream
 and downstream boundaries for each SNP from 0.1 Mb (100 kb) to 2 Mb.
 }
 \examples{
-data(gwas)
-data(maize_gr)
-genes_ranges <- maize_gr[maize_gr$type == "gene", ]
-marker_ranges <- split(gwas, gwas$trait)
-simulate_windows(genes_ranges, marker_ranges)
+data(snp_pos)
+data(gene_ranges)
+simulate_windows(gene_ranges, snp_pos)
 }
 \seealso{
 \code{\link[IRanges]{findOverlaps-methods}}

@@ -4,10 +4,14 @@
 \alias{plot_snp_distribution}
 \title{Plot SNP distribution across chromosomes}
 \usage{
-plot_snp_distribution(marker_ranges)
+plot_snp_distribution(marker_ranges, trait_col = NULL)
 }
 \arguments{
-\item{marker_ranges}{A GRanges object with genomic positions
+\item{marker_ranges}{A GRanges object with genomic positions.}
+
+\item{trait_col}{Character or numeric index of column containing
+trait information. If NULL, a single trait will be implicitly considered.
+Default: NULL.
 of molecular markers.}
 }
 \value{
@@ -17,6 +21,6 @@ A ggplot object.
 Plot SNP distribution across chromosomes
 }
 \examples{
-data(gwas)
-p <- plot_snp_distribution(gwas)
+data(snp_pos)
+p <- plot_snp_distribution(snp_pos)
 }
