@@ -25,11 +25,9 @@ For an user-defined sliding window relative to each SNP, this function will
 subset all genes whose genomic positions overlap with the sliding window.
 }
 \examples{
-data(gwas)
-data(maize_gr)
-genes_ranges <- maize_gr[maize_gr$type == "gene", ]
-marker_ranges <- split(gwas, gwas$trait)
-genes <- get_all_candidates(genes_ranges, marker_ranges, window = 2)
+data(snp_pos)
+data(gene_ranges)
+genes <- get_all_candidates(gene_ranges, snp_pos, window = 2)
 }
 \seealso{
 \code{\link[IRanges]{findOverlaps-methods}}

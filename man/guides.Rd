@@ -3,16 +3,16 @@
 \docType{data}
 \name{guides}
 \alias{guides}
-\title{Guide genes associated with sucrose metabolism}
+\title{Guide genes associated with defense and resistance to oomycetes}
 \format{
-A data frame with genes in the first column and MapMan in the
-second column.
+A data frame with genes in the first column and GO description
+in the second column.
 }
 \usage{
-guides
+data(guides)
 }
 \description{
-The MapMan annotation was downloaded from PLAZA Monocots.
+The GO annotation was retrieved from PLAZA 4.0 Dicots.
 }
 \examples{
 data(guides)
