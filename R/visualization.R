@@ -158,8 +158,6 @@ plot_snp_circos <- function(genome_ranges, genes_ranges, marker_ranges) {
 }
 
 
-
-
 #' Plot SNP distribution across chromosomes
 #'
 #' @param marker_ranges A GRanges object with genomic positions.

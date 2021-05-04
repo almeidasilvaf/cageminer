@@ -1,6 +1,4 @@
 
-
-
 #' Mine high-confidence candidate genes
 #'
 #' @param exp Expression data frame with genes in row names and samples in
@@ -139,6 +137,7 @@ score_genes <- function(mined_candidates, hubs=NULL, tfs=NULL,
         message("Number of genes < 'pick_top'. Picking all genes.")
     } else {
         scored <- scored[1:pick_top, ]
+        scored <- head(scored, n = pick_top)
     }
     return(scored)
 }
