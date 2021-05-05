@@ -112,7 +112,6 @@ mine_candidates <- function(exp, metadata, gcn, guides, candidates,
 score_genes <- function(mined_candidates, hubs=NULL, tfs=NULL,
                         pick_top=10) {
     if(is.null(hubs) & is.null(tfs)) {stop("Neither hubs nor TFs were provided.")}
-    candidates <- mined_candidates[!duplicated(mined_candidates$cor), ]
     cand_hubs <- candidates[candidates$gene %in% hubs, "gene"]
     cand_tfs <- candidates[candidates$gene %in% tfs, "gene"]
     cand_both <- intersect(cand_hubs, cand_tfs)
