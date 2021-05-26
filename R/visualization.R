@@ -169,7 +169,7 @@ plot_snp_circos <- function(genome_ranges, genes_ranges, marker_ranges) {
 #' @rdname plot_snp_distribution
 #' @export
 #' @importFrom ggplot2 ggplot aes_ geom_bar facet_wrap coord_flip theme_bw
-#' ggtitle theme element_text element_blank
+#' ggtitle theme element_text element_blank scale_fill_manual
 #' @examples
 #' data(snp_pos)
 #' p <- plot_snp_distribution(snp_pos)
@@ -180,24 +180,23 @@ plot_snp_distribution <- function(marker_ranges, trait_col=NULL) {
         marker_df <- as.data.frame(table(marker_df$seqnames))
         colnames(marker_df) <- c("Chromosome", "Frequency")
         wrap <- NULL
+        bar <- ggplot2::geom_bar(stat = "identity")
+        cols <- NULL
     } else {
         marker_df <- as.data.frame(table(marker_df[[trait_col]],
                                          marker_df[["seqnames"]]))
         colnames(marker_df) <- c("Trait", "Chromosome", "Frequency")
-        wrap <- ggplot2::facet_wrap(~Trait, ncol=nlevels(marker_df$Trait))
+        ntr <- nlevels(marker_df$Trait)
+        wrap <- ggplot2::facet_wrap(~Trait, ncol = ntr)
+        bar <- ggplot2::geom_bar(aes_(fill = ~Trait), stat = "identity",
+                                 show.legend = FALSE)
+        cols <- ggplot2::scale_fill_manual(values = custom_pal(2)[seq_len(ntr)])
     }
-
     p <- ggplot2::ggplot(marker_df, ggplot2::aes_(x=~Chromosome, y=~Frequency)) +
-        ggplot2::geom_bar(stat="identity") +
-        wrap +
+        bar + cols + wrap +
         ggplot2::coord_flip() +
-        ggplot2::theme_bw() +
         ggplot2::ggtitle("SNP distribution across chromosomes") +
-        ggplot2::theme(
-            plot.title = ggplot2::element_text(face="bold", size=12),
-            panel.grid.major = ggplot2::element_blank(),
-            panel.grid.minor = ggplot2::element_blank(),
-            )
+        ggplot_theme()
     return(p)
 }
 
