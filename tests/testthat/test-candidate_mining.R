@@ -7,7 +7,7 @@ data(guides)
 data(tfs)
 
 # Get candidates
-genes <- get_all_candidates(gene_ranges, snp_pos, window = 2)$ID
+genes <- mine_step1(gene_ranges, snp_pos, window = 2)$ID
 
 # Create expression with only candidates
 set.seed(1)
@@ -18,6 +18,12 @@ gcn <- BioNERO::exp2gcn(pepper_se, net_type = "signed", cor_method = "pearson",
 hubs <- BioNERO::get_hubs_gcn(pepper_se, gcn)
 
 #----Start tests----
+test_that("mine_step1() returns a character vector of gene IDs", {
+    genes <- mine_step1(gene_ranges, snp_pos, window = 2)
+    expect_true(is(genes, "GRanges"))
+})
+
+
 test_that("mine_candidates() returns high-confidence genes", {
     hc_genes <- mine_candidates(pepper_se,
                                 gcn = gcn,

@@ -5,12 +5,17 @@
 #' This function counts genes that are contained in sliding windows related to
 #' each SNP.
 #'
-#' @param genes_ranges A GRanges object with genomic coordinates
+#' @param gene_ranges A GRanges object with genomic coordinates
 #' of all genes in the genome.
 #' @param marker_ranges A GRanges or GRangesList object with
 #' positions of molecular markers.
 #' @param windows Sliding windows (in Mb) upstream and downstream relative
 #' to each SNP. Default: seq(0.1, 2, by = 0.1).
+#' @param expand_intervals Logical indicating whether or not to expand markers
+#' that are represented by intervals. This is particularly useful
+#' if users want to use a custom interval defined by linkage disequilibrium,
+#' for example. Default: TRUE.
+#'
 #' @return A ggplot object summarizing the results of the simulations.
 #' @details
 #' By default, the function creates 20 sliding windows by expanding upstream
@@ -25,37 +30,38 @@
 #' @importFrom methods is
 #' @examples
 #' data(snp_pos)
-#' data(gene_ranges)
-#' simulate_windows(gene_ranges, snp_pos)
-simulate_windows <- function(genes_ranges, marker_ranges,
-                             windows = seq(0.1, 2, by=0.1)) {
-
-    windows <- windows * 10^6
+#' data(genes_ranges)
+#' simulate_windows(genes_ranges, snp_pos)
+simulate_windows <- function(gene_ranges, marker_ranges,
+                             windows = seq(0.1, 2, by=0.1),
+                             expand_intervals = TRUE) {
     if(is(marker_ranges, "GRanges")) {
         sim <- lapply(windows, function(y) {
-            return(marker_ranges + y)
+            return(handle_intervals(marker_ranges, y,
+                                    expand_intervals = TRUE))
         })
         gene_count <- data.frame(count=unlist(lapply(sim, function(x) {
-            return(length(unique(IRanges::subsetByOverlaps(genes_ranges, x))))
+            return(length(unique(IRanges::subsetByOverlaps(gene_ranges, x))))
         })))
         legend_pos <- "none"
     } else {
         sim <- lapply(marker_ranges, function(x) {
             runs <- lapply(windows, function(y) {
-                return(x + y)
+                return(handle_intervals(x, y,
+                                        expand_intervals = TRUE))
             })
             return(runs)
         })
         gene_count <- as.data.frame(lapply(sim, function(x) {
             count <- unlist(lapply(x, function(y) {
-                return(length(unique(IRanges::subsetByOverlaps(genes_ranges, y))))
+                return(length(unique(IRanges::subsetByOverlaps(gene_ranges, y))))
             }))
             return(count)
         }))
         legend_pos <- "bottom"
     }
     gene_count$windows <- as.factor(seq(0.1, 2, by = 0.1))
-    gene_count_melt <- reshape2::melt(gene_count)
+    gene_count_melt <- reshape2::melt(gene_count, id.vars = "windows")
 
     p <- ggplot2::ggplot(gene_count_melt,
                          ggplot2::aes_(x=~windows, y=~value,
@@ -67,49 +73,6 @@ simulate_windows <- function(genes_ranges, marker_ranges,
                       title="Genes per sliding window",
                       color="Trait") +
         ggplot_theme() +
-        ggplot2::theme(axis.text.x = ggplot2::element_text(angle=45, hjust=1),
-                       legend.position = legend_pos)
+        ggplot2::theme(legend.position = legend_pos)
     return(p)
 }
-
-
-#' Get candidate genes for a given sliding window
-#'
-#' For an user-defined sliding window relative to each SNP, this function will
-#' subset all genes whose genomic positions overlap with the sliding window.
-#'
-#' @param genes_ranges A GRanges object with genomic coordinates
-#' of all genes in the genome.
-#' @param marker_ranges A GRanges or GRangesList object with
-#' positions of molecular markers.
-#' @param window Sliding window (in Mb) upstream and downstream relative
-#' to each SNP. Default: 2.
-#' @return A GRanges or GRangesList object with the genomic positions of
-#' candidate genes.
-#' @seealso
-#'  \code{\link[IRanges]{findOverlaps-methods}}
-#' @rdname get_all_candidates
-#' @export
-#' @importFrom IRanges subsetByOverlaps
-#' @importFrom GenomicRanges GRangesList
-#' @examples
-#' data(snp_pos)
-#' data(gene_ranges)
-#' genes <- get_all_candidates(gene_ranges, snp_pos, window = 2)
-get_all_candidates <- function(genes_ranges, marker_ranges, window = 2) {
-    window <- window * 10^6
-    if(is(marker_ranges, "GRanges")) {
-        snp_granges <- marker_ranges + window
-        genes <- unique(IRanges::subsetByOverlaps(genes_ranges, snp_granges))
-    } else {
-        snp_granges <- lapply(marker_ranges, function(x) return(x + window))
-        genes <- lapply(snp_granges, function(x) {
-            return(unique(IRanges::subsetByOverlaps(genes_ranges, x)))
-        })
-        genes <- GenomicRanges::GRangesList(genes)
-    }
-    return(genes)
-}
-
-
-

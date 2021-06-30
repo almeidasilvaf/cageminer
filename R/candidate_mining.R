@@ -1,4 +1,85 @@
 
+#' Handle markers represented by intervals instead of SNPs
+#'
+#' @param marker_ranges A GRanges object with positions of molecular markers.
+#' @param window Sliding window (in Mb) upstream and downstream relative
+#' to each SNP. Default: 2.
+#' @param expand_intervals Logical indicating whether or not to expand markers
+#' that are represented by intervals. This is particularly useful
+#' if users want to use a custom interval defined by linkage disequilibrium,
+#' for example. Default: TRUE.
+#'
+#' @return A GRanges object with genomic intervals relative to each SNP.
+#' @importFrom GenomicRanges width
+#' @noRd
+handle_intervals <- function(marker_ranges, window = 2,
+                             expand_intervals = TRUE) {
+    window <- window * 10^6
+    widths <- GenomicRanges::width(marker_ranges)
+    if(any(widths > 1) & expand_intervals == FALSE) {
+        indices <- which(widths == 1)
+        marker_window <- marker_ranges
+        marker_window[indices] <- marker_window[indices] + window
+    } else {
+        marker_window <- marker_ranges + window
+    }
+    return(marker_window)
+}
+
+#' Step 1: Get all putative candidate genes for a given sliding window
+#'
+#' For an user-defined sliding window relative to each SNP, this function will
+#' subset all genes whose genomic positions overlap with the sliding window.
+#'
+#' @param gene_ranges A GRanges object with genomic coordinates
+#' of all genes in the genome.
+#' @param marker_ranges A GRanges or GRangesList object with
+#' positions of molecular markers.
+#' @param window Sliding window (in Mb) upstream and downstream relative
+#' to each SNP. Default: 2.
+#' @param expand_intervals Logical indicating whether or not to expand markers
+#' that are represented by intervals. This is particularly useful
+#' if users want to use a custom interval defined by linkage disequilibrium,
+#' for example. Default: TRUE.
+#'
+#' @return A GRanges or GRangesList object with the genomic positions of
+#' all putative candidate genes.
+#' @seealso
+#'  \code{\link[IRanges]{findOverlaps-methods}}
+#' @rdname mine_step1
+#' @export
+#' @importFrom IRanges subsetByOverlaps
+#' @importFrom GenomicRanges GRangesList
+#' @examples
+#' data(snp_pos)
+#' data(gene_ranges)
+#' genes <- mine_step1(gene_ranges, snp_pos, window = 2)
+mine_step1 <- function(gene_ranges, marker_ranges, window = 2,
+                       expand_intervals = TRUE) {
+    allowed_classes <- c("GRanges", "GRangesList", "CompressedGRangesList")
+    if(!class(marker_ranges) %in% allowed_classes) {
+        stop("Argument 'marker_ranges' must be a GRanges, GRangesList, or
+             CompressedGRangesList object.")
+    }
+    if(is(marker_ranges, "GRanges")) {
+        snp_granges <- handle_intervals(marker_ranges, window = window,
+                                        expand_intervals = expand_intervals)
+        genes <- unique(IRanges::subsetByOverlaps(gene_ranges, snp_granges))
+    } else {
+        snp_granges <- lapply(marker_ranges, function(x) {
+          return(handle_intervals(x, window = window,
+                                  expand_intervals = expand_intervals))
+        })
+        genes <- lapply(snp_granges, function(x) {
+            return(unique(IRanges::subsetByOverlaps(gene_ranges, x)))
+        })
+        genes <- GenomicRanges::GRangesList(genes)
+    }
+    return(genes)
+}
+
+
+
 #' Mine high-confidence candidate genes
 #'
 #' @param exp Expression data frame with genes in row names and samples in
@@ -29,8 +110,8 @@
 #' data(guides)
 #' set.seed(1)
 #' # Previously selected power = 12
-#' sft <- BioNERO::SFT_fit(pepper_se, net_type = "signed",
-#'                         cor_method = "pearson")
+#' #sft <- BioNERO::SFT_fit(pepper_se, net_type = "signed",
+#' #                        cor_method = "pearson")
 #' gcn <- BioNERO::exp2gcn(pepper_se, net_type = "signed", cor_method = "pearson",
 #'                         module_merging_threshold = 0.8, SFTpower = 12)
 #' hc_genes <- mine_candidates(pepper_se, gcn = gcn, guides = guides$Gene,

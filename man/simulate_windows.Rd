@@ -4,10 +4,15 @@
 \alias{simulate_windows}
 \title{Simulate number of genes for each sliding window}
 \usage{
-simulate_windows(genes_ranges, marker_ranges, windows = seq(0.1, 2, by = 0.1))
+simulate_windows(
+  gene_ranges,
+  marker_ranges,
+  windows = seq(0.1, 2, by = 0.1),
+  expand_intervals = TRUE
+)
 }
 \arguments{
-\item{genes_ranges}{A GRanges object with genomic coordinates
+\item{gene_ranges}{A GRanges object with genomic coordinates
 of all genes in the genome.}
 
 \item{marker_ranges}{A GRanges or GRangesList object with
@@ -15,6 +20,11 @@ positions of molecular markers.}
 
 \item{windows}{Sliding windows (in Mb) upstream and downstream relative
 to each SNP. Default: seq(0.1, 2, by = 0.1).}
+
+\item{expand_intervals}{Logical indicating whether or not to expand markers
+that are represented by intervals. This is particularly useful
+if users want to use a custom interval defined by linkage disequilibrium,
+for example. Default: TRUE.}
 }
 \value{
 A ggplot object summarizing the results of the simulations.
@@ -29,8 +39,8 @@ and downstream boundaries for each SNP from 0.1 Mb (100 kb) to 2 Mb.
 }
 \examples{
 data(snp_pos)
-data(gene_ranges)
-simulate_windows(gene_ranges, snp_pos)
+data(genes_ranges)
+simulate_windows(genes_ranges, snp_pos)
 }
 \seealso{
 \code{\link[IRanges]{findOverlaps-methods}}
