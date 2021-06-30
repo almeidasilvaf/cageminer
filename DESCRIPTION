@@ -39,9 +39,9 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Imports:
     ggplot2,
+    ggbio,
     ggtext,
-    ggplotify,
-    circlize,
+    GenomeInfoDb,
     GenomicRanges,
     IRanges,
     reshape2,

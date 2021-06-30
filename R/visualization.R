@@ -37,116 +37,123 @@ custom_pal <- function(pal=1) {
     return(col)
 }
 
-#' Wrapper for the circos plot
+
+
+#' Wrapper function to check input for plot_snp_circos()
 #'
 #' @param genome_ranges A GRanges object with chromosome lengths.
-#' @param genes_ranges A GRanges object with genomic coordinates
+#' @param gene_ranges A GRanges object with genomic coordinates
 #' of all genes in the genome.
-#' @param marker_ranges A GRanges or GRangesList object with
-#' positions of molecular markers.
-#' @return A base plot to be converted to ggplot in \code{plot_snp_circos()}.
+#' @param marker_ranges A GRanges, GRangesList or CompressedGRangesList object
+#' with positions of molecular markers.
+#'
+#' @return If input objects are not as expected, it will throw an error.
+#' Otherwise, nothing happens.
 #' @noRd
-#' @seealso
-#'  \code{\link[circlize]{circos.par}},
-#'  \code{\link[circlize]{circos.genomicInitialize}},
-#'  \code{\link[circlize]{circos.genomicDensity}},
-#'  \code{\link[circlize]{circos.genomicTrack}},
-#'  \code{\link[circlize]{circos.genomicRect}}
-#' @importFrom circlize circos.par circos.genomicInitialize
-#' circos.genomicDensity circos.genomicTrack circos.genomicRect
-circos_plot <- function(genome_ranges, genes_ranges, marker_ranges) {
-    pal <- c("#1F77B4FF", "#FF7F0EFF", "#2CA02CFF", "#D62728FF", "#9467BDFF")
-    if(is(marker_ranges, "GRangesList") | is(marker_ranges, "list")) {
-        if(length(marker_ranges) > 6) {
-            stop("The input GRangesList contains more than 5 elements.
-                 Reduce the number of elements in the list.")
-        }
-        marker_rangesdf <- lapply(marker_ranges, function(x) {
-            return(as.data.frame(x[!duplicated(x)]))
-        })
-        height <- 0.235 - 0.035 * length(marker_ranges)
-        circlize::circos.par("track.height" = height)
-        circlize::circos.genomicInitialize(genome_ranges)
-        circlize::circos.genomicDensity(as.data.frame(genes_ranges), col="grey50")
-        x <- lapply(seq_along(marker_rangesdf), function(x) {
-            circlize::circos.genomicTrack(marker_rangesdf[[x]], ylim=c(0,1),
-                                          panel.fun=function(region, value, ...) {
-                                              circlize::circos.genomicRect(
-                                                  region, value,
-                                                  ytop = 1, ybottom = 0,
-                                                  border=pal[x], col=pal[x]
-                                              )
-                                          })
-        })
-    } else {
-        marker_rangesdf <- as.data.frame(marker_ranges)
-        circlize::circos.par("track.height" = 0.2)
-        circlize::circos.genomicInitialize(genome_ranges)
-        circlize::circos.genomicDensity(as.data.frame(genes_ranges), col="grey50")
-        circlize::circos.genomicTrack(marker_rangesdf, ylim=c(0,1),
-                                      panel.fun=function(region, value, ...) {
-                                          circlize::circos.genomicRect(
-                                              region, value,
-                                              ytop = 1, ybottom = 0,
-                                              border=pal[1], col=pal[1]
-                                          )
-                                      })
+check_input_circos <- function(genome_ranges, gene_ranges, marker_ranges) {
+    if(!methods::is(genome_ranges, "GRanges")) {
+        stop("Argument 'genome_ranges' must be a GRanges object.")
     }
-    return(NULL)
+    if(!methods::is(gene_ranges, "GRanges")) {
+        stop("Argument 'gene_ranges' must be a GRanges object.")
+    }
+    if(!class(marker_ranges) %in%
+       c("GRanges", "GRangesList", "CompressedGRangesList")) {
+        stop(
+            "Argument 'marker_ranges' must be a GRanges, GRangesList or
+            CompressedGRangesList object."
+            )
+    }
 }
 
 
-
-#' Circos plot of molecular marker distribution across chromosomes
+#' Wrapper function to add seqlengths to ranges for plot_snp_circos()
 #'
 #' @param genome_ranges A GRanges object with chromosome lengths.
-#' @param genes_ranges A GRanges object with genomic coordinates
+#' @param gene_ranges A GRanges object with genomic coordinates
 #' of all genes in the genome.
-#' @param marker_ranges A GRanges or GRangesList object with
-#' positions of molecular markers.
+#' @param marker_ranges A GRanges, GRangesList or CompressedGRangesList object
+#' with positions of molecular markers.
+#'
+#' @return The genome_ranges, gene_ranges, or marker_ranges object with
+#' seqlengths included.
+#' @importFrom GenomeInfoDb seqlevels seqlengths keepSeqlevels
+#' @importFrom GenomicRanges end
+#' @noRd
+add_seqlen <- function(genome_ranges, gene_ranges, marker_ranges) {
+    GenomeInfoDb::seqlengths(gene_ranges) <- GenomicRanges::end(genome_ranges)
+    GenomeInfoDb::seqlengths(genome_ranges) <- GenomicRanges::end(genome_ranges)
+
+    levels <- GenomeInfoDb::seqlevels(marker_ranges)
+    filt_genome <- GenomeInfoDb::keepSeqlevels(genome_ranges, levels,
+                                               pruning.mode = "tidy")
+    GenomeInfoDb::seqlengths(marker_ranges) <- GenomicRanges::end(filt_genome)
+    result <- list(genome = genome_ranges,
+                   genes = gene_ranges,
+                   markers = marker_ranges)
+    return(result)
+}
+
+#' Circos plot of SNP distribution across chromosomes
+#'
+#' @param genome_ranges A GRanges object with chromosome lengths.
+#' @param gene_ranges A GRanges object with genomic coordinates
+#' of all genes in the genome.
+#' @param marker_ranges A GRanges, GRangesList or CompressedGRangesList object
+#' with positions of molecular markers.
 #'
 #' @return A ggplot object with a circos plot of molecular marker distribution
 #' across chromosomes.
 #' @rdname plot_snp_circos
-#' @seealso
-#'  \code{\link[ggplotify]{as.ggplot}}
-#'  \code{\link[ggtext]{element_textbox}}
 #' @export
-#' @importFrom ggplotify as.ggplot
-#' @importFrom ggplot2 labs theme margin
+#' @importFrom GenomeInfoDb seqinfo
+#' @importFrom ggplot2 labs theme margin aes_ scale_fill_gradient
 #' @importFrom ggtext element_textbox_simple
+#' @importFrom GenomicRanges end tileGenome countOverlaps
+#' @importFrom ggbio circle ggbio
 #' @examples
 #' data(snp_pos)
 #' data(gene_ranges)
 #' data(chr_length)
 #' p <- plot_snp_circos(chr_length, gene_ranges, snp_pos)
-plot_snp_circos <- function(genome_ranges, genes_ranges, marker_ranges) {
-
+plot_snp_circos <- function(genome_ranges, gene_ranges, marker_ranges) {
+    check_input_circos(genome_ranges, gene_ranges, marker_ranges)
     pal <- c("#1F77B4FF", "#FF7F0EFF", "#2CA02CFF", "#D62728FF", "#9467BDFF",
              "#8C564BFF", "#E377C2FF", "#7F7F7FFF", "#BCBD22FF", "#17BECFFF")
-
-    p <- ggplotify::as.ggplot(function() circos_plot(
-        genome_ranges, genes_ranges, marker_ranges)
-        )
-
-    if(is(marker_ranges, "GRangesList")) {
+    gene_ranges <- add_seqlen(genome_ranges, gene_ranges, marker_ranges)$genes
+    genome_ranges <- add_seqlen(genome_ranges,gene_ranges,marker_ranges)$genome
+    marker_ranges <- add_seqlen(genome_ranges,gene_ranges,marker_ranges)$markers
+    windows <- GenomicRanges::tileGenome(GenomeInfoDb::seqinfo(gene_ranges),
+                                         tilewidth = 10^6,
+                                         cut.last.tile.in.chrom = TRUE)
+    windows$ngenes <- GenomicRanges::countOverlaps(windows, gene_ranges)
+    p <- ggbio::ggbio()
+    if(!is(marker_ranges, "GRanges")) {
         traits <- paste0(unlist(lapply(seq_along(marker_ranges), function(i) {
             return(paste0(
                 "<span style='color:", pal[i], "'>",
                 names(marker_ranges)[i],"</span>"))
         })), collapse=", ")
+        for(n in seq_along(marker_ranges)) {
+            p <- p + ggbio::circle(marker_ranges[[n]], geom = "rect", color = pal[n])
+        }
     } else {
+
         traits <- "trait"
+        p <- p + ggbio::circle(marker_ranges, geom = "rect", color = pal[1])
     }
     title <- paste0(
         "<b>SNP distribution across chromosomes</b><br>",
-        "<span style = 'font-size:10pt'>",
-        "<span style='color:#404040'>Gene density </span>and SNPs associated with ",
-        traits,
-        ".</span>")
-
-    p2 <- p +
-        ggplot2::labs(title = title) +
+        "<span style = 'font-size:10pt'>Gene density and SNPs associated with ",
+        traits, ".</span>")
+    p <- p +
+        ggbio::circle(windows, geom = "bar", stat="identity",
+                      ggplot2::aes_(fill = ~ngenes, y = ~ngenes), color=NA) +
+        ggplot2::scale_fill_gradient(low="#74c476", high="darkgreen") +
+        ggbio::circle(genome_ranges, geom = "scale", size = 2) +
+        ggbio::circle(genome_ranges, geom = "text",
+                      ggplot2::aes_(label = ~seqnames), vjust = -1, size = 3) +
+        ggplot2::labs(title = title, fill = "Gene frequency") +
         ggplot2::theme(plot.title.position = "plot",
                        plot.title = ggtext::element_textbox_simple(
                            size = 13,
@@ -154,9 +161,8 @@ plot_snp_circos <- function(genome_ranges, genes_ranges, marker_ranges) {
                            padding = ggplot2::margin(5.5, 5.5, 5.5, 5.5),
                            margin = ggplot2::margin(0, 0, 5.5, 0),
                        ))
-    return(p2)
+    return(p)
 }
-
 
 #' Plot SNP distribution across chromosomes
 #'

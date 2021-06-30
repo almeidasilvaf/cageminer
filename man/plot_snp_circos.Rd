@@ -2,33 +2,29 @@
 % Please edit documentation in R/visualization.R
 \name{plot_snp_circos}
 \alias{plot_snp_circos}
-\title{Circos plot of molecular marker distribution across chromosomes}
+\title{Circos plot of SNP distribution across chromosomes}
 \usage{
-plot_snp_circos(genome_ranges, genes_ranges, marker_ranges)
+plot_snp_circos(genome_ranges, gene_ranges, marker_ranges)
 }
 \arguments{
 \item{genome_ranges}{A GRanges object with chromosome lengths.}
 
-\item{genes_ranges}{A GRanges object with genomic coordinates
+\item{gene_ranges}{A GRanges object with genomic coordinates
 of all genes in the genome.}
 
-\item{marker_ranges}{A GRanges or GRangesList object with
-positions of molecular markers.}
+\item{marker_ranges}{A GRanges, GRangesList or CompressedGRangesList object
+with positions of molecular markers.}
 }
 \value{
 A ggplot object with a circos plot of molecular marker distribution
 across chromosomes.
 }
 \description{
-Circos plot of molecular marker distribution across chromosomes
+Circos plot of SNP distribution across chromosomes
 }
 \examples{
 data(snp_pos)
 data(gene_ranges)
 data(chr_length)
 p <- plot_snp_circos(chr_length, gene_ranges, snp_pos)
-}
-\seealso{
-\code{\link[ggplotify]{as.ggplot}}
-\code{\link[ggtext]{element_textbox}}
 }
