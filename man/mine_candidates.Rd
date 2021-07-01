@@ -2,35 +2,54 @@
 % Please edit documentation in R/candidate_mining.R
 \name{mine_candidates}
 \alias{mine_candidates}
-\title{Mine high-confidence candidate genes}
+\title{Mine high-confidence candidate genes in a single step}
 \usage{
 mine_candidates(
-  exp,
+  gene_ranges = NULL,
+  marker_ranges = NULL,
+  window = 2,
+  expand_intervals = TRUE,
+  gene_col = "ID",
+  exp = NULL,
+  gcn = NULL,
+  guides = NULL,
   metadata,
-  gcn,
-  guides,
-  candidates,
   sample_group,
   min_cor = 0.2,
   alpha = 0.05,
-  continuous = FALSE,
-  verbose = TRUE
+  continuous = FALSE
 )
 }
 \arguments{
+\item{gene_ranges}{A GRanges object with genomic coordinates
+of all genes in the genome.}
+
+\item{marker_ranges}{A GRanges or GRangesList object with
+positions of molecular markers.}
+
+\item{window}{Sliding window (in Mb) upstream and downstream relative
+to each SNP. Default: 2.}
+
+\item{expand_intervals}{Logical indicating whether or not to expand markers
+that are represented by intervals. This is particularly useful
+if users want to use a custom interval defined by linkage disequilibrium,
+for example. Default: TRUE.}
+
+\item{gene_col}{Column of the GRanges object containing gene ID.
+Default: "ID", the default for gff/gff3 files imported with
+rtracklayer::import.}
+
 \item{exp}{Expression data frame with genes in row names and samples in
 column names or a SummarizedExperiment object.}
-
-\item{metadata}{Sample metadata with samples in row names and sample
-information in the first column. Ignored if \code{exp} is a SummarizedExperiment
-object, as the colData will be extracted from the object.}
 
 \item{gcn}{Gene coexpression network returned by \code{BioNERO::exp2gcn()}.}
 
 \item{guides}{Guide genes as a character vector or as a data frame with
 genes in the first column and gene annotation class in the second column.}
 
-\item{candidates}{Character vector of all candidates genes to be inspected.}
+\item{metadata}{Sample metadata with samples in row names and sample
+information in the first column. Ignored if \code{exp} is a SummarizedExperiment
+object, as the colData will be extracted from the object.}
 
 \item{sample_group}{Level of sample metadata to be used for filtering
 in gene-trait correlation.}
@@ -43,35 +62,29 @@ in gene-trait correlation.}
 \item{continuous}{Logical indicating whether metadata is continuous or not.
 Default: FALSE}
 
-\item{verbose}{Logical indicating the verbosity of the function.
-Default: TRUE}
+\item{candidates}{Character vector of all candidates genes to be inspected.}
 }
 \value{
-A data frame with high-confidence genes, their correlations to
-\code{sample_group} and correlation p-values.
+A data frame with mined candidate genes and their correlation to
+the condition of interest.
 }
 \description{
-Mine high-confidence candidate genes
-}
-\details{
-DETAILS
+Mine high-confidence candidate genes in a single step
 }
 \examples{
+\donttest{
 data(pepper_se)
 data(snp_pos)
 data(gene_ranges)
 data(guides)
 set.seed(1)
+# sft <- BioNERO::SFT_fit(pepper_se, net_type = "signed",
+#                         cor_method = "pearson")
 # Previously selected power = 12
-sft <- BioNERO::SFT_fit(pepper_se, net_type = "signed",
-                        cor_method = "pearson")
 gcn <- BioNERO::exp2gcn(pepper_se, net_type = "signed", cor_method = "pearson",
                         module_merging_threshold = 0.8, SFTpower = 12)
-hc_genes <- mine_candidates(pepper_se, gcn = gcn, guides = guides$Gene,
-                            candidates = rownames(pepper_se),
-                            sample_group = "PRR_stress")
+candidates <- mine_candidates(gene_ranges, snp_pos, exp = pepper_se,
+                              gcn = gcn, guides = guides,
+                              sample_group = "PRR_stress")
 }
-\seealso{
-\code{BioNERO::module_enrichment},
-\code{BioNERO::gene_significance}
 }

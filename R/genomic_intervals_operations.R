@@ -30,8 +30,8 @@
 #' @importFrom methods is
 #' @examples
 #' data(snp_pos)
-#' data(genes_ranges)
-#' simulate_windows(genes_ranges, snp_pos)
+#' data(gene_ranges)
+#' simulate_windows(gene_ranges, snp_pos)
 simulate_windows <- function(gene_ranges, marker_ranges,
                              windows = seq(0.1, 2, by=0.1),
                              expand_intervals = TRUE) {

@@ -78,31 +78,75 @@ mine_step1 <- function(gene_ranges, marker_ranges, window = 2,
     return(genes)
 }
 
+#' Step 2: Get candidates in modules enriched in guide genes
+#'
+#' @param exp Expression data frame with genes in row names and samples in
+#' column names or a SummarizedExperiment object.
+#' @param gcn Gene coexpression network returned by \code{BioNERO::exp2gcn()}.
+#' @param guides Guide genes as a character vector or as a data frame with
+#' genes in the first column and gene annotation class in the second column.
+#' @param candidates Character vector of all candidates genes to be inspected.
+#'
+#' @return A list of 2 elements with mined candidates for step 2
+#' (character vector) and enrichment results (data frame).
+#' @rdname mine_step2
+#' @export
+#' @importFrom BioNERO module_enrichment
+#' @examples
+#' data(pepper_se)
+#' data(snp_pos)
+#' data(gene_ranges)
+#' data(guides)
+#' set.seed(1)
+#' # sft <- BioNERO::SFT_fit(pepper_se, net_type = "signed",
+#' #                         cor_method = "pearson")
+#' # Previously selected power = 12
+#' gcn <- BioNERO::exp2gcn(pepper_se, net_type = "signed", cor_method = "pearson",
+#'                         module_merging_threshold = 0.8, SFTpower = 12)
+#' mine2 <- mine_step2(pepper_se, gcn = gcn, guides = guides$Gene,
+#'                     candidates = rownames(pepper_se))
+mine_step2 <- function(exp, gcn, guides, candidates) {
+    if(is.character(guides)) {
+        guides <- data.frame(Gene = guides, Class="guide")
+    }
+    bkgenes <- rownames(exp)
+    annotation <- merge(guides, as.data.frame(bkgenes), by=1, all.y=TRUE)
+    annotation[,2][is.na(annotation[,2])] <- "None"
+    enrichment <- BioNERO::module_enrichment(
+        gcn, background_genes = bkgenes, annotation = annotation
+    )
+    enrichment <- enrichment[enrichment$TermID != "None", ]
+    key_modules <- unique(enrichment$Module)
+    if(is.null(key_modules)) { stop("No modules enriched in guide genes.") }
+    genes_f1 <- gcn$genes_and_modules$Genes[gcn$genes_and_modules$Modules %in%
+                                                key_modules]
+    genes_f1 <- genes_f1[genes_f1 %in% candidates]
+    result_list <- list(candidates = genes_f1,
+                        enrichment = enrichment)
+    return(result_list)
+}
 
-
-#' Mine high-confidence candidate genes
+#' Step 3: Select candidates based on gene significance
 #'
 #' @param exp Expression data frame with genes in row names and samples in
 #' column names or a SummarizedExperiment object.
 #' @param metadata Sample metadata with samples in row names and sample
 #' information in the first column. Ignored if `exp` is a SummarizedExperiment
 #' object, as the colData will be extracted from the object.
-#' @param gcn Gene coexpression network returned by \code{BioNERO::exp2gcn()}.
-#' @param guides Guide genes as a character vector or as a data frame with
-#' genes in the first column and gene annotation class in the second column.
-#' @param candidates Character vector of all candidates genes to be inspected.
-#' @param min_cor Minimum correlation value for
-#' \code{BioNERO::gene_significance()}. Default: 0.2
+#' @param candidates Character vector of candidate genes to be inspected.
 #' @param sample_group Level of sample metadata to be used for filtering
 #' in gene-trait correlation.
+#' @param min_cor Minimum correlation value for
+#' \code{BioNERO::gene_significance()}. Default: 0.2
 #' @param alpha Numeric indicating significance level. Default: 0.05
 #' @param continuous Logical indicating whether metadata is continuous or not.
 #' Default: FALSE
-#' @param verbose Logical indicating the verbosity of the function.
-#' Default: TRUE
-#' @return A data frame with high-confidence genes, their correlations to
-#' `sample_group` and correlation p-values.
-#' @details DETAILS
+#' @return A data frame with mined candidate genes and their correlation to
+#' the condition of interest.
+#'
+#' @importFrom BioNERO gene_significance
+#' @rdname mine_step3
+#' @export
 #' @examples
 #' data(pepper_se)
 #' data(snp_pos)
@@ -114,54 +158,99 @@ mine_step1 <- function(gene_ranges, marker_ranges, window = 2,
 #' #                        cor_method = "pearson")
 #' gcn <- BioNERO::exp2gcn(pepper_se, net_type = "signed", cor_method = "pearson",
 #'                         module_merging_threshold = 0.8, SFTpower = 12)
-#' hc_genes <- mine_candidates(pepper_se, gcn = gcn, guides = guides$Gene,
-#'                             candidates = rownames(pepper_se),
-#'                             sample_group = "PRR_stress")
-#' @seealso
-#'  \code{BioNERO::module_enrichment},
-#'  \code{BioNERO::gene_significance}
-#' @rdname mine_candidates
-#' @export
-#' @importFrom BioNERO module_enrichment gene_significance
-#' @importFrom methods is
-mine_candidates <- function(exp, metadata, gcn, guides, candidates,
-                            sample_group,
-                            min_cor = 0.2, alpha = 0.05,
-                            continuous = FALSE,
-                            verbose = TRUE) {
-    if(is.character(guides)) {
-        guides <- data.frame(Gene = guides, Class="guide")
-    }
-    bkgenes <- rownames(exp)
-    annotation <- merge(guides, as.data.frame(bkgenes), by=1, all.y=TRUE)
-    annotation[,2][is.na(annotation[,2])] <- "None"
-    enrichment <- BioNERO::module_enrichment(
-        gcn, background_genes = bkgenes, annotation = annotation
-    )
-    enrichment <- enrichment[enrichment$TermID != "None", ]
-    if(verbose) {
-        m <- lapply(seq_len(nrow(enrichment)), function(x) {
-            message("Module ", enrichment[x, "Module"], ": ",
-                    enrichment[x, "TermID"])
-        })
-    }
-    key_modules <- unique(enrichment$Module)
-    if(is.null(key_modules)) { stop("No enrichment. Exiting...")}
-    genes_f1 <- gcn$genes_and_modules$Genes[gcn$genes_and_modules$Modules %in%
-                                                key_modules]
-    genes_f1 <- genes_f1[genes_f1 %in% candidates]
-    exp_f1 <- exp[genes_f1, , drop = FALSE]
+#' mine2 <- mine_step2(pepper_se, gcn = gcn, guides = guides$Gene,
+#'                     candidates = rownames(pepper_se))
+#' mine3 <- mine_step3(pepper_se, candidates = mine2$candidates,
+#'                     sample_group = "PRR_stress")
+mine_step3 <- function(exp, metadata, candidates, sample_group,
+                       min_cor = 0.2, alpha = 0.05,
+                       continuous = FALSE) {
+    exp <- exp[candidates, , drop = FALSE]
     genes_f2 <- BioNERO::gene_significance(
-        exp_f1, genes = genes_f1, alpha = alpha, min_cor = min_cor,
+        exp, genes = candidates, alpha = alpha, min_cor = min_cor,
         continuous_trait = continuous, metadata = metadata
     )
     genes_f2 <- genes_f2$filtered_corandp[
         genes_f2$filtered_corandp$trait %in% sample_group,
-        ]
+    ]
     genes_final <- genes_f2[order(-genes_f2$cor), ]
     return(genes_final)
 }
 
+#' Mine high-confidence candidate genes in a single step
+#'
+#' @param gene_ranges A GRanges object with genomic coordinates
+#' of all genes in the genome.
+#' @param marker_ranges A GRanges or GRangesList object with
+#' positions of molecular markers.
+#' @param window Sliding window (in Mb) upstream and downstream relative
+#' to each SNP. Default: 2.
+#' @param expand_intervals Logical indicating whether or not to expand markers
+#' that are represented by intervals. This is particularly useful
+#' if users want to use a custom interval defined by linkage disequilibrium,
+#' for example. Default: TRUE.
+#' @param gene_col Column of the GRanges object containing gene ID.
+#' Default: "ID", the default for gff/gff3 files imported with
+#' rtracklayer::import.
+#' @param exp Expression data frame with genes in row names and samples in
+#' column names or a SummarizedExperiment object.
+#' @param gcn Gene coexpression network returned by \code{BioNERO::exp2gcn()}.
+#' @param guides Guide genes as a character vector or as a data frame with
+#' genes in the first column and gene annotation class in the second column.
+#' @param candidates Character vector of all candidates genes to be inspected.
+#' @param metadata Sample metadata with samples in row names and sample
+#' information in the first column. Ignored if `exp` is a SummarizedExperiment
+#' object, as the colData will be extracted from the object.
+#' @param sample_group Level of sample metadata to be used for filtering
+#' in gene-trait correlation.
+#' @param min_cor Minimum correlation value for
+#' \code{BioNERO::gene_significance()}. Default: 0.2
+#' @param alpha Numeric indicating significance level. Default: 0.05
+#' @param continuous Logical indicating whether metadata is continuous or not.
+#' Default: FALSE
+#' @return A data frame with mined candidate genes and their correlation to
+#' the condition of interest.
+#' @importFrom GenomicRanges mcols
+#' @export
+#' @rdname mine_candidates
+#' @examples
+#' \donttest{
+#' data(pepper_se)
+#' data(snp_pos)
+#' data(gene_ranges)
+#' data(guides)
+#' set.seed(1)
+#' # sft <- BioNERO::SFT_fit(pepper_se, net_type = "signed",
+#' #                         cor_method = "pearson")
+#' # Previously selected power = 12
+#' gcn <- BioNERO::exp2gcn(pepper_se, net_type = "signed", cor_method = "pearson",
+#'                         module_merging_threshold = 0.8, SFTpower = 12)
+#' candidates <- mine_candidates(gene_ranges, snp_pos, exp = pepper_se,
+#'                               gcn = gcn, guides = guides,
+#'                               sample_group = "PRR_stress")
+#' }
+mine_candidates <- function(gene_ranges=NULL, marker_ranges=NULL, window = 2,
+                            expand_intervals = TRUE,
+                            gene_col = "ID",
+                            exp=NULL, gcn=NULL, guides=NULL,
+                            metadata, sample_group,
+                            min_cor = 0.2, alpha = 0.05,
+                            continuous = FALSE) {
+
+    # Step 1
+    candidates1 <- mine_step1(gene_ranges, marker_ranges, window = window,
+                              expand_intervals = expand_intervals)
+    candidates1 <- GenomicRanges::mcols(candidates1)[[gene_col]]
+
+    # Step 2
+    candidates2 <- mine_step2(exp, gcn, guides, candidates1)
+
+    # Step 3
+    candidates3 <- mine_step3(exp, metadata, candidates2$candidates,
+                              sample_group, min_cor = min_cor, alpha = alpha,
+                              continuous = continuous)
+    return(candidates3)
+}
 
 
 #' Score candidate genes and select the top
