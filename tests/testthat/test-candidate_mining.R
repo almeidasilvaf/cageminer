@@ -35,7 +35,7 @@ test_that("mine_step3() returns a data frame of mined candidates", {
                         candidates = rownames(pepper_se))
     mine3 <- mine_step3(pepper_se, candidates = mine2$candidates,
                         sample_group = "PRR_stress")
-    expect_equal(class(mine2), "data.frame")
+    expect_equal(class(mine3), "data.frame")
 })
 
 
@@ -48,10 +48,8 @@ test_that("mine_candidates() integrates mine_step* functions", {
 
 
 test_that("score_genes() returns a data frame", {
-    hc_genes <- mine_candidates(pepper_se,
-                                gcn = gcn,
-                                guides = guides$Gene,
-                                candidates = rownames(pepper_se),
+    hc_genes <- mine_candidates(gene_ranges, snp_pos, exp = pepper_se,
+                                gcn = gcn, guides = guides,
                                 sample_group = "PRR_stress")
     scored <- score_genes(hc_genes, hubs$Gene, tfs$Gene_ID)
     expect_equal(class(scored), "data.frame")

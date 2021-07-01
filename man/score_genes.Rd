@@ -28,14 +28,14 @@ data(gene_ranges)
 data(guides)
 data(tfs)
 set.seed(1)
+# sft <- BioNERO::SFT_fit(pepper_se, net_type = "signed",
+#                         cor_method = "pearson")
 # Previously selected power = 12
-sft <- BioNERO::SFT_fit(pepper_se, net_type = "signed",
-                        cor_method = "pearson")
 gcn <- BioNERO::exp2gcn(pepper_se, net_type = "signed", cor_method = "pearson",
                         module_merging_threshold = 0.8, SFTpower = 12)
-hc_genes <- mine_candidates(pepper_se, gcn = gcn, guides = guides$Gene,
-                            candidates = rownames(pepper_se),
-                            sample_group = "PRR_stress")
+candidates <- mine_candidates(gene_ranges, snp_pos, exp = pepper_se,
+                              gcn = gcn, guides = guides,
+                              sample_group = "PRR_stress")
 hubs <- BioNERO::get_hubs_gcn(pepper_se, gcn)
-scored <- score_genes(hc_genes, hubs$Gene, tfs$Gene_ID)
+scored <- score_genes(candidates, hubs$Gene, tfs$Gene_ID)
 }
