@@ -197,7 +197,6 @@ mine_step3 <- function(exp, metadata, candidates, sample_group,
 #' @param gcn Gene coexpression network returned by \code{BioNERO::exp2gcn()}.
 #' @param guides Guide genes as a character vector or as a data frame with
 #' genes in the first column and gene annotation class in the second column.
-#' @param candidates Character vector of all candidates genes to be inspected.
 #' @param metadata Sample metadata with samples in row names and sample
 #' information in the first column. Ignored if `exp` is a SummarizedExperiment
 #' object, as the colData will be extracted from the object.

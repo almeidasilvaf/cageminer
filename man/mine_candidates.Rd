@@ -61,8 +61,6 @@ in gene-trait correlation.}
 
 \item{continuous}{Logical indicating whether metadata is continuous or not.
 Default: FALSE}
-
-\item{candidates}{Character vector of all candidates genes to be inspected.}
 }
 \value{
 A data frame with mined candidate genes and their correlation to
