@@ -4,15 +4,13 @@
 \alias{plot_snp_distribution}
 \title{Plot SNP distribution across chromosomes}
 \usage{
-plot_snp_distribution(marker_ranges, trait_col = NULL)
+plot_snp_distribution(marker_ranges)
 }
 \arguments{
-\item{marker_ranges}{A GRanges object with genomic positions.}
-
-\item{trait_col}{Character or numeric index of column containing
-trait information. If NULL, a single trait will be implicitly considered.
-Default: NULL.
-of molecular markers.}
+\item{marker_ranges}{Genomic positions of SNPs. For a single trait,
+a GRanges object. For multiple traits, a GRangesList or CompressedGRangesList
+object, with each element of the list representing SNP positions for a
+particular trait.}
 }
 \value{
 A ggplot object.

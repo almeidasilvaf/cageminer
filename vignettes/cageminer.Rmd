@@ -1,5 +1,5 @@
 ---
-title: "Introduction to cageminer"
+title: "Mining high-confidence candidate genes with cageminer"
 author: 
   - name: Fabricio Almeida-Silva
     affiliation: Universidade Estadual do Norte Fluminense Darcy Ribeiro, RJ, Brazil
@@ -8,10 +8,10 @@ author:
 output: 
   BiocStyle::html_document:
     toc: true
-    highlight: pygments
     number_sections: yes
+bibliography: vignette_bibliography.bib
 vignette: >
-  %\VignetteIndexEntry{Introduction to cageminer}
+  %\VignetteIndexEntry{Mining high-confidence candidate genes with cageminer}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}  
 ---
@@ -20,17 +20,294 @@ vignette: >
 knitr::opts_chunk$set(
     collapse = TRUE,
     comment = "#>",
-    crop = NULL ## Related to https://stat.ethz.ch/pipermail/bioc-devel/2020-April/016656.html
+    crop = NULL
 )
 ```
 
 # Introduction
 
+Over the past years, RNA-seq data for several species have accumulated in public
+repositories. Additionally, genome-wide association studies (GWAS) have 
+identified SNPs associated with phenotypes of interest, such as agronomic
+traits in plants, production traits in livestock, and complex human diseases.
+However, although GWAS can identify SNPs, they cannot identify causative genes
+associated with the phenotype. The goal of `cageminer` is to integrate 
+GWAS-derived SNPs with transcriptomic data to mine candidate genes and identify
+high-confidence genes associated with traits of interest.
+
 # Installation
 
+```{r installation, eval=FALSE}
+if(!requireNamespace('BiocManager', quietly = TRUE))
+  install.packages('BiocManager')
+BiocManager::install("cageminer")
+```
+
+```{r load_package, message=FALSE}
+# Load package after installation
+library(cageminer)
+set.seed(123) # for reproducibility
+```
+
+# Data description
+
+For this vignette, we will use transcriptomic data on pepper (*Capsicum annuum*)
+response to Phytophthora root rot [@Kim2018], and GWAS SNPs associated with 
+resistance to Phytophthora root rot from @Siddique2019. To ensure 
+interoperability with other Bioconductor packages, expression data are 
+stored as SummarizedExperiment objects, and gene/SNP positions are stored as
+GRanges objects.
+
+```{r data_description}
+# GRanges of SNP positions
+data(snp_pos)
+snp_pos
+
+# GRanges of chromosome lengths
+data(chr_length) 
+chr_length
+
+# GRanges of gene coordinates
+data(gene_ranges) 
+gene_ranges
+
+# SummarizedExperiment of pepper response to Phytophthora root rot (RNA-seq)
+data(pepper_se)
+pepper_se
+```
+
+# Visualizing SNP distribution
+
+Before mining high-confidence candidates, you can visualize the SNP distribution
+in the genome to explore possible patterns. First, let's see if SNPs are
+uniformly across chromosomes with `plot_snp_distribution()`.
+
+```{r snp_dist}
+plot_snp_distribution(snp_pos)
+```
+
+As we can see, SNPs associated with resistance to Phytophthora root rot tend to
+co-occur in chromosome 5. Now, we can see if they are close to each other in the
+genome, and if they are located in gene-rich regions. We can visualize it with
+`plot_snp_circos`, which displays a circos plot of SNPs across chromosomes.
+
+```{r snp_circos, fig.height=6}
+plot_snp_circos(chr_length, gene_ranges, snp_pos)
+```
+
+There seems to be no clustering in gene-rich regions, but we can see that SNPs 
+in the same chromosome tend to be physically close to each other.
+
+If you have SNP positions for multiple traits, you need to store them in
+GRangesList or CompressedGRangesList objects, so each element will have SNP
+positions for a particular trait. Then, you can visualize their distribution
+as you would do for a single trait. Let's simulate multiple traits to see
+how it works:
+
+```{r multiple_traits}
+# Simulate multiple traits by sampling 20 SNPs 4 times
+snp_list <- GenomicRanges::GRangesList(
+  Trait1 = sample(snp_pos, 20),
+  Trait2 = sample(snp_pos, 20),
+  Trait3 = sample(snp_pos, 20),
+  Trait4 = sample(snp_pos, 20)
+)
+
+# Visualize SNP distribution across chromosomes
+plot_snp_distribution(snp_list)
+```
+
+```{r snp_circos_multiple, fig.height=6}
+# Visualize SNP positions in the genome as a circos plot
+plot_snp_circos(chr_length, gene_ranges, snp_list)
+```
+
+# Algorithm description
+
+The `cageminer` algorithm identifies high-confidence candidate genes with
+**3 steps**, which can be interpreted as 3 sources of evidence:
+
+1. Select all genes in a sliding window relative to each SNP as putative
+candidates.
+2. Find candidates from step 1 in coexpression modules enriched in guide genes 
+(genes that are known to be associated with the trait of interest).
+3. Find candidates from step 2 that are correlated the condition of interest.
+
+```{r workflow, echo=FALSE, fig.cap="Workflow of the cageminer algorithm."}
+knitr::include_graphics("https://raw.githubusercontent.com/almeidasilvaf/cageminer/master/inst/figures/workflow.png")
+```
+
+These 3 steps can be executed individually (if users want more control on 
+what happens after each step) or all at once.
+
+# Step-by-step candidate gene mining
+
+To run the candidate mining step by step, you will need the functions 
+`mine_step1()`, `mine_step2`, and `mine_step3`.
+
+## Step 1
+
+The function `mine_step1()` identifies genes based on step 1 and returns a
+GRanges object with all putative candidates and their location in the genome.
+For that, you need to give 2 GRanges objects as input, one with the 
+gene coordinates[^1] and another with the SNP positions.
+
+[^1]: **Tip:** to create GRanges objects from genomic coordinates in GFF/GTF 
+files, you can use the `import()` function from the Bioconductor package 
+rtracklayer [@rtracklayer2009].
+
+```{r step_by_step}
+candidates1 <- mine_step1(gene_ranges, snp_pos)
+candidates1
+length(candidates1)
+```
+
+The first step identified `r length(candidates1)` putative candidate genes. 
+By default, `cageminer` uses a sliding window of 2 Mb to select putative 
+candidates[^2]. If you want to visually inspect a simulation of different 
+sliding windows to choose a different one, you can use `simulate_windows()`.
+
+```{r simulate_windows}
+# Single trait
+simulate_windows(gene_ranges, snp_pos)
+
+# Multiple traits
+simulate_windows(gene_ranges, snp_list)
+```
+
+[^2]: **Note:** By default, SNPs coordinates will be expanded upstream and 
+downstream according to the input window size. However, you may have 
+previously determined genomic intervals for each SNP (e.g., calculated based on
+linkage disequilibrium) for which you want to extract genes. To avoid expanding
+a sliding window in such cases, set `expand_intervals = FALSE`.
+
+## Step 2
+
+The function `mine_step2()` selects candidates in coexpression modules enriched 
+in guide genes. For that, users must infer the GCN with the function exp2gcn() 
+from the package BioNERO [@R-BioNERO]. Guide genes can be either a character 
+vector of guide gene IDs or a data frame with gene IDs in the first column 
+and annotation in the second column (useful if guides are divided in functional
+categories, for instance). Here, pepper genes associated with defense-related
+MapMan bins were retrieved from PLAZA 3.0 Dicots [@Proost2015] and used as
+guides.
+
+The resulting object is a list of two elements: 
+- *candidates:* character vector of mined candidate gene IDs.
+- *enrichment:* data frame of enrichment results.
+
+```{r step2}
+# Load guide genes
+data(guides)
+head(guides)
+
+# Infer GCN
+sft <- BioNERO::SFT_fit(pepper_se, net_type = "signed", cor_method = "pearson")
+gcn <- BioNERO::exp2gcn(pepper_se, net_type = "signed", cor_method = "pearson",
+                        module_merging_threshold = 0.8, SFTpower = sft$power)
+
+# Apply step 2
+candidates2 <- mine_step2(pepper_se, gcn = gcn, guides = guides$Gene,
+                          candidates = candidates1$ID)
+candidates2$candidates
+candidates2$enrichment
+```
+
+After the step 2, we got to `r length(candidates2$candidates)` candidates.
+
+## Step 3
+
+The function `mine_step3()` identifies candidate genes whose expression levels
+significantly increase or decrease in a particular condition. For that, you 
+need to specify what level from the sample metadata corresponds to this 
+condition. The resulting object from `mine_step3()` is a data frame with mined
+candidates and their correlation to the condition of interest.
+
+```{r step3}
+# See the levels from the sample metadata
+unique(pepper_se$Condition)
+
+# Apply step 3 using "PRR_stress" as the condition of interest
+candidates3 <- mine_step3(pepper_se, candidates = candidates2$candidates,
+                          sample_group = "PRR_stress")
+candidates3
+```
+
+Finally, we got to `r length(unique(candidates3$gene))` high-confidence 
+candidate genes associated with resistance to Phytophthora root rot. Genes with
+negative correlation coefficients to the condition can be interpreted as
+having significantly reduced expression in this condition, while genes with 
+positive correlation coefficients have significantly increased expression in
+this condition.
+
+# Automatic candidate gene mining
+
+Alternatively, if you are not interested in inspecting the results after each
+step, you can get to the same results from the previous section with a single
+step by using the function `mine_candidates()`. This function is a wrapper that
+calls `mine_step1()`, sends the results to `mine_step2()`, and then it sends
+the results from `mine_step2()` to `mine_step3()`.
+
+```{r mine_candidates}
+candidates <- mine_candidates(gene_ranges = gene_ranges, 
+                              marker_ranges = snp_pos, 
+                              exp = pepper_se,
+                              gcn = gcn, guides = guides$Gene,
+                              sample_group = "PRR_stress")
+candidates
+```
+
+# Score candidates
+
+In some cases, you might have more high-confidence candidates than you expected,
+and you want to pick only the top *n* genes for validation, for instance. In
+this scenario, you need to assign scores to your mined candidates to pick the
+top *n* genes with the highest scores. The function `score_genes()` does
+that by using the formula below:
+
+$$S_i = r_{pb} \kappa$$
+
+where:
+
+$\kappa$ = 2 if the gene encodes a transcription factor
+
+$\kappa$ = 2 if the gene is a hub
+
+$\kappa$ = 3 if the gene encodes a hub transcription factor
+
+$\kappa$ = 1 if none of the conditions above are true
+
+
+By default, `score_genes` picks the top 10 candidates. If there are less than 10 candidates, it will return all candidates sorted by scores. Here, TFs were obtained from PlantTFDB 4.0 [@Jin2017]. Hub genes can be 
+identified with the function `get_hubs_gcn()` from the package BioNERO.
+
+```{r score_candidates}
+# Load TFs
+data(tfs)
+head(tfs)
+
+# Get GCN hubs
+hubs <- BioNERO::get_hubs_gcn(pepper_se, gcn)
+head(hubs)
+
+# Score candidates
+scored <- score_genes(candidates, hubs$Gene, tfs$Gene_ID)
+scored
+```
+
+As none of the mined candidates are hubs or encode transcription factors,
+their scores are simply their correlation coefficients with the condition of
+interest.
 
 # Session information {.unnumbered}
 
+This document was created under the following conditions:
 
-# References
+```{r}
+sessionInfo()
+```
+
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+
+# References {.unnumbered}
 

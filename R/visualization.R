@@ -166,35 +166,43 @@ plot_snp_circos <- function(genome_ranges, gene_ranges, marker_ranges) {
 
 #' Plot SNP distribution across chromosomes
 #'
-#' @param marker_ranges A GRanges object with genomic positions.
-#' @param trait_col Character or numeric index of column containing
-#' trait information. If NULL, a single trait will be implicitly considered.
-#' Default: NULL.
-#' of molecular markers.
+#' @param marker_ranges Genomic positions of SNPs. For a single trait,
+#' a GRanges object. For multiple traits, a GRangesList or CompressedGRangesList
+#' object, with each element of the list representing SNP positions for a
+#' particular trait.
 #' @return A ggplot object.
 #' @rdname plot_snp_distribution
 #' @export
 #' @importFrom ggplot2 ggplot aes_ geom_bar facet_wrap coord_flip theme_bw
 #' ggtitle theme element_text element_blank scale_fill_manual
+#' @importFrom methods is
 #' @examples
 #' data(snp_pos)
 #' p <- plot_snp_distribution(snp_pos)
-plot_snp_distribution <- function(marker_ranges, trait_col=NULL) {
-
-    marker_df <- as.data.frame(marker_ranges)
-    if(is.null(trait_col)) {
+plot_snp_distribution <- function(marker_ranges) {
+    if(!class(marker_ranges) %in% c("GRanges","GRangesList",
+                                    "CompressedGRangesList")) {
+        stop("Argument 'marker_ranges' must be a GRanges,
+             GRangesList, or CompressedGRangesList object.")
+    }
+    if(methods::is(marker_ranges, "GRanges")) {
+        marker_df <- as.data.frame(marker_ranges)
         marker_df <- as.data.frame(table(marker_df$seqnames))
         colnames(marker_df) <- c("Chromosome", "Frequency")
         wrap <- NULL
         bar <- ggplot2::geom_bar(stat = "identity")
         cols <- NULL
     } else {
-        marker_df <- as.data.frame(table(marker_df[[trait_col]],
+        marker_df <- lapply(marker_ranges, as.data.frame)
+        marker_df <- Reduce(rbind, lapply(seq_along(marker_df), function(x) {
+            return(cbind(marker_df[[x]], names(marker_df)[x]))
+        }))
+        marker_df <- as.data.frame(table(marker_df[[ncol(marker_df)]],
                                          marker_df[["seqnames"]]))
         colnames(marker_df) <- c("Trait", "Chromosome", "Frequency")
         ntr <- nlevels(marker_df$Trait)
         wrap <- ggplot2::facet_wrap(~Trait, ncol = ntr)
-        bar <- ggplot2::geom_bar(aes_(fill = ~Trait), stat = "identity",
+        bar <- ggplot2::geom_bar(ggplot2::aes_(fill = ~Trait), stat = "identity",
                                  show.legend = FALSE)
         cols <- ggplot2::scale_fill_manual(values = custom_pal(2)[seq_len(ntr)])
     }

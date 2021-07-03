@@ -51,9 +51,9 @@ Depends:
     R (>= 4.1)
 Suggests: 
     testthat (>= 3.0.0),
+    SummarizedExperiment,
     knitr,
     BiocStyle,
-    sessioninfo,
     rmarkdown
 Config/testthat/edition: 3
 VignetteBuilder: knitr
