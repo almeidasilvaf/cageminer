@@ -131,11 +131,7 @@ The `cageminer` algorithm identifies high-confidence candidate genes with
 candidates.
 2. Find candidates from step 1 in coexpression modules enriched in guide genes 
 (genes that are known to be associated with the trait of interest).
-3. Find candidates from step 2 that are correlated the condition of interest.
-
-```{r workflow, echo=FALSE, fig.cap="Workflow of the cageminer algorithm."}
-knitr::include_graphics("https://raw.githubusercontent.com/almeidasilvaf/cageminer/master/inst/figures/workflow.png")
-```
+3. Find candidates from step 2 that are correlated with a condition of interest.
 
 These 3 steps can be executed individually (if users want more control on 
 what happens after each step) or all at once.
