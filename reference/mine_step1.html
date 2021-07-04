@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Pepper chromosome lengths — chr_length • cageminer</title>
+<title>Step 1: Get all putative candidate genes for a given sliding window — mine_step1 • cageminer</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,10 +46,9 @@
 
 
 
-<meta property="og:title" content="Pepper chromosome lengths — chr_length" />
-<meta property="og:description" content="Lengths of pepper chromosomes 1-12 in a GRanges object.
-The genome for which lengths were calculated (v1.55) was downloaded from
-http://peppergenome.snu.ac.kr/download.php" />
+<meta property="og:title" content="Step 1: Get all putative candidate genes for a given sliding window — mine_step1" />
+<meta property="og:description" content="For an user-defined sliding window relative to each SNP, this function will
+subset all genes whose genomic positions overlap with the sliding window." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -124,26 +123,57 @@ http://peppergenome.snu.ac.kr/download.php" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Pepper chromosome lengths</h1>
-    <small class="dont-index">Source: <a href='https://github.com/almeidasilvaf/cageminer/blob/master/R/data.R'><code>R/data.R</code></a></small>
-    <div class="hidden name"><code>chr_length.Rd</code></div>
+    <h1>Step 1: Get all putative candidate genes for a given sliding window</h1>
+    <small class="dont-index">Source: <a href='https://github.com/almeidasilvaf/cageminer/blob/master/R/candidate_mining.R'><code>R/candidate_mining.R</code></a></small>
+    <div class="hidden name"><code>mine_step1.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Lengths of pepper chromosomes 1-12 in a GRanges object.
-The genome for which lengths were calculated (v1.55) was downloaded from
-http://peppergenome.snu.ac.kr/download.php</p>
+    <p>For an user-defined sliding window relative to each SNP, this function will
+subset all genes whose genomic positions overlap with the sliding window.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>chr_length</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>mine_step1</span><span class='op'>(</span><span class='va'>gene_ranges</span>, <span class='va'>marker_ranges</span>, window <span class='op'>=</span> <span class='fl'>2</span>, expand_intervals <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>gene_ranges</th>
+      <td><p>A GRanges object with genomic coordinates
+of all genes in the genome.</p></td>
+    </tr>
+    <tr>
+      <th>marker_ranges</th>
+      <td><p>A GRanges or GRangesList object with
+positions of molecular markers.</p></td>
+    </tr>
+    <tr>
+      <th>window</th>
+      <td><p>Sliding window (in Mb) upstream and downstream relative
+to each SNP. Default: 2.</p></td>
+    </tr>
+    <tr>
+      <th>expand_intervals</th>
+      <td><p>Logical indicating whether or not to expand markers
+that are represented by intervals. This is particularly useful
+if users want to use a custom interval defined by linkage disequilibrium,
+for example. Default: TRUE.</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A GRanges object</p>
+    <p>A GRanges or GRangesList object with the genomic positions of
+all putative candidate genes.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/IRanges/man/findOverlaps-methods.html'>findOverlaps-methods</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>chr_length</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>snp_pos</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>gene_ranges</span><span class='op'>)</span>
+<span class='va'>genes</span> <span class='op'>&lt;-</span> <span class='fu'>mine_step1</span><span class='op'>(</span><span class='va'>gene_ranges</span>, <span class='va'>snp_pos</span>, window <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

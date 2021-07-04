@@ -6,8 +6,15 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Circos plot of molecular marker distribution across chromosomes — plot_snp_circos • cageminer</title>
+<title>Circos plot of SNP distribution across chromosomes — plot_snp_circos • cageminer</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -39,8 +46,9 @@
 
 
 
-<meta property="og:title" content="Circos plot of molecular marker distribution across chromosomes — plot_snp_circos" />
-<meta property="og:description" content="Circos plot of molecular marker distribution across chromosomes" />
+<meta property="og:title" content="Circos plot of SNP distribution across chromosomes — plot_snp_circos" />
+<meta property="og:description" content="Circos plot of SNP distribution across chromosomes" />
+<meta property="og:image" content="/logo.png" />
 
 
 
@@ -114,16 +122,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Circos plot of molecular marker distribution across chromosomes</h1>
+    <h1>Circos plot of SNP distribution across chromosomes</h1>
     <small class="dont-index">Source: <a href='https://github.com/almeidasilvaf/cageminer/blob/master/R/visualization.R'><code>R/visualization.R</code></a></small>
     <div class="hidden name"><code>plot_snp_circos.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Circos plot of molecular marker distribution across chromosomes</p>
+    <p>Circos plot of SNP distribution across chromosomes</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_snp_circos</span><span class='op'>(</span><span class='va'>genome_ranges</span>, <span class='va'>genes_ranges</span>, <span class='va'>marker_ranges</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>plot_snp_circos</span><span class='op'>(</span><span class='va'>genome_ranges</span>, <span class='va'>gene_ranges</span>, <span class='va'>marker_ranges</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -133,14 +141,14 @@
       <td><p>A GRanges object with chromosome lengths.</p></td>
     </tr>
     <tr>
-      <th>genes_ranges</th>
+      <th>gene_ranges</th>
       <td><p>A GRanges object with genomic coordinates
 of all genes in the genome.</p></td>
     </tr>
     <tr>
       <th>marker_ranges</th>
-      <td><p>A GRanges object with genomic positions of
-molecular markers.</p></td>
+      <td><p>A GRanges, GRangesList or CompressedGRangesList object
+with positions of molecular markers.</p></td>
     </tr>
     </table>
 
@@ -148,36 +156,13 @@ molecular markers.</p></td>
 
     <p>A ggplot object with a circos plot of molecular marker distribution
 across chromosomes.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/ggplotify/man/as.ggplot.html'>as.ggplot</a></code>
-<code><a href='https://wilkelab.org/ggtext/reference/element_textbox.html'>element_textbox</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/load.html'>load</a></span><span class='op'>(</span><span class='va'>gwas</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Loading required package: GenomicRanges</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: stats4</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: BiocGenerics</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: parallel</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘BiocGenerics’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:parallel’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,</span>
-#&gt; <span class='message'>    clusterExport, clusterMap, parApply, parCapply, parLapply,</span>
-#&gt; <span class='message'>    parLapplyLB, parRapply, parSapply, parSapplyLB</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    IQR, mad, sd, var, xtabs</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    anyDuplicated, append, as.data.frame, basename, cbind, colnames,</span>
-#&gt; <span class='message'>    dirname, do.call, duplicated, eval, evalq, Filter, Find, get, grep,</span>
-#&gt; <span class='message'>    grepl, intersect, is.unsorted, lapply, Map, mapply, match, mget,</span>
-#&gt; <span class='message'>    order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,</span>
-#&gt; <span class='message'>    rbind, Reduce, rownames, sapply, setdiff, sort, table, tapply,</span>
-#&gt; <span class='message'>    union, unique, unsplit, which.max, which.min</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: S4Vectors</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘S4Vectors’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    expand.grid, I, unname</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: IRanges</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: GenomeInfoDb</span></div><div class='output co'>#&gt; <span class='error'>Error in load(gwas): bad 'file' argument</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/load.html'>load</a></span><span class='op'>(</span><span class='va'>maize_gr</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in load(maize_gr): bad 'file' argument</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/load.html'>load</a></span><span class='op'>(</span><span class='va'>chr_length</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in load(chr_length): bad 'file' argument</span></div><div class='input'><span class='va'>gwas_list</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span><span class='op'>(</span><span class='va'>gwas</span>, <span class='va'>gwas</span><span class='op'>$</span><span class='va'>trait</span><span class='op'>)</span>
-<span class='va'>genes_ranges</span> <span class='op'>&lt;-</span> <span class='va'>maize_gr</span><span class='op'>[</span><span class='va'>maize_gr</span><span class='op'>$</span><span class='va'>type</span> <span class='op'>==</span> <span class='st'>"gene"</span>, <span class='op'>]</span>
-<span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'>plot_snp_circos</span><span class='op'>(</span><span class='va'>chr_length</span>, <span class='va'>genes_ranges</span>, <span class='va'>gwas_list</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: ‘&lt;’ not meaningful for factors</span></div><div class='output co'>#&gt; <span class='warning'>Warning: ‘&lt;’ not meaningful for factors</span></div><div class='output co'>#&gt; <span class='error'>Error in if (any(df[, end_column] &lt; df[, start_column])) {    stop_wrap("End positions should not be smaller than the start positions.")}: missing value where TRUE/FALSE needed</span></div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>snp_pos</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>gene_ranges</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>chr_length</span><span class='op'>)</span>
+<span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'>plot_snp_circos</span><span class='op'>(</span><span class='va'>chr_length</span>, <span class='va'>gene_ranges</span>, <span class='va'>snp_pos</span><span class='op'>)</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

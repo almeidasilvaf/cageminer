@@ -5,14 +5,21 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Introduction to cageminer • cageminer</title>
+<title>Mining high-confidence candidate genes with cageminer • cageminer</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Introduction to cageminer">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Mining high-confidence candidate genes with cageminer">
 <meta property="og:description" content="cageminer">
+<meta property="og:image" content="/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -70,17 +77,15 @@
 
       
 
-      </header><script src="cageminer_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
+      </header><script src="cageminer_files/header-attrs-2.9/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Introduction to cageminer</h1>
+      <h1 data-toc-skip>Mining high-confidence candidate genes with cageminer</h1>
                         <h4 class="author">Fabricio Almeida-Silva</h4>
             <address class="author_afil">
       Universidade Estadual do Norte Fluminense Darcy Ribeiro, RJ, Brazil<br><h4 class="author">Thiago Motta Venancio</h4>
             <address class="author_afil">
-      Universidade Estadual do Norte Fluminense Darcy Ribeiro, RJ, Brazil<br><h4 class="date">14 March 2021</h4>
-      
-      <small class="dont-index">Source: <a href="https://github.com/almeidasilvaf/cageminer/blob/master/vignettes/cageminer.Rmd"><code>vignettes/cageminer.Rmd</code></a></small>
+      Universidade Estadual do Norte Fluminense Darcy Ribeiro, RJ, Brazil<br><small class="dont-index">Source: <a href="https://github.com/almeidasilvaf/cageminer/blob/master/vignettes/cageminer.Rmd"><code>vignettes/cageminer.Rmd</code></a></small>
       <div class="hidden name"><code>cageminer.Rmd</code></div>
 
     </address>
@@ -89,222 +94,569 @@
 
     
     
-<div id="basics" class="section level1">
+<div id="introduction" class="section level1">
 <h1 class="hasAnchor">
-<a href="#basics" class="anchor"></a>Basics</h1>
-<div id="install-cageminer" class="section level2">
-<h2 class="hasAnchor">
-<a href="#install-cageminer" class="anchor"></a>Install <code>cageminer</code>
-</h2>
-<p><code>R</code> is an open-source statistical environment which can be easily modified to enhance its functionality via packages. <em><a href="https://bioconductor.org/packages/3.13/cageminer">cageminer</a></em> is a <code>R</code> package available via the <a href="http://bioconductor.org">Bioconductor</a> repository for packages. <code>R</code> can be installed on any operating system from <a href="https://cran.r-project.org/">CRAN</a> after which you can install <em><a href="https://bioconductor.org/packages/3.13/cageminer">cageminer</a></em> by using the following commands in your <code>R</code> session:</p>
+<a href="#introduction" class="anchor"></a>Introduction</h1>
+<p>Over the past years, RNA-seq data for several species have accumulated in public repositories. Additionally, genome-wide association studies (GWAS) have identified SNPs associated with phenotypes of interest, such as agronomic traits in plants, production traits in livestock, and complex human diseases. However, although GWAS can identify SNPs, they cannot identify causative genes associated with the phenotype. The goal of <code>cageminer</code> is to integrate GWAS-derived SNPs with transcriptomic data to mine candidate genes and identify high-confidence genes associated with traits of interest.</p>
+</div>
+<div id="installation" class="section level1">
+<h1 class="hasAnchor">
+<a href="#installation" class="anchor"></a>Installation</h1>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-      <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span>
-  <span class="op">}</span>
-
-<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span><span class="op">(</span><span class="st">"cageminer"</span><span class="op">)</span>
-
-<span class="co">## Check that you have a valid Bioconductor installation</span>
-<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/valid.html">valid</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-</div>
-<div id="required-knowledge" class="section level2">
-<h2 class="hasAnchor">
-<a href="#required-knowledge" class="anchor"></a>Required knowledge</h2>
-<p><em><a href="https://bioconductor.org/packages/3.13/cageminer">cageminer</a></em> is based on many other packages and in particular in those that have implemented the infrastructure needed for dealing with RNA-seq data (EDIT!). That is, packages like <em><a href="https://bioconductor.org/packages/3.13/SummarizedExperiment">SummarizedExperiment</a></em> (EDIT!).</p>
-<p>If you are asking yourself the question “Where do I start using Bioconductor?” you might be interested in <a href="http://lcolladotor.github.io/2014/10/16/startbioc/#.VkOKbq6rRuU">this blog post</a>.</p>
-</div>
-<div id="asking-for-help" class="section level2">
-<h2 class="hasAnchor">
-<a href="#asking-for-help" class="anchor"></a>Asking for help</h2>
-<p>As package developers, we try to explain clearly how to use our packages and in which order to use the functions. But <code>R</code> and <code>Bioconductor</code> have a steep learning curve so it is critical to learn where to ask for help. The blog post quoted above mentions some but we would like to highlight the <a href="https://support.bioconductor.org/">Bioconductor support site</a> as the main resource for getting help: remember to use the <code>cageminer</code> tag and check <a href="https://support.bioconductor.org/t/cageminer/">the older posts</a>. Other alternatives are available such as creating GitHub issues and tweeting. However, please note that if you want to receive help you should adhere to the <a href="http://www.bioconductor.org/help/support/posting-guide/">posting guidelines</a>. It is particularly critical that you provide a small reproducible example and your session information so package developers can track down the source of the error.</p>
-</div>
-<div id="citing-cageminer" class="section level2">
-<h2 class="hasAnchor">
-<a href="#citing-cageminer" class="anchor"></a>Citing <code>cageminer</code>
-</h2>
-<p>We hope that <em><a href="https://bioconductor.org/packages/3.13/cageminer">cageminer</a></em> will be useful for your research. Please use the following information to cite the package and the overall approach. Thank you!</p>
+<code class="sourceCode R"><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span><span class="op">(</span><span class="st">'BiocManager'</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">'BiocManager'</span><span class="op">)</span>
+<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span><span class="op">(</span><span class="st">"cageminer"</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">## Citation info</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span><span class="op">(</span><span class="st">"cageminer"</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; To cite package 'cageminer' in publications use:</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   Fabrício Almeida-Silva and Thiago Venancio (2021). cageminer:</span>
-<span class="co">#&gt;   Candidate Gene Miner. R package version 0.99.0.</span>
-<span class="co">#&gt;   https://github.com/almeidasilvaf/cageminer</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; A BibTeX entry for LaTeX users is</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   @Manual{,</span>
-<span class="co">#&gt;     title = {cageminer: Candidate Gene Miner},</span>
-<span class="co">#&gt;     author = {Fabrício Almeida-Silva and Thiago Venancio},</span>
-<span class="co">#&gt;     year = {2021},</span>
-<span class="co">#&gt;     note = {R package version 0.99.0},</span>
-<span class="co">#&gt;     url = {https://github.com/almeidasilvaf/cageminer},</span>
-<span class="co">#&gt;   }</span></code></pre></div>
+<code class="sourceCode R"><span class="co"># Load package after installation</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/almeidasilvaf/cageminer">cageminer</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span> <span class="co"># for reproducibility</span></code></pre></div>
 </div>
-</div>
-<div id="quick-start-to-using-to-cageminer" class="section level1">
+<div id="data-description" class="section level1">
 <h1 class="hasAnchor">
-<a href="#quick-start-to-using-to-cageminer" class="anchor"></a>Quick start to using to <code>cageminer</code>
-</h1>
+<a href="#data-description" class="anchor"></a>Data description</h1>
+<p>For this vignette, we will use transcriptomic data on pepper (<em>Capsicum annuum</em>) response to Phytophthora root rot <span class="citation">(Kim et al. 2018)</span>, and GWAS SNPs associated with resistance to Phytophthora root rot from <span class="citation">Siddique et al. (2019)</span>. To ensure interoperability with other Bioconductor packages, expression data are stored as SummarizedExperiment objects, and gene/SNP positions are stored as GRanges objects.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/almeidasilvaf/cageminer">"cageminer"</a></span><span class="op">)</span></code></pre></div>
-<p>Edit this as you see fit =)</p>
-<p>Here is an example of you can cite your package inside the vignette:</p>
-<ul>
-<li>
-<em><a href="https://bioconductor.org/packages/3.13/cageminer">cageminer</a></em> (Almeida-Silva and Venancio, 2021)</li>
-</ul>
-</div>
-<div id="reproducibility" class="section level1">
-<h1 class="hasAnchor">
-<a href="#reproducibility" class="anchor"></a>Reproducibility</h1>
-<p>The <em><a href="https://bioconductor.org/packages/3.13/cageminer">cageminer</a></em> package (Almeida-Silva and Venancio, 2021) was made possible thanks to:</p>
-<ul>
-<li>R (R Core Team, 2021)</li>
-<li>
-<em><a href="https://bioconductor.org/packages/3.13/BiocStyle">BiocStyle</a></em> (Oleś, Morgan, and Huber, 2020)</li>
-<li>
-<em><a href="https://CRAN.R-project.org/package=knitr">knitr</a></em> (Xie, 2021)</li>
-<li>
-<em><a href="https://CRAN.R-project.org/package=RefManageR">RefManageR</a></em> (McLean, 2017)</li>
-<li>
-<em><a href="https://CRAN.R-project.org/package=rmarkdown">rmarkdown</a></em> (Allaire, Xie, McPherson, Luraschi, Ushey, Atkins, Wickham, Cheng, Chang, and Iannone, 2021)</li>
-<li>
-<em><a href="https://CRAN.R-project.org/package=sessioninfo">sessioninfo</a></em> (Csárdi, core, Wickham, Chang, Flight, Müller, and Hester, 2018)</li>
-<li>
-<em><a href="https://CRAN.R-project.org/package=testthat">testthat</a></em> (Wickham, 2011)</li>
-</ul>
-<p>This package was developed using <em><a href="https://bioconductor.org/packages/3.13/biocthis">biocthis</a></em>.</p>
-<p>Code for creating the vignette</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">## Create the vignette</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/rstudio/rmarkdown">"rmarkdown"</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://pkgs.rstudio.com/rmarkdown/reference/render.html">render</a></span><span class="op">(</span><span class="st">"cageminer.Rmd"</span>, <span class="st">"BiocStyle::html_document"</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="co"># GRanges of SNP positions</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">snp_pos</span><span class="op">)</span>
+<span class="va">snp_pos</span>
+<span class="co">#&gt; GRanges object with 116 ranges and 0 metadata columns:</span>
+<span class="co">#&gt;       seqnames    ranges strand</span>
+<span class="co">#&gt;          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;</span>
+<span class="co">#&gt;     2    Chr02 149068682      *</span>
+<span class="co">#&gt;     3    Chr03   5274098      *</span>
+<span class="co">#&gt;     4    Chr05  27703815      *</span>
+<span class="co">#&gt;     5    Chr05  27761792      *</span>
+<span class="co">#&gt;     6    Chr05  27807397      *</span>
+<span class="co">#&gt;   ...      ...       ...    ...</span>
+<span class="co">#&gt;   114    Chr12 230514706      *</span>
+<span class="co">#&gt;   115    Chr12 230579178      *</span>
+<span class="co">#&gt;   116    Chr12 230812962      *</span>
+<span class="co">#&gt;   117    Chr12 230887290      *</span>
+<span class="co">#&gt;   118    Chr12 231022812      *</span>
+<span class="co">#&gt;   -------</span>
+<span class="co">#&gt;   seqinfo: 8 sequences from an unspecified genome; no seqlengths</span>
 
-<span class="co">## Extract the R code</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://yihui.org/knitr/">"knitr"</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/knitr/man/knit.html">knit</a></span><span class="op">(</span><span class="st">"cageminer.Rmd"</span>, tangle <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<p>Date the vignette was generated.</p>
-<pre><code>#&gt; [1] "2021-03-14 12:04:36 -03"</code></pre>
-<p>Wallclock time spent generating the vignette.</p>
-<pre><code>#&gt; Time difference of 3.129 secs</code></pre>
-<p><code>R</code> session information.</p>
-<pre><code>#&gt; ─ Session info ───────────────────────────────────────────────────────────────────────────────────────────────────────
-#&gt;  setting  value                                             
-#&gt;  version  R Under development (unstable) (2021-02-03 r79933)
-#&gt;  os       macOS Mojave 10.14.6                              
-#&gt;  system   x86_64, darwin17.0                                
-#&gt;  ui       X11                                               
-#&gt;  language (EN)                                              
-#&gt;  collate  en_US.UTF-8                                       
-#&gt;  ctype    en_US.UTF-8                                       
-#&gt;  tz       America/Sao_Paulo                                 
-#&gt;  date     2021-03-14                                        
-#&gt; 
-#&gt; ─ Packages ───────────────────────────────────────────────────────────────────────────────────────────────────────────
-#&gt;  package       * version date       lib source        
-#&gt;  assertthat      0.2.1   2019-03-21 [1] CRAN (R 4.1.0)
-#&gt;  BiocManager     1.30.10 2019-11-16 [1] CRAN (R 4.1.0)
-#&gt;  BiocStyle     * 2.19.1  2020-11-24 [1] Bioconductor  
-#&gt;  bookdown        0.21    2020-10-13 [1] CRAN (R 4.1.0)
-#&gt;  bslib           0.2.4   2021-01-25 [1] CRAN (R 4.1.0)
-#&gt;  cachem          1.0.4   2021-02-13 [1] CRAN (R 4.1.0)
-#&gt;  cageminer     * 0.99.0  2021-03-14 [1] Bioconductor  
-#&gt;  circlize        0.4.12  2021-01-08 [1] CRAN (R 4.1.0)
-#&gt;  cli             2.3.1   2021-02-23 [1] CRAN (R 4.1.0)
-#&gt;  colorspace      2.0-0   2020-11-11 [1] CRAN (R 4.1.0)
-#&gt;  crayon          1.4.1   2021-02-08 [1] CRAN (R 4.1.0)
-#&gt;  DBI             1.1.1   2021-01-15 [1] CRAN (R 4.1.0)
-#&gt;  desc            1.2.0   2018-05-01 [1] CRAN (R 4.1.0)
-#&gt;  digest          0.6.27  2020-10-24 [1] CRAN (R 4.1.0)
-#&gt;  dplyr           1.0.4   2021-02-02 [1] CRAN (R 4.1.0)
-#&gt;  ellipsis        0.3.1   2020-05-15 [1] CRAN (R 4.1.0)
-#&gt;  evaluate        0.14    2019-05-28 [1] CRAN (R 4.1.0)
-#&gt;  fansi           0.4.2   2021-01-15 [1] CRAN (R 4.1.0)
-#&gt;  fastmap         1.1.0   2021-01-25 [1] CRAN (R 4.1.0)
-#&gt;  fs              1.5.0   2020-07-31 [1] CRAN (R 4.1.0)
-#&gt;  generics        0.1.0   2020-10-31 [1] CRAN (R 4.1.0)
-#&gt;  ggplot2         3.3.3   2020-12-30 [1] CRAN (R 4.1.0)
-#&gt;  ggplotify       0.0.5   2020-03-12 [1] CRAN (R 4.1.0)
-#&gt;  ggtext          0.1.1   2020-12-17 [1] CRAN (R 4.1.0)
-#&gt;  GlobalOptions   0.1.2   2020-06-10 [1] CRAN (R 4.1.0)
-#&gt;  glue            1.4.2   2020-08-27 [1] CRAN (R 4.1.0)
-#&gt;  gridGraphics    0.5-1   2020-12-13 [1] CRAN (R 4.1.0)
-#&gt;  gridtext        0.1.4   2020-12-10 [1] CRAN (R 4.1.0)
-#&gt;  gtable          0.3.0   2019-03-25 [1] CRAN (R 4.1.0)
-#&gt;  htmltools       0.5.1.1 2021-01-22 [1] CRAN (R 4.1.0)
-#&gt;  httr            1.4.2   2020-07-20 [1] CRAN (R 4.1.0)
-#&gt;  jquerylib       0.1.3   2020-12-17 [1] CRAN (R 4.1.0)
-#&gt;  jsonlite        1.7.2   2020-12-09 [1] CRAN (R 4.1.0)
-#&gt;  knitr           1.31    2021-01-27 [1] CRAN (R 4.1.0)
-#&gt;  lifecycle       1.0.0   2021-02-15 [1] CRAN (R 4.1.0)
-#&gt;  lubridate       1.7.10  2021-02-26 [1] CRAN (R 4.1.0)
-#&gt;  magrittr        2.0.1   2020-11-17 [1] CRAN (R 4.1.0)
-#&gt;  memoise         2.0.0   2021-01-26 [1] CRAN (R 4.1.0)
-#&gt;  munsell         0.5.0   2018-06-12 [1] CRAN (R 4.1.0)
-#&gt;  pillar          1.5.0   2021-02-22 [1] CRAN (R 4.1.0)
-#&gt;  pkgconfig       2.0.3   2019-09-22 [1] CRAN (R 4.1.0)
-#&gt;  pkgdown         1.6.1   2020-09-12 [1] CRAN (R 4.1.0)
-#&gt;  plyr            1.8.6   2020-03-03 [1] CRAN (R 4.1.0)
-#&gt;  purrr           0.3.4   2020-04-17 [1] CRAN (R 4.1.0)
-#&gt;  R6              2.5.0   2020-10-28 [1] CRAN (R 4.1.0)
-#&gt;  ragg            1.1.1   2021-02-25 [1] CRAN (R 4.1.0)
-#&gt;  Rcpp            1.0.6   2021-01-15 [1] CRAN (R 4.1.0)
-#&gt;  RefManageR    * 1.3.0   2020-11-13 [1] CRAN (R 4.1.0)
-#&gt;  rlang           0.4.10  2020-12-30 [1] CRAN (R 4.1.0)
-#&gt;  rmarkdown       2.7     2021-02-19 [1] CRAN (R 4.1.0)
-#&gt;  rprojroot       2.0.2   2020-11-15 [1] CRAN (R 4.1.0)
-#&gt;  rvcheck         0.1.8   2020-03-01 [1] CRAN (R 4.1.0)
-#&gt;  sass            0.3.1   2021-01-24 [1] CRAN (R 4.1.0)
-#&gt;  scales          1.1.1   2020-05-11 [1] CRAN (R 4.1.0)
-#&gt;  sessioninfo   * 1.1.1   2018-11-05 [1] CRAN (R 4.1.0)
-#&gt;  shape           1.4.5   2020-09-13 [1] CRAN (R 4.1.0)
-#&gt;  stringi         1.5.3   2020-09-09 [1] CRAN (R 4.1.0)
-#&gt;  stringr         1.4.0   2019-02-10 [1] CRAN (R 4.1.0)
-#&gt;  systemfonts     1.0.1   2021-02-09 [1] CRAN (R 4.1.0)
-#&gt;  textshaping     0.3.1   2021-02-22 [1] CRAN (R 4.1.0)
-#&gt;  tibble          3.1.0   2021-02-25 [1] CRAN (R 4.1.0)
-#&gt;  tidyselect      1.1.0   2020-05-11 [1] CRAN (R 4.1.0)
-#&gt;  utf8            1.1.4   2018-05-24 [1] CRAN (R 4.1.0)
-#&gt;  vctrs           0.3.6   2020-12-17 [1] CRAN (R 4.1.0)
-#&gt;  withr           2.4.1   2021-01-26 [1] CRAN (R 4.1.0)
-#&gt;  xfun            0.21    2021-02-10 [1] CRAN (R 4.1.0)
-#&gt;  xml2            1.3.2   2020-04-23 [1] CRAN (R 4.1.0)
-#&gt;  yaml            2.2.1   2020-02-01 [1] CRAN (R 4.1.0)
-#&gt; 
-#&gt; [1] /Library/Frameworks/R.framework/Versions/4.1/Resources/library</code></pre>
+<span class="co"># GRanges of chromosome lengths</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">chr_length</span><span class="op">)</span> 
+<span class="va">chr_length</span>
+<span class="co">#&gt; GRanges object with 12 ranges and 0 metadata columns:</span>
+<span class="co">#&gt;        seqnames      ranges strand</span>
+<span class="co">#&gt;           &lt;Rle&gt;   &lt;IRanges&gt;  &lt;Rle&gt;</span>
+<span class="co">#&gt;    [1]    Chr01 1-272704604      *</span>
+<span class="co">#&gt;    [2]    Chr02 1-171128871      *</span>
+<span class="co">#&gt;    [3]    Chr03 1-257900543      *</span>
+<span class="co">#&gt;    [4]    Chr04 1-222584275      *</span>
+<span class="co">#&gt;    [5]    Chr05 1-233468049      *</span>
+<span class="co">#&gt;    ...      ...         ...    ...</span>
+<span class="co">#&gt;    [8]    Chr08 1-145103255      *</span>
+<span class="co">#&gt;    [9]    Chr09 1-252779264      *</span>
+<span class="co">#&gt;   [10]    Chr10 1-233593809      *</span>
+<span class="co">#&gt;   [11]    Chr11 1-259726002      *</span>
+<span class="co">#&gt;   [12]    Chr12 1-235688241      *</span>
+<span class="co">#&gt;   -------</span>
+<span class="co">#&gt;   seqinfo: 12 sequences from an unspecified genome; no seqlengths</span>
+
+<span class="co"># GRanges of gene coordinates</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">gene_ranges</span><span class="op">)</span> 
+<span class="va">gene_ranges</span>
+<span class="co">#&gt; GRanges object with 30242 ranges and 6 metadata columns:</span>
+<span class="co">#&gt;           seqnames              ranges strand |   source     type     score</span>
+<span class="co">#&gt;              &lt;Rle&gt;           &lt;IRanges&gt;  &lt;Rle&gt; | &lt;factor&gt; &lt;factor&gt; &lt;numeric&gt;</span>
+<span class="co">#&gt;       [1]    Chr01         63209-63880      - |  PGA1.55     gene        NA</span>
+<span class="co">#&gt;       [2]    Chr01       112298-112938      - |  PGA1.55     gene        NA</span>
+<span class="co">#&gt;       [3]    Chr01       117979-118392      + |  PGA1.55     gene        NA</span>
+<span class="co">#&gt;       [4]    Chr01       119464-119712      + |  PGA1.55     gene        NA</span>
+<span class="co">#&gt;       [5]    Chr01       119892-120101      + |  PGA1.55     gene        NA</span>
+<span class="co">#&gt;       ...      ...                 ...    ... .      ...      ...       ...</span>
+<span class="co">#&gt;   [30238]    Chr12 235631138-235631467      - |  PGA1.55     gene        NA</span>
+<span class="co">#&gt;   [30239]    Chr12 235642644-235645110      + |  PGA1.55     gene        NA</span>
+<span class="co">#&gt;   [30240]    Chr12 235645483-235651927      - |  PGA1.55     gene        NA</span>
+<span class="co">#&gt;   [30241]    Chr12 235652709-235655955      - |  PGA1.55     gene        NA</span>
+<span class="co">#&gt;   [30242]    Chr12 235663655-235665276      - |  PGA1.55     gene        NA</span>
+<span class="co">#&gt;               phase          ID          Parent</span>
+<span class="co">#&gt;           &lt;integer&gt; &lt;character&gt; &lt;CharacterList&gt;</span>
+<span class="co">#&gt;       [1]      &lt;NA&gt;  CA01g00010                </span>
+<span class="co">#&gt;       [2]      &lt;NA&gt;  CA01g00020                </span>
+<span class="co">#&gt;       [3]      &lt;NA&gt;  CA01g00030                </span>
+<span class="co">#&gt;       [4]      &lt;NA&gt;  CA01g00040                </span>
+<span class="co">#&gt;       [5]      &lt;NA&gt;  CA01g00050                </span>
+<span class="co">#&gt;       ...       ...         ...             ...</span>
+<span class="co">#&gt;   [30238]      &lt;NA&gt;  CA12g22890                </span>
+<span class="co">#&gt;   [30239]      &lt;NA&gt;  CA12g22900                </span>
+<span class="co">#&gt;   [30240]      &lt;NA&gt;  CA12g22910                </span>
+<span class="co">#&gt;   [30241]      &lt;NA&gt;  CA12g22920                </span>
+<span class="co">#&gt;   [30242]      &lt;NA&gt;  CA12g22930                </span>
+<span class="co">#&gt;   -------</span>
+<span class="co">#&gt;   seqinfo: 12 sequences from an unspecified genome; no seqlengths</span>
+
+<span class="co"># SummarizedExperiment of pepper response to Phytophthora root rot (RNA-seq)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">pepper_se</span><span class="op">)</span>
+<span class="va">pepper_se</span>
+<span class="co">#&gt; class: SummarizedExperiment </span>
+<span class="co">#&gt; dim: 3892 45 </span>
+<span class="co">#&gt; metadata(0):</span>
+<span class="co">#&gt; assays(1): ''</span>
+<span class="co">#&gt; rownames(3892): CA02g23440 CA02g05510 ... CA03g35110 CA02g12750</span>
+<span class="co">#&gt; rowData names(0):</span>
+<span class="co">#&gt; colnames(45): PL1 PL2 ... TMV-P0-3D TMV-P0-Up</span>
+<span class="co">#&gt; colData names(1): Condition</span></code></pre></div>
 </div>
-<div id="bibliography" class="section level1">
+<div id="visualizing-snp-distribution" class="section level1">
 <h1 class="hasAnchor">
-<a href="#bibliography" class="anchor"></a>Bibliography</h1>
-<p>This vignette was generated using <em><a href="https://bioconductor.org/packages/3.13/BiocStyle">BiocStyle</a></em> (Oleś, Morgan, and Huber, 2020) with <em><a href="https://CRAN.R-project.org/package=knitr">knitr</a></em> (Xie, 2021) and <em><a href="https://CRAN.R-project.org/package=rmarkdown">rmarkdown</a></em> (Allaire, Xie, McPherson, et al., 2021) running behind the scenes.</p>
-<p>Citations made with <em><a href="https://CRAN.R-project.org/package=RefManageR">RefManageR</a></em> (McLean, 2017).</p>
-<p>
-<a id="bib-allaire2021rmarkdown"></a><a href="#cite-allaire2021rmarkdown">[1]</a><cite> J. Allaire, Y. Xie, J. McPherson, et al. <em>rmarkdown: Dynamic Documents for R</em>. R package version 2.7. 2021. URL: <a href="https://github.com/rstudio/rmarkdown">https://github.com/rstudio/rmarkdown</a>.</cite>
-</p>
-<p>
-<a id="bib-almeidasilva2021cageminer"></a><a href="#cite-almeidasilva2021cageminer">[2]</a><cite> F. Almeida-Silva and T. Venancio. <em>cageminer: Candidate Gene Miner</em>. R package version 0.99.0. 2021. URL: <a href="https://github.com/almeidasilvaf/cageminer">https://github.com/almeidasilvaf/cageminer</a>.</cite>
-</p>
-<p>
-<a id="bib-csrdi2018sessioninfo"></a><a href="#cite-csrdi2018sessioninfo">[3]</a><cite> G. Csárdi, R. core, H. Wickham, et al. <em>sessioninfo: R Session Information</em>. R package version 1.1.1. 2018. URL: <a href="https://CRAN.R-project.org/package=sessioninfo">https://CRAN.R-project.org/package=sessioninfo</a>.</cite>
-</p>
-<p>
-<a id="bib-mclean2017refmanager"></a><a href="#cite-mclean2017refmanager">[4]</a><cite> M. W. McLean. “RefManageR: Import and Manage BibTeX and BibLaTeX References in R”. In: <em>The Journal of Open Source Software</em> (2017). DOI: <a href="https://doi.org/10.21105/joss.00338">10.21105/joss.00338</a>.</cite>
-</p>
-<p>
-<a id="bib-ole2020biocstyle"></a><a href="#cite-ole2020biocstyle">[5]</a><cite> A. Oleś, M. Morgan, and W. Huber. <em>BiocStyle: Standard styles for vignettes and other Bioconductor documents</em>. R package version 2.19.1. 2020. URL: <a href="https://github.com/Bioconductor/BiocStyle">https://github.com/Bioconductor/BiocStyle</a>.</cite>
-</p>
-<p>
-<a id="bib-2021language"></a><a href="#cite-2021language">[6]</a><cite> R Core Team. <em>R: A Language and Environment for Statistical Computing</em>. R Foundation for Statistical Computing. Vienna, Austria, 2021. URL: <a href="https://www.R-project.org/">https://www.R-project.org/</a>.</cite>
-</p>
-<p>
-<a id="bib-wickham2011testthat"></a><a href="#cite-wickham2011testthat">[7]</a><cite> H. Wickham. “testthat: Get Started with Testing”. In: <em>The R Journal</em> 3 (2011), pp. 5–10. URL: <a href="https://journal.r-project.org/archive/2011-1/RJournal_2011-1_Wickham.pdf">https://journal.r-project.org/archive/2011-1/RJournal_2011-1_Wickham.pdf</a>.</cite>
-</p>
-<p>
-<a id="bib-xie2021knitr"></a><a href="#cite-xie2021knitr">[8]</a><cite> Y. Xie. <em>knitr: A General-Purpose Package for Dynamic Report Generation in R</em>. R package version 1.31. 2021. URL: <a href="https://yihui.org/knitr/">https://yihui.org/knitr/</a>.</cite>
-</p>
+<a href="#visualizing-snp-distribution" class="anchor"></a>Visualizing SNP distribution</h1>
+<p>Before mining high-confidence candidates, you can visualize the SNP distribution in the genome to explore possible patterns. First, let’s see if SNPs are uniformly across chromosomes with <code><a href="../reference/plot_snp_distribution.html">plot_snp_distribution()</a></code>.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/plot_snp_distribution.html">plot_snp_distribution</a></span><span class="op">(</span><span class="va">snp_pos</span><span class="op">)</span></code></pre></div>
+<p><img src="cageminer_files/figure-html/snp_dist-1.png" width="700"></p>
+<p>As we can see, SNPs associated with resistance to Phytophthora root rot tend to co-occur in chromosome 5. Now, we can see if they are close to each other in the genome, and if they are located in gene-rich regions. We can visualize it with <code>plot_snp_circos</code>, which displays a circos plot of SNPs across chromosomes.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/plot_snp_circos.html">plot_snp_circos</a></span><span class="op">(</span><span class="va">chr_length</span>, <span class="va">gene_ranges</span>, <span class="va">snp_pos</span><span class="op">)</span></code></pre></div>
+<p><img src="cageminer_files/figure-html/snp_circos-1.png" width="700"></p>
+<p>There seems to be no clustering in gene-rich regions, but we can see that SNPs in the same chromosome tend to be physically close to each other.</p>
+<p>If you have SNP positions for multiple traits, you need to store them in GRangesList or CompressedGRangesList objects, so each element will have SNP positions for a particular trait. Then, you can visualize their distribution as you would do for a single trait. Let’s simulate multiple traits to see how it works:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Simulate multiple traits by sampling 20 SNPs 4 times</span>
+<span class="va">snp_list</span> <span class="op">&lt;-</span> <span class="fu">GenomicRanges</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GenomicRanges/man/GRangesList-class.html">GRangesList</a></span><span class="op">(</span>
+  Trait1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="va">snp_pos</span>, <span class="fl">20</span><span class="op">)</span>,
+  Trait2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="va">snp_pos</span>, <span class="fl">20</span><span class="op">)</span>,
+  Trait3 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="va">snp_pos</span>, <span class="fl">20</span><span class="op">)</span>,
+  Trait4 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="va">snp_pos</span>, <span class="fl">20</span><span class="op">)</span>
+<span class="op">)</span>
+
+<span class="co"># Visualize SNP distribution across chromosomes</span>
+<span class="fu"><a href="../reference/plot_snp_distribution.html">plot_snp_distribution</a></span><span class="op">(</span><span class="va">snp_list</span><span class="op">)</span></code></pre></div>
+<p><img src="cageminer_files/figure-html/multiple_traits-1.png" width="700"></p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Visualize SNP positions in the genome as a circos plot</span>
+<span class="fu"><a href="../reference/plot_snp_circos.html">plot_snp_circos</a></span><span class="op">(</span><span class="va">chr_length</span>, <span class="va">gene_ranges</span>, <span class="va">snp_list</span><span class="op">)</span></code></pre></div>
+<p><img src="cageminer_files/figure-html/snp_circos_multiple-1.png" width="700"></p>
+</div>
+<div id="algorithm-description" class="section level1">
+<h1 class="hasAnchor">
+<a href="#algorithm-description" class="anchor"></a>Algorithm description</h1>
+<p>The <code>cageminer</code> algorithm identifies high-confidence candidate genes with <strong>3 steps</strong>, which can be interpreted as 3 sources of evidence:</p>
+<ol style="list-style-type: decimal">
+<li>Select all genes in a sliding window relative to each SNP as putative candidates.</li>
+<li>Find candidates from step 1 in coexpression modules enriched in guide genes (genes that are known to be associated with the trait of interest).</li>
+<li>Find candidates from step 2 that are correlated with a condition of interest.</li>
+</ol>
+<p>These 3 steps can be executed individually (if users want more control on what happens after each step) or all at once.</p>
+</div>
+<div id="step-by-step-candidate-gene-mining" class="section level1">
+<h1 class="hasAnchor">
+<a href="#step-by-step-candidate-gene-mining" class="anchor"></a>Step-by-step candidate gene mining</h1>
+<p>To run the candidate mining step by step, you will need the functions <code><a href="../reference/mine_step1.html">mine_step1()</a></code>, <code>mine_step2</code>, and <code>mine_step3</code>.</p>
+<div id="step-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#step-1" class="anchor"></a>Step 1</h2>
+<p>The function <code><a href="../reference/mine_step1.html">mine_step1()</a></code> identifies genes based on step 1 and returns a GRanges object with all putative candidates and their location in the genome. For that, you need to give 2 GRanges objects as input, one with the gene coordinates<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> and another with the SNP positions.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">candidates1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mine_step1.html">mine_step1</a></span><span class="op">(</span><span class="va">gene_ranges</span>, <span class="va">snp_pos</span><span class="op">)</span>
+<span class="va">candidates1</span>
+<span class="co">#&gt; GRanges object with 1265 ranges and 6 metadata columns:</span>
+<span class="co">#&gt;          seqnames              ranges strand |   source     type     score</span>
+<span class="co">#&gt;             &lt;Rle&gt;           &lt;IRanges&gt;  &lt;Rle&gt; | &lt;factor&gt; &lt;factor&gt; &lt;numeric&gt;</span>
+<span class="co">#&gt;      [1]    Chr02 147076830-147083477      + |  PGA1.55     gene        NA</span>
+<span class="co">#&gt;      [2]    Chr02 147084450-147086637      - |  PGA1.55     gene        NA</span>
+<span class="co">#&gt;      [3]    Chr02 147099482-147104002      - |  PGA1.55     gene        NA</span>
+<span class="co">#&gt;      [4]    Chr02 147126373-147126537      + |  PGA1.55     gene        NA</span>
+<span class="co">#&gt;      [5]    Chr02 147129897-147132335      - |  PGA1.55     gene        NA</span>
+<span class="co">#&gt;      ...      ...                 ...    ... .      ...      ...       ...</span>
+<span class="co">#&gt;   [1261]    Chr12 232989761-232990947      - |  PGA1.55     gene        NA</span>
+<span class="co">#&gt;   [1262]    Chr12 232994658-232999784      + |  PGA1.55     gene        NA</span>
+<span class="co">#&gt;   [1263]    Chr12 233001307-233004705      + |  PGA1.55     gene        NA</span>
+<span class="co">#&gt;   [1264]    Chr12 233005539-233011740      - |  PGA1.55     gene        NA</span>
+<span class="co">#&gt;   [1265]    Chr12 233018159-233022142      - |  PGA1.55     gene        NA</span>
+<span class="co">#&gt;              phase          ID          Parent</span>
+<span class="co">#&gt;          &lt;integer&gt; &lt;character&gt; &lt;CharacterList&gt;</span>
+<span class="co">#&gt;      [1]      &lt;NA&gt;  CA02g16550                </span>
+<span class="co">#&gt;      [2]      &lt;NA&gt;  CA02g16560                </span>
+<span class="co">#&gt;      [3]      &lt;NA&gt;  CA02g16570                </span>
+<span class="co">#&gt;      [4]      &lt;NA&gt;  CA02g16580                </span>
+<span class="co">#&gt;      [5]      &lt;NA&gt;  CA02g16590                </span>
+<span class="co">#&gt;      ...       ...         ...             ...</span>
+<span class="co">#&gt;   [1261]      &lt;NA&gt;  CA12g21190                </span>
+<span class="co">#&gt;   [1262]      &lt;NA&gt;  CA12g21200                </span>
+<span class="co">#&gt;   [1263]      &lt;NA&gt;  CA12g21210                </span>
+<span class="co">#&gt;   [1264]      &lt;NA&gt;  CA12g21220                </span>
+<span class="co">#&gt;   [1265]      &lt;NA&gt;  CA12g21230                </span>
+<span class="co">#&gt;   -------</span>
+<span class="co">#&gt;   seqinfo: 12 sequences from an unspecified genome; no seqlengths</span>
+<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">candidates1</span><span class="op">)</span>
+<span class="co">#&gt; [1] 1265</span></code></pre></div>
+<p>The first step identified 1265 putative candidate genes. By default, <code>cageminer</code> uses a sliding window of 2 Mb to select putative candidates<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>. If you want to visually inspect a simulation of different sliding windows to choose a different one, you can use <code><a href="../reference/simulate_windows.html">simulate_windows()</a></code>.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Single trait</span>
+<span class="fu"><a href="../reference/simulate_windows.html">simulate_windows</a></span><span class="op">(</span><span class="va">gene_ranges</span>, <span class="va">snp_pos</span><span class="op">)</span></code></pre></div>
+<p><img src="cageminer_files/figure-html/simulate_windows-1.png" width="700"></p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="co"># Multiple traits</span>
+<span class="fu"><a href="../reference/simulate_windows.html">simulate_windows</a></span><span class="op">(</span><span class="va">gene_ranges</span>, <span class="va">snp_list</span><span class="op">)</span></code></pre></div>
+<p><img src="cageminer_files/figure-html/simulate_windows-2.png" width="700"></p>
+</div>
+<div id="step-2" class="section level2">
+<h2 class="hasAnchor">
+<a href="#step-2" class="anchor"></a>Step 2</h2>
+<p>The function <code><a href="../reference/mine_step2.html">mine_step2()</a></code> selects candidates in coexpression modules enriched in guide genes. For that, users must infer the GCN with the function exp2gcn() from the package BioNERO <span class="citation">(Almeida-Silva and Venancio 2021)</span>. Guide genes can be either a character vector of guide gene IDs or a data frame with gene IDs in the first column and annotation in the second column (useful if guides are divided in functional categories, for instance). Here, pepper genes associated with defense-related MapMan bins were retrieved from PLAZA 3.0 Dicots <span class="citation">(Proost et al. 2015)</span> and used as guides.</p>
+<p>The resulting object is a list of two elements: - <em>candidates:</em> character vector of mined candidate gene IDs. - <em>enrichment:</em> data frame of enrichment results.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Load guide genes</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">guides</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">guides</span><span class="op">)</span>
+<span class="co">#&gt;         Gene                               Description</span>
+<span class="co">#&gt; 1 CA10g07770                      response to stimulus</span>
+<span class="co">#&gt; 2 CA10g07770                        response to stress</span>
+<span class="co">#&gt; 3 CA10g07770             cellular response to stimulus</span>
+<span class="co">#&gt; 4 CA10g07770               cellular response to stress</span>
+<span class="co">#&gt; 6 CA10g07770 regulation of cellular response to stress</span>
+<span class="co">#&gt; 8 CA10g07770        regulation of response to stimulus</span>
+
+<span class="co"># Infer GCN</span>
+<span class="va">sft</span> <span class="op">&lt;-</span> <span class="fu">BioNERO</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BioNERO/man/SFT_fit.html">SFT_fit</a></span><span class="op">(</span><span class="va">pepper_se</span>, net_type <span class="op">=</span> <span class="st">"signed"</span>, cor_method <span class="op">=</span> <span class="st">"pearson"</span><span class="op">)</span>
+<span class="co">#&gt; Warning: executing %dopar% sequentially: no parallel backend registered</span>
+<span class="co">#&gt;    Power SFT.R.sq   slope truncated.R.sq mean.k. median.k. max.k.</span>
+<span class="co">#&gt; 1      3 0.000902  0.0985          0.806   718.0    701.00 1060.0</span>
+<span class="co">#&gt; 2      4 0.039500 -0.4680          0.833   470.0    451.00  807.0</span>
+<span class="co">#&gt; 3      5 0.110000 -0.6540          0.851   322.0    301.00  639.0</span>
+<span class="co">#&gt; 4      6 0.269000 -0.9120          0.891   229.0    209.00  520.0</span>
+<span class="co">#&gt; 5      7 0.449000 -1.1200          0.920   168.0    149.00  432.0</span>
+<span class="co">#&gt; 6      8 0.598000 -1.2900          0.945   126.0    109.00  364.0</span>
+<span class="co">#&gt; 7      9 0.685000 -1.4300          0.949    96.8     81.00  311.0</span>
+<span class="co">#&gt; 8     10 0.744000 -1.5000          0.961    75.7     61.30  268.0</span>
+<span class="co">#&gt; 9     11 0.786000 -1.5800          0.964    60.2     47.00  233.0</span>
+<span class="co">#&gt; 10    12 0.817000 -1.6100          0.969    48.5     36.50  204.0</span>
+<span class="co">#&gt; 11    13 0.824000 -1.6600          0.966    39.5     28.80  180.0</span>
+<span class="co">#&gt; 12    14 0.831000 -1.6900          0.965    32.5     23.00  159.0</span>
+<span class="co">#&gt; 13    15 0.846000 -1.7000          0.972    27.1     18.30  142.0</span>
+<span class="co">#&gt; 14    16 0.859000 -1.7100          0.976    22.7     14.70  127.0</span>
+<span class="co">#&gt; 15    17 0.869000 -1.7200          0.981    19.2     11.90  115.0</span>
+<span class="co">#&gt; 16    18 0.877000 -1.7200          0.984    16.3      9.76  103.0</span>
+<span class="co">#&gt; 17    19 0.882000 -1.7200          0.986    14.0      7.97   93.7</span>
+<span class="co">#&gt; 18    20 0.889000 -1.7100          0.988    12.0      6.63   85.2</span>
+<span class="va">gcn</span> <span class="op">&lt;-</span> <span class="fu">BioNERO</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BioNERO/man/exp2gcn.html">exp2gcn</a></span><span class="op">(</span><span class="va">pepper_se</span>, net_type <span class="op">=</span> <span class="st">"signed"</span>, cor_method <span class="op">=</span> <span class="st">"pearson"</span>,
+                        module_merging_threshold <span class="op">=</span> <span class="fl">0.8</span>, SFTpower <span class="op">=</span> <span class="va">sft</span><span class="op">$</span><span class="va">power</span><span class="op">)</span>
+<span class="co">#&gt; ..connectivity..</span>
+<span class="co">#&gt; ..matrix multiplication (system BLAS)..</span>
+<span class="co">#&gt; ..normalization..</span>
+<span class="co">#&gt; ..done.</span>
+
+<span class="co"># Apply step 2</span>
+<span class="va">candidates2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mine_step2.html">mine_step2</a></span><span class="op">(</span><span class="va">pepper_se</span>, gcn <span class="op">=</span> <span class="va">gcn</span>, guides <span class="op">=</span> <span class="va">guides</span><span class="op">$</span><span class="va">Gene</span>,
+                          candidates <span class="op">=</span> <span class="va">candidates1</span><span class="op">$</span><span class="va">ID</span><span class="op">)</span>
+<span class="co">#&gt; Enrichment analysis for module brown...</span>
+<span class="co">#&gt; Enrichment analysis for module cyan...</span>
+<span class="co">#&gt; Enrichment analysis for module darkgreen...</span>
+<span class="co">#&gt; Enrichment analysis for module darkmagenta...</span>
+<span class="co">#&gt; Enrichment analysis for module darkolivegreen...</span>
+<span class="co">#&gt; Enrichment analysis for module darkorange...</span>
+<span class="co">#&gt; Enrichment analysis for module darkorange2...</span>
+<span class="co">#&gt; Enrichment analysis for module darkred...</span>
+<span class="co">#&gt; Enrichment analysis for module darkturquoise...</span>
+<span class="co">#&gt; Enrichment analysis for module green...</span>
+<span class="co">#&gt; Enrichment analysis for module grey60...</span>
+<span class="co">#&gt; Enrichment analysis for module ivory...</span>
+<span class="co">#&gt; Enrichment analysis for module lightcyan...</span>
+<span class="co">#&gt; Enrichment analysis for module midnightblue...</span>
+<span class="co">#&gt; Enrichment analysis for module orange...</span>
+<span class="co">#&gt; Enrichment analysis for module orangered4...</span>
+<span class="co">#&gt; Enrichment analysis for module paleturquoise...</span>
+<span class="co">#&gt; Enrichment analysis for module pink...</span>
+<span class="co">#&gt; Enrichment analysis for module red...</span>
+<span class="co">#&gt; Enrichment analysis for module royalblue...</span>
+<span class="co">#&gt; Enrichment analysis for module salmon...</span>
+<span class="co">#&gt; Enrichment analysis for module steelblue...</span>
+<span class="co">#&gt; Enrichment analysis for module violet...</span>
+<span class="va">candidates2</span><span class="op">$</span><span class="va">candidates</span>
+<span class="co">#&gt;  [1] "CA10g08490" "CA03g01790" "CA10g12640" "CA12g21230" "CA10g02810"</span>
+<span class="co">#&gt;  [6] "CA03g01800" "CA02g17460" "CA10g02800" "CA03g03320" "CA05g14230"</span>
+<span class="co">#&gt; [11] "CA07g04010" "CA05g06480" "CA03g02720" "CA10g02630" "CA12g18010"</span>
+<span class="co">#&gt; [16] "CA07g04000" "CA02g16570" "CA10g02570" "CA05g15120" "CA02g16830"</span>
+<span class="co">#&gt; [21] "CA12g18440" "CA12g18400" "CA10g02780" "CA07g12720" "CA03g01900"</span>
+<span class="co">#&gt; [26] "CA12g07460" "CA03g02360" "CA02g16620" "CA10g08420" "CA03g02960"</span>
+<span class="co">#&gt; [31] "CA03g03010" "CA05g15110" "CA02g16550" "CA05g14730" "CA02g16900"</span>
+<span class="co">#&gt; [36] "CA03g03310" "CA02g17030"</span>
+<span class="va">candidates2</span><span class="op">$</span><span class="va">enrichment</span>
+<span class="co">#&gt;   TermID genes  all         pval         padj</span>
+<span class="co">#&gt; 1  guide   323 1303 2.575418e-05 5.150837e-05</span>
+<span class="co">#&gt;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             GeneID</span>
+<span class="co">#&gt; 1 CA01g00320,CA01g00480,CA01g00740,CA01g01120,CA01g01470,CA01g03330,CA01g03580,CA01g05790,CA01g06190,CA01g07040,CA01g09730,CA01g10140,CA01g11400,CA01g12830,CA01g12840,CA01g15970,CA01g18200,CA01g19830,CA01g25570,CA01g25740,CA01g26380,CA01g27330,CA01g27360,CA01g27650,CA01g28500,CA01g30510,CA01g31330,CA01g34470,CA02g00280,CA02g00310,CA02g00560,CA02g00910,CA02g01560,CA02g03350,CA02g04110,CA02g06320,CA02g07440,CA02g09140,CA02g09790,CA02g11350,CA02g13810,CA02g14640,CA02g14910,CA02g15330,CA02g15540,CA02g15860,CA02g16550,CA02g17460,CA02g18810,CA02g19190,CA02g19740,CA02g20130,CA02g20570,CA02g21070,CA02g22080,CA02g23440,CA02g23570,CA02g24110,CA02g24270,CA02g24340,CA02g25080,CA02g25100,CA02g25180,CA02g25570,CA02g28850,CA02g29330,CA02g29530,CA02g29590,CA03g01500,CA03g01790,CA03g01900,CA03g03310,CA03g03320,CA03g03750,CA03g04210,CA03g04230,CA03g05850,CA03g05910,CA03g06690,CA03g07210,CA03g07300,CA03g07750,CA03g07870,CA03g08860,CA03g09290,CA03g10040,CA03g10360,CA03g15850,CA03g15860,CA03g17560,CA03g19350,CA03g19580,CA03g20380,CA03g22730,CA03g22790,CA03g23510,CA03g23630,CA03g28400,CA03g28670,CA03g29180,CA03g29760,CA03g30020,CA03g30250,CA03g30650,CA03g30690,CA03g31030,CA03g31190,CA03g32600,CA03g33190,CA03g34100,CA03g34590,CA03g35130,CA03g35140,CA03g35590,CA03g35890,CA03g36980,CA04g00240,CA04g00730,CA04g03470,CA04g04090,CA04g05900,CA04g05970,CA04g07310,CA04g07760,CA04g08090,CA04g08220,CA04g08650,CA04g09320,CA04g11150,CA04g11250,CA04g14010,CA04g14020,CA04g14160,CA04g16180,CA04g16450,CA04g17220,CA04g17860,CA04g17920,CA04g19080,CA04g19680,CA04g20890,CA04g23480,CA05g03260,CA05g03360,CA05g03470,CA05g04410,CA05g04830,CA05g05240,CA05g06480,CA05g07240,CA05g07870,CA05g12470,CA05g13460,CA05g14230,CA05g14730,CA05g16560,CA05g17560,CA05g18750,CA05g20780,CA05g20790,CA06g00050,CA06g00060,CA06g00470,CA06g00480,CA06g02280,CA06g03050,CA06g06240,CA06g06260,CA06g06270,CA06g06990,CA06g09410,CA06g10200,CA06g11310,CA06g14270,CA06g14290,CA06g15240,CA06g17350,CA06g17500,CA06g17520,CA06g18860,CA06g19250,CA06g19490,CA06g20530,CA06g21320,CA06g22410,CA06g25350,CA06g25930,CA06g25940,CA06g26650,CA06g28010,CA07g00490,CA07g04410,CA07g04890,CA07g05830,CA07g06700,CA07g06720,CA07g07840,CA07g08630,CA07g11190,CA07g11250,CA07g12720,CA07g13050,CA07g13240,CA07g14400,CA07g14430,CA07g14630,CA07g16060,CA07g16510,CA07g17050,CA07g19020,CA07g19710,CA07g20230,CA07g20250,CA07g20800,CA08g00690,CA08g02960,CA08g04480,CA08g06250,CA08g06530,CA08g06650,CA08g08240,CA08g09820,CA08g10190,CA08g10220,CA08g10230,CA08g10860,CA08g10920,CA08g11610,CA08g11620,CA08g11900,CA08g11980,CA08g12160,CA08g12450,CA08g12660,CA08g13240,CA08g13340,CA08g13350,CA08g13510,CA08g14480,CA08g15500,CA08g15610,CA08g15620,CA08g15740,CA08g15900,CA08g16410,CA08g17710,CA08g18790,CA08g19220,CA08g19480,CA09g01030,CA09g02170,CA09g02410,CA09g02420,CA09g02430,CA09g03530,CA09g04530,CA09g05970,CA09g08100,CA09g14690,CA09g17240,CA09g18730,CA10g04080,CA10g04720,CA10g06450,CA10g08490,CA10g08530,CA10g09720,CA10g10440,CA10g10590,CA10g10660,CA10g11170,CA10g11770,CA10g12380,CA10g14090,CA10g14270,CA10g14530,CA10g14540,CA10g14560,CA10g14760,CA10g16030,CA10g17530,CA10g17910,CA10g18580,CA10g19040,CA10g19490,CA10g20200,CA10g20510,CA10g21570,CA10g21770,CA10g22350,CA11g00060,CA11g00180,CA11g00430,CA11g00650,CA11g02330,CA11g04780,CA11g07880,CA11g07920,CA11g07980,CA11g09720,CA11g10980,CA11g17670,CA11g19120,CA11g19600,CA12g00120,CA12g00940,CA12g03110,CA12g04970,CA12g07010,CA12g09850,CA12g10090,CA12g10170,CA12g10200,CA12g10670,CA12g14680,CA12g15570,CA12g16290,CA12g18010,CA12g18900,CA12g19270,CA12g21600,CA12g22660,CA12g22930</span>
+<span class="co">#&gt;   Module</span>
+<span class="co">#&gt; 1   cyan</span></code></pre></div>
+<p>After the step 2, we got to 37 candidates.</p>
+</div>
+<div id="step-3" class="section level2">
+<h2 class="hasAnchor">
+<a href="#step-3" class="anchor"></a>Step 3</h2>
+<p>The function <code><a href="../reference/mine_step3.html">mine_step3()</a></code> identifies candidate genes whose expression levels significantly increase or decrease in a particular condition. For that, you need to specify what level from the sample metadata corresponds to this condition. The resulting object from <code><a href="../reference/mine_step3.html">mine_step3()</a></code> is a data frame with mined candidates and their correlation to the condition of interest.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># See the levels from the sample metadata</span>
+<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">pepper_se</span><span class="op">$</span><span class="va">Condition</span><span class="op">)</span>
+<span class="co">#&gt; [1] "Placenta"      "Pericarp"      "PRR_control"   "PRR_stress"   </span>
+<span class="co">#&gt; [5] "virus_control" "PepMov_stress" "TMV"</span>
+
+<span class="co"># Apply step 3 using "PRR_stress" as the condition of interest</span>
+<span class="va">candidates3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mine_step3.html">mine_step3</a></span><span class="op">(</span><span class="va">pepper_se</span>, candidates <span class="op">=</span> <span class="va">candidates2</span><span class="op">$</span><span class="va">candidates</span>,
+                          sample_group <span class="op">=</span> <span class="st">"PRR_stress"</span><span class="op">)</span></code></pre></div>
+<p><img src="cageminer_files/figure-html/step3-1.png" width="700"><img src="cageminer_files/figure-html/step3-2.png" width="700"></p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">candidates3</span>
+<span class="co">#&gt;           gene      trait        cor       pvalue</span>
+<span class="co">#&gt; 243 CA12g18400 PRR_stress  0.5963394 1.540534e-05</span>
+<span class="co">#&gt; 187 CA10g02780 PRR_stress  0.3201048 3.205995e-02</span>
+<span class="co">#&gt; 19  CA02g16620 PRR_stress  0.3113993 3.732128e-02</span>
+<span class="co">#&gt; 33  CA02g16900 PRR_stress -0.3204388 3.187100e-02</span>
+<span class="co">#&gt; 103 CA03g03310 PRR_stress -0.3983772 6.720204e-03</span></code></pre></div>
+<p>Finally, we got to 5 high-confidence candidate genes associated with resistance to Phytophthora root rot. Genes with negative correlation coefficients to the condition can be interpreted as having significantly reduced expression in this condition, while genes with positive correlation coefficients have significantly increased expression in this condition.</p>
+</div>
+</div>
+<div id="automatic-candidate-gene-mining" class="section level1">
+<h1 class="hasAnchor">
+<a href="#automatic-candidate-gene-mining" class="anchor"></a>Automatic candidate gene mining</h1>
+<p>Alternatively, if you are not interested in inspecting the results after each step, you can get to the same results from the previous section with a single step by using the function <code><a href="../reference/mine_candidates.html">mine_candidates()</a></code>. This function is a wrapper that calls <code><a href="../reference/mine_step1.html">mine_step1()</a></code>, sends the results to <code><a href="../reference/mine_step2.html">mine_step2()</a></code>, and then it sends the results from <code><a href="../reference/mine_step2.html">mine_step2()</a></code> to <code><a href="../reference/mine_step3.html">mine_step3()</a></code>.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">candidates</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mine_candidates.html">mine_candidates</a></span><span class="op">(</span>gene_ranges <span class="op">=</span> <span class="va">gene_ranges</span>, 
+                              marker_ranges <span class="op">=</span> <span class="va">snp_pos</span>, 
+                              exp <span class="op">=</span> <span class="va">pepper_se</span>,
+                              gcn <span class="op">=</span> <span class="va">gcn</span>, guides <span class="op">=</span> <span class="va">guides</span><span class="op">$</span><span class="va">Gene</span>,
+                              sample_group <span class="op">=</span> <span class="st">"PRR_stress"</span><span class="op">)</span>
+<span class="co">#&gt; Enrichment analysis for module brown...</span>
+<span class="co">#&gt; Enrichment analysis for module cyan...</span>
+<span class="co">#&gt; Enrichment analysis for module darkgreen...</span>
+<span class="co">#&gt; Enrichment analysis for module darkmagenta...</span>
+<span class="co">#&gt; Enrichment analysis for module darkolivegreen...</span>
+<span class="co">#&gt; Enrichment analysis for module darkorange...</span>
+<span class="co">#&gt; Enrichment analysis for module darkorange2...</span>
+<span class="co">#&gt; Enrichment analysis for module darkred...</span>
+<span class="co">#&gt; Enrichment analysis for module darkturquoise...</span>
+<span class="co">#&gt; Enrichment analysis for module green...</span>
+<span class="co">#&gt; Enrichment analysis for module grey60...</span>
+<span class="co">#&gt; Enrichment analysis for module ivory...</span>
+<span class="co">#&gt; Enrichment analysis for module lightcyan...</span>
+<span class="co">#&gt; Enrichment analysis for module midnightblue...</span>
+<span class="co">#&gt; Enrichment analysis for module orange...</span>
+<span class="co">#&gt; Enrichment analysis for module orangered4...</span>
+<span class="co">#&gt; Enrichment analysis for module paleturquoise...</span>
+<span class="co">#&gt; Enrichment analysis for module pink...</span>
+<span class="co">#&gt; Enrichment analysis for module red...</span>
+<span class="co">#&gt; Enrichment analysis for module royalblue...</span>
+<span class="co">#&gt; Enrichment analysis for module salmon...</span>
+<span class="co">#&gt; Enrichment analysis for module steelblue...</span>
+<span class="co">#&gt; Enrichment analysis for module violet...</span></code></pre></div>
+<p><img src="cageminer_files/figure-html/mine_candidates-1.png" width="700"><img src="cageminer_files/figure-html/mine_candidates-2.png" width="700"></p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">candidates</span>
+<span class="co">#&gt;           gene      trait        cor       pvalue</span>
+<span class="co">#&gt; 243 CA12g18400 PRR_stress  0.5963394 1.540534e-05</span>
+<span class="co">#&gt; 187 CA10g02780 PRR_stress  0.3201048 3.205995e-02</span>
+<span class="co">#&gt; 19  CA02g16620 PRR_stress  0.3113993 3.732128e-02</span>
+<span class="co">#&gt; 33  CA02g16900 PRR_stress -0.3204388 3.187100e-02</span>
+<span class="co">#&gt; 103 CA03g03310 PRR_stress -0.3983772 6.720204e-03</span></code></pre></div>
+</div>
+<div id="score-candidates" class="section level1">
+<h1 class="hasAnchor">
+<a href="#score-candidates" class="anchor"></a>Score candidates</h1>
+<p>In some cases, you might have more high-confidence candidates than you expected, and you want to pick only the top <em>n</em> genes for validation, for instance. In this scenario, you need to assign scores to your mined candidates to pick the top <em>n</em> genes with the highest scores. The function <code><a href="../reference/score_genes.html">score_genes()</a></code> does that by using the formula below:</p>
+<p><span class="math display">\[S_i = r_{pb} \kappa\]</span></p>
+<p>where:</p>
+<p><span class="math inline">\(\kappa\)</span> = 2 if the gene encodes a transcription factor</p>
+<p><span class="math inline">\(\kappa\)</span> = 2 if the gene is a hub</p>
+<p><span class="math inline">\(\kappa\)</span> = 3 if the gene encodes a hub transcription factor</p>
+<p><span class="math inline">\(\kappa\)</span> = 1 if none of the conditions above are true</p>
+<p>By default, <code>score_genes</code> picks the top 10 candidates. If there are less than 10 candidates, it will return all candidates sorted by scores. Here, TFs were obtained from PlantTFDB 4.0 <span class="citation">(Jin et al. 2017)</span>. Hub genes can be identified with the function <code>get_hubs_gcn()</code> from the package BioNERO.</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Load TFs</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">tfs</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">tfs</span><span class="op">)</span>
+<span class="co">#&gt;      Gene_ID Family</span>
+<span class="co">#&gt; 1 CA12g20650    RAV</span>
+<span class="co">#&gt; 2 CA00g00130   WRKY</span>
+<span class="co">#&gt; 3 CA00g00230   WRKY</span>
+<span class="co">#&gt; 4 CA00g00390    LBD</span>
+<span class="co">#&gt; 5 CA00g03050    NAC</span>
+<span class="co">#&gt; 6 CA00g07140 E2F/DP</span>
+
+<span class="co"># Get GCN hubs</span>
+<span class="va">hubs</span> <span class="op">&lt;-</span> <span class="fu">BioNERO</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BioNERO/man/get_hubs_gcn.html">get_hubs_gcn</a></span><span class="op">(</span><span class="va">pepper_se</span>, <span class="va">gcn</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">hubs</span><span class="op">)</span>
+<span class="co">#&gt;         Gene Module  kWithin</span>
+<span class="co">#&gt; 1 CA02g16370  brown 36.54361</span>
+<span class="co">#&gt; 2 CA11g18340  brown 36.49363</span>
+<span class="co">#&gt; 3 CA06g01660  brown 36.35147</span>
+<span class="co">#&gt; 4 CA02g18750  brown 34.79498</span>
+<span class="co">#&gt; 5 CA11g18360  brown 34.01593</span>
+<span class="co">#&gt; 6 CA12g07260  brown 33.73551</span>
+
+<span class="co"># Score candidates</span>
+<span class="va">scored</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/score_genes.html">score_genes</a></span><span class="op">(</span><span class="va">candidates</span>, <span class="va">hubs</span><span class="op">$</span><span class="va">Gene</span>, <span class="va">tfs</span><span class="op">$</span><span class="va">Gene_ID</span><span class="op">)</span>
+<span class="co">#&gt; Number of genes &lt; 'pick_top'. Picking all genes.</span>
+<span class="va">scored</span>
+<span class="co">#&gt;           gene      trait        cor       pvalue      score</span>
+<span class="co">#&gt; 243 CA12g18400 PRR_stress  0.5963394 1.540534e-05  0.5963394</span>
+<span class="co">#&gt; 103 CA03g03310 PRR_stress -0.3983772 6.720204e-03 -0.3983772</span>
+<span class="co">#&gt; 33  CA02g16900 PRR_stress -0.3204388 3.187100e-02 -0.3204388</span>
+<span class="co">#&gt; 187 CA10g02780 PRR_stress  0.3201048 3.205995e-02  0.3201048</span>
+<span class="co">#&gt; 19  CA02g16620 PRR_stress  0.3113993 3.732128e-02  0.3113993</span></code></pre></div>
+<p>As none of the mined candidates are hubs or encode transcription factors, their scores are simply their correlation coefficients with the condition of interest.</p>
+</div>
+<div id="session-information" class="section level1 unnumbered">
+<h1 class="hasAnchor">
+<a href="#session-information" class="anchor"></a>Session information</h1>
+<p>This document was created under the following conditions:</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; R version 4.1.0 (2021-05-18)</span>
+<span class="co">#&gt; Platform: x86_64-pc-linux-gnu (64-bit)</span>
+<span class="co">#&gt; Running under: Ubuntu 20.04.2 LTS</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Matrix products: default</span>
+<span class="co">#&gt; BLAS/LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.8.so</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; locale:</span>
+<span class="co">#&gt;  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              </span>
+<span class="co">#&gt;  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    </span>
+<span class="co">#&gt;  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=C             </span>
+<span class="co">#&gt;  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 </span>
+<span class="co">#&gt;  [9] LC_ADDRESS=C               LC_TELEPHONE=C            </span>
+<span class="co">#&gt; [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; attached base packages:</span>
+<span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; other attached packages:</span>
+<span class="co">#&gt; [1] cageminer_0.99.0 BiocStyle_2.20.2</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; loaded via a namespace (and not attached):</span>
+<span class="co">#&gt;   [1] utf8_1.2.1                  tidyselect_1.1.1           </span>
+<span class="co">#&gt;   [3] RSQLite_2.2.7               AnnotationDbi_1.54.1       </span>
+<span class="co">#&gt;   [5] htmlwidgets_1.5.3           grid_4.1.0                 </span>
+<span class="co">#&gt;   [7] BiocParallel_1.26.0         munsell_0.5.0              </span>
+<span class="co">#&gt;   [9] codetools_0.2-18            ragg_1.1.3                 </span>
+<span class="co">#&gt;  [11] preprocessCore_1.54.0       statmod_1.4.36             </span>
+<span class="co">#&gt;  [13] colorspace_2.0-2            OrganismDbi_1.34.0         </span>
+<span class="co">#&gt;  [15] filelock_1.0.2              Biobase_2.52.0             </span>
+<span class="co">#&gt;  [17] highr_0.9                   knitr_1.33                 </span>
+<span class="co">#&gt;  [19] rstudioapi_0.13             stats4_4.1.0               </span>
+<span class="co">#&gt;  [21] ggsignif_0.6.2              labeling_0.4.2             </span>
+<span class="co">#&gt;  [23] MatrixGenerics_1.4.0        GenomeInfoDbData_1.2.6     </span>
+<span class="co">#&gt;  [25] farver_2.1.0                bit64_4.0.5                </span>
+<span class="co">#&gt;  [27] rprojroot_2.0.2             coda_0.19-4                </span>
+<span class="co">#&gt;  [29] vctrs_0.3.8                 generics_0.1.0             </span>
+<span class="co">#&gt;  [31] xfun_0.24                   BiocFileCache_2.0.0        </span>
+<span class="co">#&gt;  [33] biovizBase_1.40.0           fastcluster_1.2.3          </span>
+<span class="co">#&gt;  [35] markdown_1.1                R6_2.5.0                   </span>
+<span class="co">#&gt;  [37] doParallel_1.0.16           GenomeInfoDb_1.28.1        </span>
+<span class="co">#&gt;  [39] clue_0.3-59                 locfit_1.5-9.4             </span>
+<span class="co">#&gt;  [41] AnnotationFilter_1.16.0     bitops_1.0-7               </span>
+<span class="co">#&gt;  [43] cachem_1.0.5                reshape_0.8.8              </span>
+<span class="co">#&gt;  [45] DelayedArray_0.18.0         assertthat_0.2.1           </span>
+<span class="co">#&gt;  [47] BiocIO_1.2.0                networkD3_0.4              </span>
+<span class="co">#&gt;  [49] scales_1.1.1                nnet_7.3-16                </span>
+<span class="co">#&gt;  [51] gtable_0.3.0                Cairo_1.5-12.2             </span>
+<span class="co">#&gt;  [53] sva_3.40.0                  WGCNA_1.70-3               </span>
+<span class="co">#&gt;  [55] ggbio_1.40.0                ensembldb_2.16.2           </span>
+<span class="co">#&gt;  [57] rlang_0.4.11                BioNERO_1.0.0              </span>
+<span class="co">#&gt;  [59] genefilter_1.74.0           systemfonts_1.0.2          </span>
+<span class="co">#&gt;  [61] GlobalOptions_0.1.2         GENIE3_1.14.0              </span>
+<span class="co">#&gt;  [63] splines_4.1.0               rtracklayer_1.52.0         </span>
+<span class="co">#&gt;  [65] rstatix_0.7.0               lazyeval_0.2.2             </span>
+<span class="co">#&gt;  [67] impute_1.66.0               dichromat_2.0-0            </span>
+<span class="co">#&gt;  [69] broom_0.7.8                 checkmate_2.0.0            </span>
+<span class="co">#&gt;  [71] intergraph_2.0-2            BiocManager_1.30.16        </span>
+<span class="co">#&gt;  [73] yaml_2.2.1                  reshape2_1.4.4             </span>
+<span class="co">#&gt;  [75] abind_1.4-5                 GenomicFeatures_1.44.0     </span>
+<span class="co">#&gt;  [77] ggnetwork_0.5.9             backports_1.2.1            </span>
+<span class="co">#&gt;  [79] Hmisc_4.5-0                 gridtext_0.1.4             </span>
+<span class="co">#&gt;  [81] RBGL_1.68.0                 tools_4.1.0                </span>
+<span class="co">#&gt;  [83] bookdown_0.22               statnet.common_4.5.0       </span>
+<span class="co">#&gt;  [85] ggplot2_3.3.5               ellipsis_0.3.2             </span>
+<span class="co">#&gt;  [87] RColorBrewer_1.1-2          BiocGenerics_0.38.0        </span>
+<span class="co">#&gt;  [89] dynamicTreeCut_1.63-1       Rcpp_1.0.6                 </span>
+<span class="co">#&gt;  [91] plyr_1.8.6                  progress_1.2.2             </span>
+<span class="co">#&gt;  [93] base64enc_0.1-3             zlibbioc_1.38.0            </span>
+<span class="co">#&gt;  [95] purrr_0.3.4                 RCurl_1.98-1.3             </span>
+<span class="co">#&gt;  [97] prettyunits_1.1.1           ggpubr_0.4.0               </span>
+<span class="co">#&gt;  [99] rpart_4.1-15                GetoptLong_1.0.5           </span>
+<span class="co">#&gt; [101] cowplot_1.1.1               S4Vectors_0.30.0           </span>
+<span class="co">#&gt; [103] SummarizedExperiment_1.22.0 haven_2.4.1                </span>
+<span class="co">#&gt; [105] cluster_2.1.2               fs_1.5.0                   </span>
+<span class="co">#&gt; [107] magrittr_2.0.1              data.table_1.14.0          </span>
+<span class="co">#&gt; [109] openxlsx_4.2.4              circlize_0.4.13            </span>
+<span class="co">#&gt; [111] ProtGenerics_1.24.0         ggnewscale_0.4.5           </span>
+<span class="co">#&gt; [113] matrixStats_0.59.0          hms_1.1.0                  </span>
+<span class="co">#&gt; [115] evaluate_0.14               xtable_1.8-4               </span>
+<span class="co">#&gt; [117] minet_3.50.0                RhpcBLASctl_0.20-137       </span>
+<span class="co">#&gt; [119] XML_3.99-0.6                rio_0.5.27                 </span>
+<span class="co">#&gt; [121] jpeg_0.1-8.1                readxl_1.3.1               </span>
+<span class="co">#&gt; [123] IRanges_2.26.0              gridExtra_2.3              </span>
+<span class="co">#&gt; [125] shape_1.4.6                 biomaRt_2.48.2             </span>
+<span class="co">#&gt; [127] compiler_4.1.0              tibble_3.1.2               </span>
+<span class="co">#&gt; [129] crayon_1.4.1                htmltools_0.5.1.1          </span>
+<span class="co">#&gt; [131] mgcv_1.8-36                 Formula_1.2-4              </span>
+<span class="co">#&gt; [133] ggtext_0.1.1                tidyr_1.1.3                </span>
+<span class="co">#&gt; [135] geneplotter_1.70.0          DBI_1.1.1                  </span>
+<span class="co">#&gt; [137] dbplyr_2.1.1                ComplexHeatmap_2.8.0       </span>
+<span class="co">#&gt; [139] rappdirs_0.3.3              Matrix_1.3-4               </span>
+<span class="co">#&gt; [141] car_3.0-11                  parallel_4.1.0             </span>
+<span class="co">#&gt; [143] igraph_1.2.6                GenomicRanges_1.44.0       </span>
+<span class="co">#&gt; [145] forcats_0.5.1               pkgconfig_2.0.3            </span>
+<span class="co">#&gt; [147] pkgdown_1.6.1               GenomicAlignments_1.28.0   </span>
+<span class="co">#&gt; [149] foreign_0.8-81              xml2_1.3.2                 </span>
+<span class="co">#&gt; [151] foreach_1.5.1               annotate_1.70.0            </span>
+<span class="co">#&gt; [153] XVector_0.32.0              VariantAnnotation_1.38.0   </span>
+<span class="co">#&gt; [155] stringr_1.4.0               digest_0.6.27              </span>
+<span class="co">#&gt; [157] graph_1.70.0                NetRep_1.2.4               </span>
+<span class="co">#&gt; [159] Biostrings_2.60.1           rmarkdown_2.9              </span>
+<span class="co">#&gt; [161] cellranger_1.1.0            htmlTable_2.2.1            </span>
+<span class="co">#&gt; [163] edgeR_3.34.0                restfulr_0.0.13            </span>
+<span class="co">#&gt; [165] curl_4.3.2                  Rsamtools_2.8.0            </span>
+<span class="co">#&gt; [167] rjson_0.2.20                lifecycle_1.0.0            </span>
+<span class="co">#&gt; [169] nlme_3.1-152                carData_3.0-4              </span>
+<span class="co">#&gt; [171] network_1.17.1              BSgenome_1.60.0            </span>
+<span class="co">#&gt; [173] desc_1.3.0                  limma_3.48.1               </span>
+<span class="co">#&gt; [175] fansi_0.5.0                 pillar_1.6.1               </span>
+<span class="co">#&gt; [177] lattice_0.20-44             GGally_2.1.2               </span>
+<span class="co">#&gt; [179] KEGGREST_1.32.0             fastmap_1.1.0              </span>
+<span class="co">#&gt; [181] httr_1.4.2                  survival_3.2-11            </span>
+<span class="co">#&gt; [183] GO.db_3.13.0                glue_1.4.2                 </span>
+<span class="co">#&gt; [185] zip_2.2.0                   png_0.1-7                  </span>
+<span class="co">#&gt; [187] iterators_1.0.13            bit_4.0.4                  </span>
+<span class="co">#&gt; [189] stringi_1.6.2               blob_1.2.1                 </span>
+<span class="co">#&gt; [191] textshaping_0.3.5           DESeq2_1.32.0              </span>
+<span class="co">#&gt; [193] latticeExtra_0.6-29         memoise_2.0.0              </span>
+<span class="co">#&gt; [195] dplyr_1.0.7</span></code></pre></div>
+<p><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a><br>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1 class="hasAnchor">
+<a href="#references" class="anchor"></a>References</h1>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-R-BioNERO" class="csl-entry">
+Almeida-Silva, Fabricio, and Thiago Venancio. 2021. <em>BioNERO: Biological Network Reconstruction Omnibus</em>. <a href="https://github.com/almeidasilvaf/BioNERO">https://github.com/almeidasilvaf/BioNERO</a>.
+</div>
+<div id="ref-Jin2017" class="csl-entry">
+Jin, J, F Tian, D C Yang, Y Q Meng, L Kong, J Luo, and G Gao. 2017. <span>“<span class="nocase">PlantTFDB 4.0: toward a central hub for transcription factors and regulatory interactions in plants</span>.”</span> <em>Nucleic Acids Res</em> 45 (D1): D1040–45. <a href="https://doi.org/10.1093/nar/gkw982">https://doi.org/10.1093/nar/gkw982</a>.
+</div>
+<div id="ref-Kim2018" class="csl-entry">
+Kim, Myung Shin, Seungill Kim, Jongbum Jeon, Ki Tae Kim, Hyun Ah Lee, Hye Young Lee, Jieun Park, et al. 2018. <span>“<span class="nocase">Global gene expression profiling for fruit organs and pathogen infections in the pepper, &lt;i&gt;Capsicum annuum&lt;/i&gt; L.</span>”</span> <em>Scientific Data</em> 5: 1–6. <a href="https://doi.org/10.1038/sdata.2018.103">https://doi.org/10.1038/sdata.2018.103</a>.
+</div>
+<div id="ref-rtracklayer2009" class="csl-entry">
+Lawrence, Michael, Robert Gentleman, and Vincent Carey. 2009. <span>“Rtracklayer: An r Package for Interfacing with Genome Browsers.”</span> <em>Bioinformatics</em> 25: 1841–42. <a href="https://doi.org/10.1093/bioinformatics/btp328">https://doi.org/10.1093/bioinformatics/btp328</a>.
+</div>
+<div id="ref-Proost2015" class="csl-entry">
+Proost, Sebastian, Michiel Van Bel, Dries Vaneechoutte, Yves Van de Peer, Dirk Inzé, Bernd Mueller-Roeber, and Klaas Vandepoele. 2015. <span>“<span class="nocase">PLAZA 3.0: an access point for plant comparative genomics</span>.”</span> <em>Nucleic Acids Research</em> 43 (D1): D974–81. <a href="https://doi.org/10.1093/nar/gku986">https://doi.org/10.1093/nar/gku986</a>.
+</div>
+<div id="ref-Siddique2019" class="csl-entry">
+Siddique, Muhammad Irfan, Hea Young Lee, Na Young Ro, Koeun Han, Jelli Venkatesh, Abate Mekonnen Solomon, Abhinandan Surgonda Patil, Amornrat Changkwian, Jin Kyung Kwon, and Byoung Cheorl Kang. 2019. <span>“<span class="nocase">Identifying candidate genes for Phytophthora capsici resistance in pepper (Capsicum annuum) via genotyping-by-sequencing-based QTL mapping and genome-wide association study</span>.”</span> <em>Scientific Reports</em> 9 (1): 1–15. <a href="https://doi.org/10.1038/s41598-019-46342-1">https://doi.org/10.1038/s41598-019-46342-1</a>.
+</div>
+</div>
+</div>
+<div class="footnotes">
+<hr>
+<ol>
+<li id="fn1"><p><strong>Tip:</strong> to create GRanges objects from genomic coordinates in GFF/GTF files, you can use the <code>import()</code> function from the Bioconductor package rtracklayer <span class="citation">(Lawrence, Gentleman, and Carey 2009)</span>.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p><strong>Note:</strong> By default, SNPs coordinates will be expanded upstream and downstream according to the input window size. However, you may have previously determined genomic intervals for each SNP (e.g., calculated based on linkage disequilibrium) for which you want to extract genes. To avoid expanding a sliding window in such cases, set <code>expand_intervals = FALSE</code>.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+</ol>
 </div>
   </div>
 
