@@ -10,8 +10,10 @@ mine_step1(gene_ranges, marker_ranges, window = 2, expand_intervals = TRUE)
 \item{gene_ranges}{A GRanges object with genomic coordinates
 of all genes in the genome.}
 
-\item{marker_ranges}{A GRanges or GRangesList object with
-positions of molecular markers.}
+\item{marker_ranges}{Genomic positions of SNPs. For a single trait,
+a GRanges object. For multiple traits, a GRangesList or CompressedGRangesList
+object, with each element of the list representing SNP positions for a
+particular trait.}
 
 \item{window}{Sliding window (in Mb) upstream and downstream relative
 to each SNP. Default: 2.}
@@ -26,7 +28,7 @@ A GRanges or GRangesList object with the genomic positions of
 all putative candidate genes.
 }
 \description{
-For an user-defined sliding window relative to each SNP, this function will
+For a user-defined sliding window relative to each SNP, this function will
 subset all genes whose genomic positions overlap with the sliding window.
 }
 \examples{

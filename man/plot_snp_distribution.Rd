@@ -2,7 +2,7 @@
 % Please edit documentation in R/visualization.R
 \name{plot_snp_distribution}
 \alias{plot_snp_distribution}
-\title{Plot SNP distribution across chromosomes}
+\title{Plot a barplot of SNP distribution across chromosomes}
 \usage{
 plot_snp_distribution(marker_ranges)
 }
@@ -10,13 +10,13 @@ plot_snp_distribution(marker_ranges)
 \item{marker_ranges}{Genomic positions of SNPs. For a single trait,
 a GRanges object. For multiple traits, a GRangesList or CompressedGRangesList
 object, with each element of the list representing SNP positions for a
-particular trait.}
+particular trait. List elements must have names for proper labelling.}
 }
 \value{
 A ggplot object.
 }
 \description{
-Plot SNP distribution across chromosomes
+Plot a barplot of SNP distribution across chromosomes
 }
 \examples{
 data(snp_pos)

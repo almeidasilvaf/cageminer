@@ -26,12 +26,11 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-Over the past years, RNA-seq data for several species have accumulated in public
-repositories. Additionally, genome-wide association studies (GWAS) have 
+Over the past years, RNA-seq data for several species have accumulated in public repositories. Additionally, genome-wide association studies (GWAS) have 
 identified SNPs associated with phenotypes of interest, such as agronomic
 traits in plants, production traits in livestock, and complex human diseases.
 However, although GWAS can identify SNPs, they cannot identify causative genes
-associated with the phenotype. The goal of `cageminer` is to integrate 
+associated with the studied phenotype. The goal of `cageminer` is to integrate 
 GWAS-derived SNPs with transcriptomic data to mine candidate genes and identify
 high-confidence genes associated with traits of interest.
 
@@ -175,7 +174,8 @@ simulate_windows(gene_ranges, snp_list)
 downstream according to the input window size. However, you may have 
 previously determined genomic intervals for each SNP (e.g., calculated based on
 linkage disequilibrium) for which you want to extract genes. To avoid expanding
-a sliding window in such cases, set `expand_intervals = FALSE`.
+a sliding window in such cases, set `expand_intervals = FALSE`. This will
+ensure that only SNPs are expanded, but not intervals (width >1).
 
 ## Step 2
 
@@ -189,6 +189,7 @@ MapMan bins were retrieved from PLAZA 3.0 Dicots [@Proost2015] and used as
 guides.
 
 The resulting object is a list of two elements: 
+
 - *candidates:* character vector of mined candidate gene IDs.
 - *enrichment:* data frame of enrichment results.
 
@@ -209,7 +210,7 @@ candidates2$candidates
 candidates2$enrichment
 ```
 
-After the step 2, we got to `r length(candidates2$candidates)` candidates.
+After the step 2, we got `r length(candidates2$candidates)` candidates.
 
 ## Step 3
 
@@ -229,7 +230,7 @@ candidates3 <- mine_step3(pepper_se, candidates = candidates2$candidates,
 candidates3
 ```
 
-Finally, we got to `r length(unique(candidates3$gene))` high-confidence 
+Finally, we got `r length(unique(candidates3$gene))` high-confidence 
 candidate genes associated with resistance to Phytophthora root rot. Genes with
 negative correlation coefficients to the condition can be interpreted as
 having significantly reduced expression in this condition, while genes with 
@@ -302,8 +303,6 @@ This document was created under the following conditions:
 ```{r}
 sessionInfo()
 ```
-
-<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
 
 # References {.unnumbered}
 

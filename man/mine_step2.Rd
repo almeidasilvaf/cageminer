@@ -18,8 +18,11 @@ genes in the first column and gene annotation class in the second column.}
 \item{candidates}{Character vector of all candidates genes to be inspected.}
 }
 \value{
-A list of 2 elements with mined candidates for step 2
-(character vector) and enrichment results (data frame).
+A list of 2 elements:
+\describe{
+\item{candidates}{Character vector of candidates after step 2}
+\item{enrichment}{Data frame of results for enrichment analysis}
+}
 }
 \description{
 Step 2: Get candidates in modules enriched in guide genes

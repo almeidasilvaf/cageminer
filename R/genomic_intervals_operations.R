@@ -7,8 +7,10 @@
 #'
 #' @param gene_ranges A GRanges object with genomic coordinates
 #' of all genes in the genome.
-#' @param marker_ranges A GRanges or GRangesList object with
-#' positions of molecular markers.
+#' @param marker_ranges Genomic positions of SNPs. For a single trait,
+#' a GRanges object. For multiple traits, a GRangesList or CompressedGRangesList
+#' object, with each element of the list representing SNP positions for a
+#' particular trait.
 #' @param windows Sliding windows (in Mb) upstream and downstream relative
 #' to each SNP. Default: seq(0.1, 2, by = 0.1).
 #' @param expand_intervals Logical indicating whether or not to expand markers

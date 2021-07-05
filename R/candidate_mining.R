@@ -1,7 +1,10 @@
 
 #' Handle markers represented by intervals instead of SNPs
 #'
-#' @param marker_ranges A GRanges object with positions of molecular markers.
+#' @param marker_ranges Genomic positions of SNPs. For a single trait,
+#' a GRanges object. For multiple traits, a GRangesList or CompressedGRangesList
+#' object, with each element of the list representing SNP positions for a
+#' particular trait.
 #' @param window Sliding window (in Mb) upstream and downstream relative
 #' to each SNP. Default: 2.
 #' @param expand_intervals Logical indicating whether or not to expand markers
@@ -28,13 +31,15 @@ handle_intervals <- function(marker_ranges, window = 2,
 
 #' Step 1: Get all putative candidate genes for a given sliding window
 #'
-#' For an user-defined sliding window relative to each SNP, this function will
+#' For a user-defined sliding window relative to each SNP, this function will
 #' subset all genes whose genomic positions overlap with the sliding window.
 #'
 #' @param gene_ranges A GRanges object with genomic coordinates
 #' of all genes in the genome.
-#' @param marker_ranges A GRanges or GRangesList object with
-#' positions of molecular markers.
+#' @param marker_ranges Genomic positions of SNPs. For a single trait,
+#' a GRanges object. For multiple traits, a GRangesList or CompressedGRangesList
+#' object, with each element of the list representing SNP positions for a
+#' particular trait.
 #' @param window Sliding window (in Mb) upstream and downstream relative
 #' to each SNP. Default: 2.
 #' @param expand_intervals Logical indicating whether or not to expand markers
@@ -87,8 +92,11 @@ mine_step1 <- function(gene_ranges, marker_ranges, window = 2,
 #' genes in the first column and gene annotation class in the second column.
 #' @param candidates Character vector of all candidates genes to be inspected.
 #'
-#' @return A list of 2 elements with mined candidates for step 2
-#' (character vector) and enrichment results (data frame).
+#' @return A list of 2 elements:
+#' \describe{
+#'   \item{candidates}{Character vector of candidates after step 2}
+#'   \item{enrichment}{Data frame of results for enrichment analysis}
+#' }
 #' @rdname mine_step2
 #' @export
 #' @importFrom BioNERO module_enrichment
@@ -181,8 +189,10 @@ mine_step3 <- function(exp, metadata, candidates, sample_group,
 #'
 #' @param gene_ranges A GRanges object with genomic coordinates
 #' of all genes in the genome.
-#' @param marker_ranges A GRanges or GRangesList object with
-#' positions of molecular markers.
+#' @param marker_ranges Genomic positions of SNPs. For a single trait,
+#' a GRanges object. For multiple traits, a GRangesList or CompressedGRangesList
+#' object, with each element of the list representing SNP positions for a
+#' particular trait.
 #' @param window Sliding window (in Mb) upstream and downstream relative
 #' to each SNP. Default: 2.
 #' @param expand_intervals Logical indicating whether or not to expand markers
@@ -252,13 +262,14 @@ mine_candidates <- function(gene_ranges=NULL, marker_ranges=NULL, window = 2,
 }
 
 
-#' Score candidate genes and select the top
+#' Score candidate genes and select the top n genes
 #'
-#' @param mined_candidates Data frame resulting from \code{mine_candidates}.
+#' @param mined_candidates Data frame resulting from \code{mine_candidates()}
+#' or \code{mine_step()}.
 #' @param hubs Character vector of hub genes.
 #' @param tfs Character vector of transcription factors.
 #' @param pick_top Number of top genes to select. Default: 10.
-#' @return Data frame with top n candidates.
+#' @return Data frame with top n candidates and their scores.
 #' @export
 #' @rdname score_genes
 #' @examples

@@ -2,12 +2,13 @@
 % Please edit documentation in R/candidate_mining.R
 \name{score_genes}
 \alias{score_genes}
-\title{Score candidate genes and select the top}
+\title{Score candidate genes and select the top n genes}
 \usage{
 score_genes(mined_candidates, hubs = NULL, tfs = NULL, pick_top = 10)
 }
 \arguments{
-\item{mined_candidates}{Data frame resulting from \code{mine_candidates}.}
+\item{mined_candidates}{Data frame resulting from \code{mine_candidates()}
+or \code{mine_step()}.}
 
 \item{hubs}{Character vector of hub genes.}
 
@@ -16,10 +17,10 @@ score_genes(mined_candidates, hubs = NULL, tfs = NULL, pick_top = 10)
 \item{pick_top}{Number of top genes to select. Default: 10.}
 }
 \value{
-Data frame with top n candidates.
+Data frame with top n candidates and their scores.
 }
 \description{
-Score candidate genes and select the top
+Score candidate genes and select the top n genes
 }
 \examples{
 data(pepper_se)

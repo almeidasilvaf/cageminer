@@ -44,8 +44,10 @@ custom_pal <- function(pal=1) {
 #' @param genome_ranges A GRanges object with chromosome lengths.
 #' @param gene_ranges A GRanges object with genomic coordinates
 #' of all genes in the genome.
-#' @param marker_ranges A GRanges, GRangesList or CompressedGRangesList object
-#' with positions of molecular markers.
+#' @param marker_ranges Genomic positions of SNPs. For a single trait,
+#' a GRanges object. For multiple traits, a GRangesList or CompressedGRangesList
+#' object, with each element of the list representing SNP positions for a
+#' particular trait.
 #'
 #' @return If input objects are not as expected, it will throw an error.
 #' Otherwise, nothing happens.
@@ -72,8 +74,10 @@ check_input_circos <- function(genome_ranges, gene_ranges, marker_ranges) {
 #' @param genome_ranges A GRanges object with chromosome lengths.
 #' @param gene_ranges A GRanges object with genomic coordinates
 #' of all genes in the genome.
-#' @param marker_ranges A GRanges, GRangesList or CompressedGRangesList object
-#' with positions of molecular markers.
+#' @param marker_ranges Genomic positions of SNPs. For a single trait,
+#' a GRanges object. For multiple traits, a GRangesList or CompressedGRangesList
+#' object, with each element of the list representing SNP positions for a
+#' particular trait.
 #'
 #' @return The genome_ranges, gene_ranges, or marker_ranges object with
 #' seqlengths included.
@@ -99,8 +103,10 @@ add_seqlen <- function(genome_ranges, gene_ranges, marker_ranges) {
 #' @param genome_ranges A GRanges object with chromosome lengths.
 #' @param gene_ranges A GRanges object with genomic coordinates
 #' of all genes in the genome.
-#' @param marker_ranges A GRanges, GRangesList or CompressedGRangesList object
-#' with positions of molecular markers.
+#' @param marker_ranges Genomic positions of SNPs. For a single trait,
+#' a GRanges object. For multiple traits, a GRangesList or CompressedGRangesList
+#' object, with each element of the list representing SNP positions for a
+#' particular trait.
 #'
 #' @return A ggplot object with a circos plot of molecular marker distribution
 #' across chromosomes.
@@ -164,12 +170,12 @@ plot_snp_circos <- function(genome_ranges, gene_ranges, marker_ranges) {
     return(p)
 }
 
-#' Plot SNP distribution across chromosomes
+#' Plot a barplot of SNP distribution across chromosomes
 #'
 #' @param marker_ranges Genomic positions of SNPs. For a single trait,
 #' a GRanges object. For multiple traits, a GRangesList or CompressedGRangesList
 #' object, with each element of the list representing SNP positions for a
-#' particular trait.
+#' particular trait. List elements must have names for proper labelling.
 #' @return A ggplot object.
 #' @rdname plot_snp_distribution
 #' @export
