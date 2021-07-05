@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plot SNP distribution across chromosomes — plot_snp_distribution • cageminer</title>
+<title>Plot a barplot of SNP distribution across chromosomes — plot_snp_distribution • cageminer</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="Plot SNP distribution across chromosomes — plot_snp_distribution" />
-<meta property="og:description" content="Plot SNP distribution across chromosomes" />
+<meta property="og:title" content="Plot a barplot of SNP distribution across chromosomes — plot_snp_distribution" />
+<meta property="og:description" content="Plot a barplot of SNP distribution across chromosomes" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -122,13 +122,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Plot SNP distribution across chromosomes</h1>
+    <h1>Plot a barplot of SNP distribution across chromosomes</h1>
     <small class="dont-index">Source: <a href='https://github.com/almeidasilvaf/cageminer/blob/master/R/visualization.R'><code>R/visualization.R</code></a></small>
     <div class="hidden name"><code>plot_snp_distribution.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Plot SNP distribution across chromosomes</p>
+    <p>Plot a barplot of SNP distribution across chromosomes</p>
     </div>
 
     <pre class="usage"><span class='fu'>plot_snp_distribution</span><span class='op'>(</span><span class='va'>marker_ranges</span><span class='op'>)</span></pre>
@@ -141,7 +141,7 @@
       <td><p>Genomic positions of SNPs. For a single trait,
 a GRanges object. For multiple traits, a GRangesList or CompressedGRangesList
 object, with each element of the list representing SNP positions for a
-particular trait.</p></td>
+particular trait. List elements must have names for proper labelling.</p></td>
     </tr>
     </table>
 

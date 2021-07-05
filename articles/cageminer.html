@@ -97,7 +97,7 @@
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h1>
-<p>Over the past years, RNA-seq data for several species have accumulated in public repositories. Additionally, genome-wide association studies (GWAS) have identified SNPs associated with phenotypes of interest, such as agronomic traits in plants, production traits in livestock, and complex human diseases. However, although GWAS can identify SNPs, they cannot identify causative genes associated with the phenotype. The goal of <code>cageminer</code> is to integrate GWAS-derived SNPs with transcriptomic data to mine candidate genes and identify high-confidence genes associated with traits of interest.</p>
+<p>Over the past years, RNA-seq data for several species have accumulated in public repositories. Additionally, genome-wide association studies (GWAS) have identified SNPs associated with phenotypes of interest, such as agronomic traits in plants, production traits in livestock, and complex human diseases. However, although GWAS can identify SNPs, they cannot identify causative genes associated with the studied phenotype. The goal of <code>cageminer</code> is to integrate GWAS-derived SNPs with transcriptomic data to mine candidate genes and identify high-confidence genes associated with traits of interest.</p>
 </div>
 <div id="installation" class="section level1">
 <h1 class="hasAnchor">
@@ -299,7 +299,13 @@
 <h2 class="hasAnchor">
 <a href="#step-2" class="anchor"></a>Step 2</h2>
 <p>The function <code><a href="../reference/mine_step2.html">mine_step2()</a></code> selects candidates in coexpression modules enriched in guide genes. For that, users must infer the GCN with the function exp2gcn() from the package BioNERO <span class="citation">(Almeida-Silva and Venancio 2021)</span>. Guide genes can be either a character vector of guide gene IDs or a data frame with gene IDs in the first column and annotation in the second column (useful if guides are divided in functional categories, for instance). Here, pepper genes associated with defense-related MapMan bins were retrieved from PLAZA 3.0 Dicots <span class="citation">(Proost et al. 2015)</span> and used as guides.</p>
-<p>The resulting object is a list of two elements: - <em>candidates:</em> character vector of mined candidate gene IDs. - <em>enrichment:</em> data frame of enrichment results.</p>
+<p>The resulting object is a list of two elements:</p>
+<ul>
+<li>
+<em>candidates:</em> character vector of mined candidate gene IDs.</li>
+<li>
+<em>enrichment:</em> data frame of enrichment results.</li>
+</ul>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Load guide genes</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">guides</span><span class="op">)</span>
@@ -383,7 +389,7 @@
 <span class="co">#&gt; 1 CA01g00320,CA01g00480,CA01g00740,CA01g01120,CA01g01470,CA01g03330,CA01g03580,CA01g05790,CA01g06190,CA01g07040,CA01g09730,CA01g10140,CA01g11400,CA01g12830,CA01g12840,CA01g15970,CA01g18200,CA01g19830,CA01g25570,CA01g25740,CA01g26380,CA01g27330,CA01g27360,CA01g27650,CA01g28500,CA01g30510,CA01g31330,CA01g34470,CA02g00280,CA02g00310,CA02g00560,CA02g00910,CA02g01560,CA02g03350,CA02g04110,CA02g06320,CA02g07440,CA02g09140,CA02g09790,CA02g11350,CA02g13810,CA02g14640,CA02g14910,CA02g15330,CA02g15540,CA02g15860,CA02g16550,CA02g17460,CA02g18810,CA02g19190,CA02g19740,CA02g20130,CA02g20570,CA02g21070,CA02g22080,CA02g23440,CA02g23570,CA02g24110,CA02g24270,CA02g24340,CA02g25080,CA02g25100,CA02g25180,CA02g25570,CA02g28850,CA02g29330,CA02g29530,CA02g29590,CA03g01500,CA03g01790,CA03g01900,CA03g03310,CA03g03320,CA03g03750,CA03g04210,CA03g04230,CA03g05850,CA03g05910,CA03g06690,CA03g07210,CA03g07300,CA03g07750,CA03g07870,CA03g08860,CA03g09290,CA03g10040,CA03g10360,CA03g15850,CA03g15860,CA03g17560,CA03g19350,CA03g19580,CA03g20380,CA03g22730,CA03g22790,CA03g23510,CA03g23630,CA03g28400,CA03g28670,CA03g29180,CA03g29760,CA03g30020,CA03g30250,CA03g30650,CA03g30690,CA03g31030,CA03g31190,CA03g32600,CA03g33190,CA03g34100,CA03g34590,CA03g35130,CA03g35140,CA03g35590,CA03g35890,CA03g36980,CA04g00240,CA04g00730,CA04g03470,CA04g04090,CA04g05900,CA04g05970,CA04g07310,CA04g07760,CA04g08090,CA04g08220,CA04g08650,CA04g09320,CA04g11150,CA04g11250,CA04g14010,CA04g14020,CA04g14160,CA04g16180,CA04g16450,CA04g17220,CA04g17860,CA04g17920,CA04g19080,CA04g19680,CA04g20890,CA04g23480,CA05g03260,CA05g03360,CA05g03470,CA05g04410,CA05g04830,CA05g05240,CA05g06480,CA05g07240,CA05g07870,CA05g12470,CA05g13460,CA05g14230,CA05g14730,CA05g16560,CA05g17560,CA05g18750,CA05g20780,CA05g20790,CA06g00050,CA06g00060,CA06g00470,CA06g00480,CA06g02280,CA06g03050,CA06g06240,CA06g06260,CA06g06270,CA06g06990,CA06g09410,CA06g10200,CA06g11310,CA06g14270,CA06g14290,CA06g15240,CA06g17350,CA06g17500,CA06g17520,CA06g18860,CA06g19250,CA06g19490,CA06g20530,CA06g21320,CA06g22410,CA06g25350,CA06g25930,CA06g25940,CA06g26650,CA06g28010,CA07g00490,CA07g04410,CA07g04890,CA07g05830,CA07g06700,CA07g06720,CA07g07840,CA07g08630,CA07g11190,CA07g11250,CA07g12720,CA07g13050,CA07g13240,CA07g14400,CA07g14430,CA07g14630,CA07g16060,CA07g16510,CA07g17050,CA07g19020,CA07g19710,CA07g20230,CA07g20250,CA07g20800,CA08g00690,CA08g02960,CA08g04480,CA08g06250,CA08g06530,CA08g06650,CA08g08240,CA08g09820,CA08g10190,CA08g10220,CA08g10230,CA08g10860,CA08g10920,CA08g11610,CA08g11620,CA08g11900,CA08g11980,CA08g12160,CA08g12450,CA08g12660,CA08g13240,CA08g13340,CA08g13350,CA08g13510,CA08g14480,CA08g15500,CA08g15610,CA08g15620,CA08g15740,CA08g15900,CA08g16410,CA08g17710,CA08g18790,CA08g19220,CA08g19480,CA09g01030,CA09g02170,CA09g02410,CA09g02420,CA09g02430,CA09g03530,CA09g04530,CA09g05970,CA09g08100,CA09g14690,CA09g17240,CA09g18730,CA10g04080,CA10g04720,CA10g06450,CA10g08490,CA10g08530,CA10g09720,CA10g10440,CA10g10590,CA10g10660,CA10g11170,CA10g11770,CA10g12380,CA10g14090,CA10g14270,CA10g14530,CA10g14540,CA10g14560,CA10g14760,CA10g16030,CA10g17530,CA10g17910,CA10g18580,CA10g19040,CA10g19490,CA10g20200,CA10g20510,CA10g21570,CA10g21770,CA10g22350,CA11g00060,CA11g00180,CA11g00430,CA11g00650,CA11g02330,CA11g04780,CA11g07880,CA11g07920,CA11g07980,CA11g09720,CA11g10980,CA11g17670,CA11g19120,CA11g19600,CA12g00120,CA12g00940,CA12g03110,CA12g04970,CA12g07010,CA12g09850,CA12g10090,CA12g10170,CA12g10200,CA12g10670,CA12g14680,CA12g15570,CA12g16290,CA12g18010,CA12g18900,CA12g19270,CA12g21600,CA12g22660,CA12g22930</span>
 <span class="co">#&gt;   Module</span>
 <span class="co">#&gt; 1   cyan</span></code></pre></div>
-<p>After the step 2, we got to 37 candidates.</p>
+<p>After the step 2, we got 37 candidates.</p>
 </div>
 <div id="step-3" class="section level2">
 <h2 class="hasAnchor">
@@ -407,7 +413,7 @@
 <span class="co">#&gt; 19  CA02g16620 PRR_stress  0.3113993 3.732128e-02</span>
 <span class="co">#&gt; 33  CA02g16900 PRR_stress -0.3204388 3.187100e-02</span>
 <span class="co">#&gt; 103 CA03g03310 PRR_stress -0.3983772 6.720204e-03</span></code></pre></div>
-<p>Finally, we got to 5 high-confidence candidate genes associated with resistance to Phytophthora root rot. Genes with negative correlation coefficients to the condition can be interpreted as having significantly reduced expression in this condition, while genes with positive correlation coefficients have significantly increased expression in this condition.</p>
+<p>Finally, we got 5 high-confidence candidate genes associated with resistance to Phytophthora root rot. Genes with negative correlation coefficients to the condition can be interpreted as having significantly reduced expression in this condition, while genes with positive correlation coefficients have significantly increased expression in this condition.</p>
 </div>
 </div>
 <div id="automatic-candidate-gene-mining" class="section level1">
@@ -625,7 +631,6 @@
 <span class="co">#&gt; [191] textshaping_0.3.5           DESeq2_1.32.0              </span>
 <span class="co">#&gt; [193] latticeExtra_0.6-29         memoise_2.0.0              </span>
 <span class="co">#&gt; [195] dplyr_1.0.7</span></code></pre></div>
-<p><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a><br>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
@@ -655,7 +660,7 @@ Siddique, Muhammad Irfan, Hea Young Lee, Na Young Ro, Koeun Han, Jelli Venkatesh
 <hr>
 <ol>
 <li id="fn1"><p><strong>Tip:</strong> to create GRanges objects from genomic coordinates in GFF/GTF files, you can use the <code>import()</code> function from the Bioconductor package rtracklayer <span class="citation">(Lawrence, Gentleman, and Carey 2009)</span>.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
-<li id="fn2"><p><strong>Note:</strong> By default, SNPs coordinates will be expanded upstream and downstream according to the input window size. However, you may have previously determined genomic intervals for each SNP (e.g., calculated based on linkage disequilibrium) for which you want to extract genes. To avoid expanding a sliding window in such cases, set <code>expand_intervals = FALSE</code>.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p><strong>Note:</strong> By default, SNPs coordinates will be expanded upstream and downstream according to the input window size. However, you may have previously determined genomic intervals for each SNP (e.g., calculated based on linkage disequilibrium) for which you want to extract genes. To avoid expanding a sliding window in such cases, set <code>expand_intervals = FALSE</code>. This will ensure that only SNPs are expanded, but not intervals (width &gt;1).<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
   </div>

@@ -157,8 +157,10 @@ of all genes in the genome.</p></td>
     </tr>
     <tr>
       <th>marker_ranges</th>
-      <td><p>A GRanges or GRangesList object with
-positions of molecular markers.</p></td>
+      <td><p>Genomic positions of SNPs. For a single trait,
+a GRanges object. For multiple traits, a GRangesList or CompressedGRangesList
+object, with each element of the list representing SNP positions for a
+particular trait.</p></td>
     </tr>
     <tr>
       <th>window</th>

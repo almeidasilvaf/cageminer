@@ -47,7 +47,7 @@
 
 
 <meta property="og:title" content="Step 1: Get all putative candidate genes for a given sliding window — mine_step1" />
-<meta property="og:description" content="For an user-defined sliding window relative to each SNP, this function will
+<meta property="og:description" content="For a user-defined sliding window relative to each SNP, this function will
 subset all genes whose genomic positions overlap with the sliding window." />
 <meta property="og:image" content="/logo.png" />
 
@@ -129,7 +129,7 @@ subset all genes whose genomic positions overlap with the sliding window." />
     </div>
 
     <div class="ref-description">
-    <p>For an user-defined sliding window relative to each SNP, this function will
+    <p>For a user-defined sliding window relative to each SNP, this function will
 subset all genes whose genomic positions overlap with the sliding window.</p>
     </div>
 
@@ -145,8 +145,10 @@ of all genes in the genome.</p></td>
     </tr>
     <tr>
       <th>marker_ranges</th>
-      <td><p>A GRanges or GRangesList object with
-positions of molecular markers.</p></td>
+      <td><p>Genomic positions of SNPs. For a single trait,
+a GRanges object. For multiple traits, a GRangesList or CompressedGRangesList
+object, with each element of the list representing SNP positions for a
+particular trait.</p></td>
     </tr>
     <tr>
       <th>window</th>
