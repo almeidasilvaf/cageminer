@@ -24,7 +24,7 @@ The goal of `cageminer` is to integrate SNP data from GWAS results with gene coe
 
 ## Installation instructions
 
-Get the latest stable `R` release from [CRAN](http://cran.r-project.org/). Then install `cageminer` using from [Bioconductor](http://bioconductor.org/) the following code:
+Get the latest stable `R` release from [CRAN](http://cran.r-project.org/). Then install `cageminer` from [Bioconductor](http://bioconductor.org/) using the following code:
 
 ```{r 'install', eval = FALSE}
 if (!requireNamespace("BiocManager", quietly = TRUE)) {
