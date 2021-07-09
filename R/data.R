@@ -106,4 +106,4 @@
 #' @examples
 #' data(gcn)
 #' @usage data(gcn)
-
+"gcn"

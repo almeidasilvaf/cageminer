@@ -30,21 +30,21 @@ test_that("mine_step2() returns a list with 2 elements", {
     expect_equal(names(mine2), c("candidates", "enrichment"))
 })
 
-test_that("mine_step3() returns a data frame of mined candidates", {
-    mine2 <- mine_step2(pepper_se, gcn = gcn, guides = guides$Gene,
-                        candidates = rownames(pepper_se))
-    mine3 <- mine_step3(pepper_se, candidates = mine2$candidates,
-                        sample_group = "PRR_stress")
-    expect_equal(class(mine3), "data.frame")
-})
+# test_that("mine_step3() returns a data frame of mined candidates", {
+#     mine2 <- mine_step2(pepper_se, gcn = gcn, guides = guides$Gene,
+#                         candidates = rownames(pepper_se))
+#     mine3 <- mine_step3(pepper_se, candidates = mine2$candidates,
+#                         sample_group = "PRR_stress")
+#     expect_equal(class(mine3), "data.frame")
+# })
 
 
-test_that("mine_candidates() integrates mine_step* functions", {
-    hc_genes <- mine_candidates(gene_ranges, snp_pos, exp = pepper_se,
-                                gcn = gcn, guides = guides,
-                                sample_group = "PRR_stress")
-    expect_equal(class(hc_genes), "data.frame")
-})
+# test_that("mine_candidates() integrates mine_step* functions", {
+#     hc_genes <- mine_candidates(gene_ranges, snp_pos, exp = pepper_se,
+#                                 gcn = gcn, guides = guides,
+#                                 sample_group = "PRR_stress")
+#     expect_equal(class(hc_genes), "data.frame")
+# })
 
 
 test_that("score_genes() returns a data frame", {
