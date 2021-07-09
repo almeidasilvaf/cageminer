@@ -23,6 +23,7 @@ Data frame with top n candidates and their scores.
 Score candidate genes and select the top n genes
 }
 \examples{
+\donttest{
 data(pepper_se)
 data(snp_pos)
 data(gene_ranges)
@@ -39,4 +40,5 @@ candidates <- mine_candidates(gene_ranges, snp_pos, exp = pepper_se,
                               sample_group = "PRR_stress")
 hubs <- BioNERO::get_hubs_gcn(pepper_se, gcn)
 scored <- score_genes(candidates, hubs$Gene, tfs$Gene_ID)
+}
 }

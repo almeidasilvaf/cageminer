@@ -273,6 +273,7 @@ mine_candidates <- function(gene_ranges=NULL, marker_ranges=NULL, window = 2,
 #' @export
 #' @rdname score_genes
 #' @examples
+#' \donttest{
 #' data(pepper_se)
 #' data(snp_pos)
 #' data(gene_ranges)
@@ -289,6 +290,7 @@ mine_candidates <- function(gene_ranges=NULL, marker_ranges=NULL, window = 2,
 #'                               sample_group = "PRR_stress")
 #' hubs <- BioNERO::get_hubs_gcn(pepper_se, gcn)
 #' scored <- score_genes(candidates, hubs$Gene, tfs$Gene_ID)
+#' }
 score_genes <- function(mined_candidates, hubs=NULL, tfs=NULL,
                         pick_top=10) {
     if(is.null(hubs) & is.null(tfs)) {stop("Neither hubs nor TFs were provided.")}
