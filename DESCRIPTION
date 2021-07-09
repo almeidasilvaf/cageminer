@@ -1,6 +1,6 @@
 Package: cageminer
 Title: Candidate Gene Miner
-Version: 0.99.2
+Version: 0.99.3
 Authors@R: 
     c(
     person(given = "Fabrício",

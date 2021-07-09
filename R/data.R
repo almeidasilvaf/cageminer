@@ -93,3 +93,17 @@
 #' data(tfs)
 #' @usage data(tfs)
 "tfs"
+
+
+#' Simulation of the output list from BioNERO::exp2gcn() with pepper data
+#'
+#' This object is a list as returned by BioNERO::exp2gcn(), but only the
+#' element genes_and_modules is included. All other list elements have been
+#' assigned NULL.
+#'
+#' @name gcn
+#' @format A list with the elements returned by BioNERO::exp2gcn().
+#' @examples
+#' data(gcn)
+#' @usage data(gcn)
+

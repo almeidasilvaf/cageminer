@@ -32,12 +32,8 @@ data(pepper_se)
 data(snp_pos)
 data(gene_ranges)
 data(guides)
+data(gcn)
 set.seed(1)
-# sft <- BioNERO::SFT_fit(pepper_se, net_type = "signed",
-#                         cor_method = "pearson")
-# Previously selected power = 12
-gcn <- BioNERO::exp2gcn(pepper_se, net_type = "signed", cor_method = "pearson",
-                        module_merging_threshold = 0.8, SFTpower = 12)
 mine2 <- mine_step2(pepper_se, gcn = gcn, guides = guides$Gene,
                     candidates = rownames(pepper_se))
 }
