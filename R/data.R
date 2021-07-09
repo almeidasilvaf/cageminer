@@ -99,7 +99,7 @@
 #'
 #' This object is a list as returned by BioNERO::exp2gcn(), but only the
 #' element genes_and_modules is included. All other list elements have been
-#' assigned NULL.
+#' assigned NULL. The network was inferred using the code from the vignette.
 #'
 #' @name gcn
 #' @format A list with the elements returned by BioNERO::exp2gcn().
@@ -107,3 +107,27 @@
 #' data(gcn)
 #' @usage data(gcn)
 "gcn"
+
+
+#' Example output from mined_candidates()
+#'
+#' The data frame was created using the code from the vignette.
+#'
+#' @name mined_candidates
+#' @format Data frame with an example of the output from mined_candidates
+#' @examples
+#' data(mined_candidates)
+#' @usage data(mined_candidates)
+"mined_candidates"
+
+
+#' Example hub genes for the network stored in the gcn object
+#'
+#' The data frame was created using the code from the vignette.
+#'
+#' @name hubs
+#' @format Data frame with gene IDs, module and intramodular degree.
+#' @examples
+#' data(hubs)
+#' @usage data(hubs)
+"hubs"

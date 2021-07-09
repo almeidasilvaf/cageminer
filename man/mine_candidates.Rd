@@ -72,6 +72,7 @@ the condition of interest.
 Mine high-confidence candidate genes in a single step
 }
 \examples{
+\donttest{
 data(pepper_se)
 data(snp_pos)
 data(gene_ranges)
@@ -81,4 +82,5 @@ set.seed(1)
 candidates <- mine_candidates(gene_ranges, snp_pos, exp = pepper_se,
                               gcn = gcn, guides = guides,
                               sample_group = "PRR_stress")
+}
 }
