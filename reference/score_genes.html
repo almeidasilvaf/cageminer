@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cageminer</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.5</span>
       </span>
     </div>
 
@@ -160,28 +160,12 @@ or <code>mine_step()</code>.</p></td>
     <p>Data frame with top n candidates and their scores.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>pepper_se</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>snp_pos</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>gene_ranges</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>guides</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>tfs</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>tfs</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>hubs</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>mined_candidates</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
-<span class='co'># sft &lt;- BioNERO::SFT_fit(pepper_se, net_type = "signed",</span>
-<span class='co'>#                         cor_method = "pearson")</span>
-<span class='co'># Previously selected power = 12</span>
-<span class='va'>gcn</span> <span class='op'>&lt;-</span> <span class='fu'>BioNERO</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/BioNERO/man/exp2gcn.html'>exp2gcn</a></span><span class='op'>(</span><span class='va'>pepper_se</span>, net_type <span class='op'>=</span> <span class='st'>"signed"</span>, cor_method <span class='op'>=</span> <span class='st'>"pearson"</span>,
-                        module_merging_threshold <span class='op'>=</span> <span class='fl'>0.8</span>, SFTpower <span class='op'>=</span> <span class='fl'>12</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; ..connectivity..
-#&gt; ..matrix multiplication (system BLAS)..
-#&gt; ..normalization..
-#&gt; ..done.</div><div class='input'><span class='va'>candidates</span> <span class='op'>&lt;-</span> <span class='fu'><a href='mine_candidates.html'>mine_candidates</a></span><span class='op'>(</span><span class='va'>gene_ranges</span>, <span class='va'>snp_pos</span>, exp <span class='op'>=</span> <span class='va'>pepper_se</span>,
-                              gcn <span class='op'>=</span> <span class='va'>gcn</span>, guides <span class='op'>=</span> <span class='va'>guides</span>,
-                              sample_group <span class='op'>=</span> <span class='st'>"PRR_stress"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Enrichment analysis for module brown...</span></div><div class='output co'>#&gt; <span class='message'>Enrichment analysis for module cyan...</span></div><div class='output co'>#&gt; <span class='message'>Enrichment analysis for module darkgreen...</span></div><div class='output co'>#&gt; <span class='message'>Enrichment analysis for module darkmagenta...</span></div><div class='output co'>#&gt; <span class='message'>Enrichment analysis for module darkolivegreen...</span></div><div class='output co'>#&gt; <span class='message'>Enrichment analysis for module darkorange...</span></div><div class='output co'>#&gt; <span class='message'>Enrichment analysis for module darkorange2...</span></div><div class='output co'>#&gt; <span class='message'>Enrichment analysis for module darkred...</span></div><div class='output co'>#&gt; <span class='message'>Enrichment analysis for module darkturquoise...</span></div><div class='output co'>#&gt; <span class='message'>Enrichment analysis for module green...</span></div><div class='output co'>#&gt; <span class='message'>Enrichment analysis for module grey60...</span></div><div class='output co'>#&gt; <span class='message'>Enrichment analysis for module ivory...</span></div><div class='output co'>#&gt; <span class='message'>Enrichment analysis for module lightcyan...</span></div><div class='output co'>#&gt; <span class='message'>Enrichment analysis for module midnightblue...</span></div><div class='output co'>#&gt; <span class='message'>Enrichment analysis for module orange...</span></div><div class='output co'>#&gt; <span class='message'>Enrichment analysis for module orangered4...</span></div><div class='output co'>#&gt; <span class='message'>Enrichment analysis for module paleturquoise...</span></div><div class='output co'>#&gt; <span class='message'>Enrichment analysis for module pink...</span></div><div class='output co'>#&gt; <span class='message'>Enrichment analysis for module red...</span></div><div class='output co'>#&gt; <span class='message'>Enrichment analysis for module royalblue...</span></div><div class='output co'>#&gt; <span class='message'>Enrichment analysis for module salmon...</span></div><div class='output co'>#&gt; <span class='message'>Enrichment analysis for module steelblue...</span></div><div class='output co'>#&gt; <span class='message'>Enrichment analysis for module violet...</span></div><div class='img'><img src='score_genes-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='va'>hubs</span> <span class='op'>&lt;-</span> <span class='fu'>BioNERO</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/BioNERO/man/get_hubs_gcn.html'>get_hubs_gcn</a></span><span class='op'>(</span><span class='va'>pepper_se</span>, <span class='va'>gcn</span><span class='op'>)</span>
-<span class='va'>scored</span> <span class='op'>&lt;-</span> <span class='fu'>score_genes</span><span class='op'>(</span><span class='va'>candidates</span>, <span class='va'>hubs</span><span class='op'>$</span><span class='va'>Gene</span>, <span class='va'>tfs</span><span class='op'>$</span><span class='va'>Gene_ID</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Number of genes &lt; 'pick_top'. Picking all genes.</span></div><div class='input'><span class='co'># }</span>
-</div></pre>
+<span class='va'>scored</span> <span class='op'>&lt;-</span> <span class='fu'>score_genes</span><span class='op'>(</span><span class='va'>mined_candidates</span>, <span class='va'>hubs</span><span class='op'>$</span><span class='va'>Gene</span>, <span class='va'>tfs</span><span class='op'>$</span><span class='va'>Gene_ID</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Number of genes &lt; 'pick_top'. Picking all genes.</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
