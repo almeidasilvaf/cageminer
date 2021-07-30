@@ -48,9 +48,8 @@ data(snp_pos)
 data(gene_ranges)
 data(guides)
 data(gcn)
+data(mine2)
 set.seed(1)
-mine2 <- mine_step2(pepper_se, gcn = gcn, guides = guides$Gene,
-                    candidates = rownames(pepper_se))
 mine3 <- mine_step3(pepper_se, candidates = mine2$candidates,
                     sample_group = "PRR_stress")
 }

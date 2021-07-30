@@ -12,8 +12,10 @@ data(gcn)
 }
 \description{
 This object is a list as returned by BioNERO::exp2gcn(), but only the
-element genes_and_modules is included. All other list elements have been
-assigned NULL. The network was inferred using the code from the vignette.
+element genes_and_modules is included. For running time issues,
+only genes in the cyan module were kept in the element genes_and_modules.
+All other list elements have been assigned NULL.
+The network was inferred using the code from the vignette.
 }
 \examples{
 data(gcn)

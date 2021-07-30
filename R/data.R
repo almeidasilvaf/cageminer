@@ -98,8 +98,10 @@
 #' Simulation of the output list from BioNERO::exp2gcn() with pepper data
 #'
 #' This object is a list as returned by BioNERO::exp2gcn(), but only the
-#' element genes_and_modules is included. All other list elements have been
-#' assigned NULL. The network was inferred using the code from the vignette.
+#' element genes_and_modules is included. For running time issues,
+#' only genes in the cyan module were kept in the element genes_and_modules.
+#' All other list elements have been assigned NULL.
+#' The network was inferred using the code from the vignette.
 #'
 #' @name gcn
 #' @format A list with the elements returned by BioNERO::exp2gcn().
@@ -120,6 +122,17 @@
 #' @usage data(mined_candidates)
 "mined_candidates"
 
+#' Example output from mine_step2()
+#'
+#' The list was created using the example code from mine_step().
+#'
+#' @name mine2
+#' @format List with elements 'candidates' (character vector) and 'enrichment'
+#' (data frame).
+#' @examples
+#' data(mine2)
+#' @usage data(mine2)
+"mine2"
 
 #' Example hub genes for the network stored in the gcn object
 #'

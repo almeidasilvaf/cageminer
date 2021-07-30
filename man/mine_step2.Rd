@@ -29,8 +29,6 @@ Step 2: Get candidates in modules enriched in guide genes
 }
 \examples{
 data(pepper_se)
-data(snp_pos)
-data(gene_ranges)
 data(guides)
 data(gcn)
 set.seed(1)

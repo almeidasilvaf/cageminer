@@ -102,8 +102,6 @@ mine_step1 <- function(gene_ranges, marker_ranges, window = 2,
 #' @importFrom BioNERO module_enrichment
 #' @examples
 #' data(pepper_se)
-#' data(snp_pos)
-#' data(gene_ranges)
 #' data(guides)
 #' data(gcn)
 #' set.seed(1)
@@ -157,9 +155,8 @@ mine_step2 <- function(exp, gcn, guides, candidates) {
 #' data(gene_ranges)
 #' data(guides)
 #' data(gcn)
+#' data(mine2)
 #' set.seed(1)
-#' mine2 <- mine_step2(pepper_se, gcn = gcn, guides = guides$Gene,
-#'                     candidates = rownames(pepper_se))
 #' mine3 <- mine_step3(pepper_se, candidates = mine2$candidates,
 #'                     sample_group = "PRR_stress")
 mine_step3 <- function(exp, metadata, candidates, sample_group,
