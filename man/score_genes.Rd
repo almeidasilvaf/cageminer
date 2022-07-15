@@ -4,7 +4,15 @@
 \alias{score_genes}
 \title{Score candidate genes and select the top n genes}
 \usage{
-score_genes(mined_candidates, hubs = NULL, tfs = NULL, pick_top = 10)
+score_genes(
+  mined_candidates,
+  hubs = NULL,
+  tfs = NULL,
+  pick_top = 10,
+  weight_tf = 2,
+  weight_hub = 2,
+  weight_both = 3
+)
 }
 \arguments{
 \item{mined_candidates}{Data frame resulting from \code{mine_candidates()}
@@ -15,6 +23,16 @@ or \code{mine_step()}.}
 \item{tfs}{Character vector of transcription factors.}
 
 \item{pick_top}{Number of top genes to select. Default: 10.}
+
+\item{weight_tf}{Numeric scalar with the weight to which correlation
+coefficients will be multiplied if the gene is a TF. Default: 2.}
+
+\item{weight_hub}{Numeric scalar with the weight to which correlation
+coefficients will be multiplied if the gene is a hub. Default: 2.}
+
+\item{weight_both}{Numeric scalar with the weight to which correlation
+coefficients will be multiplied if the gene is both a TF and a hub.
+Default: 3.}
 }
 \value{
 Data frame with top n candidates and their scores.

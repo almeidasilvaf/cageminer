@@ -254,6 +254,14 @@ mine_candidates <- function(gene_ranges=NULL, marker_ranges=NULL, window = 2,
 #' @param hubs Character vector of hub genes.
 #' @param tfs Character vector of transcription factors.
 #' @param pick_top Number of top genes to select. Default: 10.
+#' @param weight_tf Numeric scalar with the weight to which correlation
+#' coefficients will be multiplied if the gene is a TF. Default: 2.
+#' @param weight_hub Numeric scalar with the weight to which correlation
+#' coefficients will be multiplied if the gene is a hub. Default: 2.
+#' @param weight_both Numeric scalar with the weight to which correlation
+#' coefficients will be multiplied if the gene is both a TF and a hub.
+#' Default: 3.
+#'
 #' @return Data frame with top n candidates and their scores.
 #' @export
 #' @rdname score_genes
@@ -264,7 +272,9 @@ mine_candidates <- function(gene_ranges=NULL, marker_ranges=NULL, window = 2,
 #' set.seed(1)
 #' scored <- score_genes(mined_candidates, hubs$Gene, tfs$Gene_ID)
 score_genes <- function(mined_candidates, hubs=NULL, tfs=NULL,
-                        pick_top=10) {
+                        pick_top=10,
+                        weight_tf = 2, weight_hub = 2,
+                        weight_both = 3) {
     if(is.null(hubs) & is.null(tfs)) {stop("Neither hubs nor TFs were provided.")}
     candidates <- mined_candidates
     cand_hubs <- candidates[candidates$gene %in% hubs, "gene"]
@@ -273,11 +283,11 @@ score_genes <- function(mined_candidates, hubs=NULL, tfs=NULL,
     scored <- candidates
     scored$score <- vapply(seq_len(nrow(scored)), function(x) {
         if(scored$gene[x] %in% cand_hubs) {
-            y <- scored$cor[x] * 2
+            y <- scored$cor[x] * weight_hub
         } else if(scored$gene[x] %in% cand_tfs) {
-            y <- scored$cor[x] * 2
+            y <- scored$cor[x] * weight_tf
         } else if(scored$gene[x] %in% cand_both) {
-            y <- scored$cor[x] * 3
+            y <- scored$cor[x] * weight_both
         } else {
             y <- scored$cor[x]
         }
