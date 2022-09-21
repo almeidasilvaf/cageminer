@@ -35,7 +35,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">cageminer</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -111,13 +111,44 @@ genes and identify high-confidence genes associated with traits of
 interest.</p>
 </div>
 <div class="section level2">
+<h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
+</h2>
+<p>If you use <code>cageminer</code> in your research, please cite us.
+You can obtain citation information with
+<code>citation('cageminer')</code>, as demonstrated below:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">'cageminer'</span><span class="op">)</span>, bibtex <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; To cite cageminer in publications use:</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   Almeida-Silva, F., &amp; Venancio, T. M. (2022). cageminer: an</span></span>
+<span><span class="co">#&gt;   R/Bioconductor package to prioritize candidate genes by integrating</span></span>
+<span><span class="co">#&gt;   genome-wide association studies and gene coexpression networks. in</span></span>
+<span><span class="co">#&gt;   silico Plants, 4(2), diac018.</span></span>
+<span><span class="co">#&gt;   https://doi.org/10.1093/insilicoplants/diac018</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; A BibTeX entry for LaTeX users is</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   @Article{,</span></span>
+<span><span class="co">#&gt;     title = {cageminer: an R/Bioconductor package to prioritize candidate genes by integrating genome-wide association studies and gene coexpression networks},</span></span>
+<span><span class="co">#&gt;     author = {Fabricio Almeida-Silva and Thiago M. Venancio},</span></span>
+<span><span class="co">#&gt;     journal = {in silico Plants},</span></span>
+<span><span class="co">#&gt;     year = {2022},</span></span>
+<span><span class="co">#&gt;     volume = {4},</span></span>
+<span><span class="co">#&gt;     number = {2},</span></span>
+<span><span class="co">#&gt;     pages = {diac018},</span></span>
+<span><span class="co">#&gt;     url = {https://doi.org/10.1093/insilicoplants/diac018},</span></span>
+<span><span class="co">#&gt;     doi = {10.1093/insilicoplants/diac018},</span></span>
+<span><span class="co">#&gt;   }</span></span></code></pre></div>
+</div>
+<div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">'BiocManager'</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'BiocManager'</span><span class="op">)</span></span>
 <span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"cageminer"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load package after installation</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/almeidasilvaf/cageminer" class="external-link">cageminer</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span> <span class="co"># for reproducibility</span></span></code></pre></div>
@@ -131,7 +162,7 @@ resistance to Phytophthora root rot from <span class="citation">Siddique
 et al. (2019)</span>. To ensure interoperability with other Bioconductor
 packages, expression data are stored as SummarizedExperiment objects,
 and gene/SNP positions are stored as GRanges objects.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># GRanges of SNP positions</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">snp_pos</span><span class="op">)</span></span>
 <span><span class="va">snp_pos</span></span>
@@ -224,7 +255,7 @@ and gene/SNP positions are stored as GRanges objects.</p>
 distribution in the genome to explore possible patterns. First, let’s
 see if SNPs are uniformly across chromosomes with
 <code><a href="../reference/plot_snp_distribution.html">plot_snp_distribution()</a></code>.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_snp_distribution.html">plot_snp_distribution</a></span><span class="op">(</span><span class="va">snp_pos</span><span class="op">)</span></span></code></pre></div>
 <p><img src="cageminer_files/figure-html/snp_dist-1.png" width="700"></p>
 <p>As we can see, SNPs associated with resistance to Phytophthora root
@@ -232,7 +263,7 @@ rot tend to co-occur in chromosome 5. Now, we can see if they are close
 to each other in the genome, and if they are located in gene-rich
 regions. We can visualize it with <code>plot_snp_circos</code>, which
 displays a circos plot of SNPs across chromosomes.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_snp_circos.html">plot_snp_circos</a></span><span class="op">(</span><span class="va">chr_length</span>, <span class="va">gene_ranges</span>, <span class="va">snp_pos</span><span class="op">)</span></span></code></pre></div>
 <p><img src="cageminer_files/figure-html/snp_circos-1.png" width="700"></p>
 <p>There seems to be no clustering in gene-rich regions, but we can see
@@ -243,7 +274,7 @@ in GRangesList or CompressedGRangesList objects, so each element will
 have SNP positions for a particular trait. Then, you can visualize their
 distribution as you would do for a single trait. Let’s simulate multiple
 traits to see how it works:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Simulate multiple traits by sampling 20 SNPs 4 times</span></span>
 <span><span class="va">snp_list</span> <span class="op">&lt;-</span> <span class="fu">GenomicRanges</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GenomicRanges/man/GRangesList-class.html" class="external-link">GRangesList</a></span><span class="op">(</span></span>
 <span>  Trait1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">snp_pos</span>, <span class="fl">20</span><span class="op">)</span>,</span>
@@ -255,7 +286,7 @@ traits to see how it works:</p>
 <span><span class="co"># Visualize SNP distribution across chromosomes</span></span>
 <span><span class="fu"><a href="../reference/plot_snp_distribution.html">plot_snp_distribution</a></span><span class="op">(</span><span class="va">snp_list</span><span class="op">)</span></span></code></pre></div>
 <p><img src="cageminer_files/figure-html/multiple_traits-1.png" width="700"></p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Visualize SNP positions in the genome as a circos plot</span></span>
 <span><span class="fu"><a href="../reference/plot_snp_circos.html">plot_snp_circos</a></span><span class="op">(</span><span class="va">chr_length</span>, <span class="va">gene_ranges</span>, <span class="va">snp_list</span><span class="op">)</span></span></code></pre></div>
 <p><img src="cageminer_files/figure-html/snp_circos_multiple-1.png" width="700"></p>
@@ -295,7 +326,7 @@ input, one with the gene coordinates<a class="footnote-ref" tabindex="0" data-bs
 genomic coordinates in GFF/GTF files, you can use the
 &lt;code&gt;import()&lt;/code&gt; function from the Bioconductor package rtracklayer
 &lt;span class="citation"&gt;(Lawrence, Gentleman, and Carey 2009)&lt;/span&gt;.&lt;/p&gt;'><sup>1</sup></a> and another with the SNP positions.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">candidates1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mine_step1.html">mine_step1</a></span><span class="op">(</span><span class="va">gene_ranges</span>, <span class="va">snp_pos</span><span class="op">)</span></span>
 <span><span class="va">candidates1</span></span>
 <span><span class="co">#&gt; GRanges object with 1265 ranges and 6 metadata columns:</span></span>
@@ -340,11 +371,11 @@ cases, set &lt;code&gt;expand_intervals = FALSE&lt;/code&gt;. This will ensure t
 only SNPs are expanded, but not intervals (width &amp;gt;1).&lt;/p&gt;"><sup>2</sup></a>. If you want to visually inspect a
 simulation of different sliding windows to choose a different one, you
 can use <code><a href="../reference/simulate_windows.html">simulate_windows()</a></code>.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Single trait</span></span>
 <span><span class="fu"><a href="../reference/simulate_windows.html">simulate_windows</a></span><span class="op">(</span><span class="va">gene_ranges</span>, <span class="va">snp_pos</span><span class="op">)</span></span></code></pre></div>
 <p><img src="cageminer_files/figure-html/simulate_windows-1.png" width="700"></p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># Multiple traits</span></span>
 <span><span class="fu"><a href="../reference/simulate_windows.html">simulate_windows</a></span><span class="op">(</span><span class="va">gene_ranges</span>, <span class="va">snp_list</span><span class="op">)</span></span></code></pre></div>
@@ -370,7 +401,7 @@ IDs.</li>
 <li>
 <em>enrichment:</em> data frame of enrichment results.</li>
 </ul>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load guide genes</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">guides</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">guides</span><span class="op">)</span></span>
@@ -465,7 +496,7 @@ particular condition. For that, you need to specify what level from the
 sample metadata corresponds to this condition. The resulting object from
 <code><a href="../reference/mine_step3.html">mine_step3()</a></code> is a data frame with mined candidates and
 their correlation to the condition of interest.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># See the levels from the sample metadata</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">pepper_se</span><span class="op">$</span><span class="va">Condition</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "Placenta"      "Pericarp"      "PRR_control"   "PRR_stress"   </span></span>
@@ -499,7 +530,7 @@ section with a single step by using the function
 <code><a href="../reference/mine_step1.html">mine_step1()</a></code>, sends the results to
 <code><a href="../reference/mine_step2.html">mine_step2()</a></code>, and then it sends the results from
 <code><a href="../reference/mine_step2.html">mine_step2()</a></code> to <code><a href="../reference/mine_step3.html">mine_step3()</a></code>.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">candidates</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mine_candidates.html">mine_candidates</a></span><span class="op">(</span>gene_ranges <span class="op">=</span> <span class="va">gene_ranges</span>, </span>
 <span>                              marker_ranges <span class="op">=</span> <span class="va">snp_pos</span>, </span>
 <span>                              exp <span class="op">=</span> <span class="va">pepper_se</span>,</span>
@@ -560,7 +591,7 @@ there are less than 10 candidates, it will return all candidates sorted
 by scores. Here, TFs were obtained from PlantTFDB 4.0 <span class="citation">(Jin et al. 2017)</span>. Hub genes can be identified
 with the function <code>get_hubs_gcn()</code> from the package
 BioNERO.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load TFs</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">tfs</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">tfs</span><span class="op">)</span></span>
@@ -601,7 +632,7 @@ condition of interest.</p>
 <h2 class="unnumbered" id="session-information">Session information<a class="anchor" aria-label="anchor" href="#session-information"></a>
 </h2>
 <p>This document was created under the following conditions:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">sessioninfo</span><span class="fu">::</span><span class="fu"><a href="https://r-lib.github.io/sessioninfo/reference/session_info.html" class="external-link">session_info</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">─ Session info ───────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt;  <span style="color: #555555; font-style: italic;">setting </span> <span style="color: #555555; font-style: italic;">value</span></span></span>
@@ -644,7 +675,7 @@ condition of interest.</p>
 <span><span class="co">#&gt;  BSgenome               1.64.0     <span style="color: #555555;">2022-04-26</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span></span>
 <span><span class="co">#&gt;  bslib                  0.4.0      <span style="color: #555555;">2022-07-16</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  cachem                 1.0.6      <span style="color: #555555;">2021-08-19</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  cageminer            * 1.3.4      <span style="color: #555555;">2022-09-21</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span></span>
+<span><span class="co">#&gt;  cageminer            * 1.3.5      <span style="color: #555555;">2022-09-21</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span></span>
 <span><span class="co">#&gt;  checkmate              2.1.0      <span style="color: #555555;">2022-04-21</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  circlize               0.4.15     <span style="color: #555555;">2022-05-10</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  cli                    3.4.0      <span style="color: #555555;">2022-09-08</span> <span style="color: #555555;">[2]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM (R 4.2.0)</span></span></span>
