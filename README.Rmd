@@ -55,11 +55,11 @@ BiocManager::install("almeidasilvaf/cageminer")
 
 ## Citation
 
-Below is the citation output from using `citation('BioNERO')` in R. Please
-run this yourself to check for any updates on how to cite __BioNERO__.
+Below is the citation output from using `citation('cageminer')` in R. Please
+run this yourself to check for any updates on how to cite __cageminer__.
 
-```{r 'citation', eval = requireNamespace('BioNERO')}
-print(citation('BioNERO'), bibtex = TRUE)
+```{r 'citation', eval = requireNamespace('cageminer')}
+print(citation('cageminer'), bibtex = TRUE)
 ```
 
 ## Code of Conduct
