@@ -54,6 +54,7 @@ Suggests:
     SummarizedExperiment,
     knitr,
     BiocStyle,
-    rmarkdown
+    rmarkdown,
+    covr
 Config/testthat/edition: 3
 VignetteBuilder: knitr

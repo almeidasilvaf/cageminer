@@ -80,7 +80,7 @@ data(guides)
 data(gcn)
 set.seed(1)
 candidates <- mine_candidates(gene_ranges, snp_pos, exp = pepper_se,
-                              gcn = gcn, guides = guides,
+                              gcn = gcn, guides = guides$Gene,
                               sample_group = "PRR_stress")
 }
 }

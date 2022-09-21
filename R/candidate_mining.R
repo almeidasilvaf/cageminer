@@ -220,7 +220,7 @@ mine_step3 <- function(exp, metadata, candidates, sample_group,
 #' data(gcn)
 #' set.seed(1)
 #' candidates <- mine_candidates(gene_ranges, snp_pos, exp = pepper_se,
-#'                               gcn = gcn, guides = guides,
+#'                               gcn = gcn, guides = guides$Gene,
 #'                               sample_group = "PRR_stress")
 #' }
 mine_candidates <- function(gene_ranges=NULL, marker_ranges=NULL, window = 2,
@@ -271,7 +271,7 @@ mine_candidates <- function(gene_ranges=NULL, marker_ranges=NULL, window = 2,
 #' data(mined_candidates)
 #' set.seed(1)
 #' scored <- score_genes(mined_candidates, hubs$Gene, tfs$Gene_ID)
-score_genes <- function(mined_candidates, hubs=NULL, tfs=NULL,
+score_genes <- function(mined_candidates, hubs = NULL, tfs = NULL,
                         pick_top=10,
                         weight_tf = 2, weight_hub = 2,
                         weight_both = 3) {
@@ -282,12 +282,12 @@ score_genes <- function(mined_candidates, hubs=NULL, tfs=NULL,
     cand_both <- intersect(cand_hubs, cand_tfs)
     scored <- candidates
     scored$score <- vapply(seq_len(nrow(scored)), function(x) {
-        if(scored$gene[x] %in% cand_hubs) {
+        if(scored$gene[x] %in% cand_both) {
+            y <- scored$cor[x] * weight_both
+        } else if(scored$gene[x] %in% cand_hubs) {
             y <- scored$cor[x] * weight_hub
         } else if(scored$gene[x] %in% cand_tfs) {
             y <- scored$cor[x] * weight_tf
-        } else if(scored$gene[x] %in% cand_both) {
-            y <- scored$cor[x] * weight_both
         } else {
             y <- scored$cor[x]
         }
