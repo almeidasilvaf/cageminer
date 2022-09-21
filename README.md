@@ -16,7 +16,20 @@ coverage](https://codecov.io/gh/almeidasilvaf/cageminer/branch/master/graph/badg
 
 The goal of `cageminer` is to integrate SNP data from GWAS results with
 gene coexpression networks to identify high-confidence candidate genes
-involved in a particular phenotype.
+involved in a particular phenotype. To identify high-confidence
+candidate genes, `cageminer` considers 3 criteria:
+
+1.  Physical proximity (or linkage disequilibrium with) trait-related
+    SNPs;
+2.  Presence in coexpression modules enriched in guide genes (i.e.,
+    “reference” genes that are known to be associated with the
+    phenotype).
+3.  Significant altered expression levels in a condition of interest
+    (e.g., stress, disease, etc).
+
+By default, `cageminer` defines genes as high-confidence candidates if
+they satisfy all of the 3 criteria above, but users can choose to use
+only one/some of them.
 
 ## Installation instructions
 
@@ -37,6 +50,37 @@ And the development version from
 
 ``` r
 BiocManager::install("almeidasilvaf/cageminer")
+```
+
+## Citation
+
+Below is the citation output from using `citation('BioNERO')` in R.
+Please run this yourself to check for any updates on how to cite
+**BioNERO**.
+
+``` r
+print(citation('BioNERO'), bibtex = TRUE)
+#> 
+#> To cite BioNERO in publications use:
+#> 
+#>   Almeida-Silva, F., Venancio, T.M. BioNERO: an all-in-one
+#>   R/Bioconductor package for comprehensive and easy biological network
+#>   reconstruction. Funct Integr Genomics 22, 131-136 (2022).
+#>   https://doi.org/10.1007/s10142-021-00821-9
+#> 
+#> A BibTeX entry for LaTeX users is
+#> 
+#>   @Article{,
+#>     title = {BioNERO: an all-in-one R/Bioconductor package for comprehensive and easy biological network reconstruction},
+#>     author = {Fabricio Almeida-Silva and Thiago M. Venancio},
+#>     journal = {Functional And Integrative Genomics},
+#>     year = {2022},
+#>     volume = {22},
+#>     number = {1},
+#>     pages = {131-136},
+#>     url = {https://link.springer.com/article/10.1007/s10142-021-00821-9},
+#>     doi = {10.1007/s10142-021-00821-9},
+#>   }
 ```
 
 ## Code of Conduct

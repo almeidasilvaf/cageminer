@@ -22,7 +22,18 @@ knitr::opts_chunk$set(
 [![Codecov test coverage](https://codecov.io/gh/almeidasilvaf/cageminer/branch/master/graph/badge.svg)](https://codecov.io/gh/almeidasilvaf/cageminer?branch=master)
 <!-- badges: end -->
 
-The goal of `cageminer` is to integrate SNP data from GWAS results with gene coexpression networks to identify high-confidence candidate genes involved in a particular phenotype.
+The goal of `cageminer` is to integrate SNP data from GWAS results with gene coexpression networks to identify high-confidence candidate genes involved in a particular phenotype. To identify high-confidence candidate genes, `cageminer`
+considers 3 criteria:
+
+1. Physical proximity (or linkage disequilibrium with) trait-related SNPs;
+2. Presence in coexpression modules enriched in guide genes (i.e.,
+"reference" genes that are known to be associated with the phenotype).
+3. Significant altered expression levels in a condition of interest (e.g., 
+stress, disease, etc).
+
+By default, `cageminer` defines genes as high-confidence candidates if they
+satisfy all of the 3 criteria above, but users can choose to use only one/some
+of them.
 
 ## Installation instructions
 
@@ -40,6 +51,15 @@ And the development version from [GitHub](https://github.com/almeidasilvaf/cagem
 
 ```{r 'install_dev', eval = FALSE}
 BiocManager::install("almeidasilvaf/cageminer")
+```
+
+## Citation
+
+Below is the citation output from using `citation('BioNERO')` in R. Please
+run this yourself to check for any updates on how to cite __BioNERO__.
+
+```{r 'citation', eval = requireNamespace('BioNERO')}
+print(citation('BioNERO'), bibtex = TRUE)
 ```
 
 ## Code of Conduct

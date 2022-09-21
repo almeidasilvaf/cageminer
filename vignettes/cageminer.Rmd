@@ -2,9 +2,12 @@
 title: "Mining high-confidence candidate genes with cageminer"
 author: 
   - name: Fabricio Almeida-Silva
-    affiliation: Universidade Estadual do Norte Fluminense Darcy Ribeiro, RJ, Brazil
+    affiliation: 
+    - "Universidade Estadual do Norte Fluminense Darcy Ribeiro, RJ, Brazil"
+    - "Current address: VIB-UGent Center for Plant Systems Biology, Ghent University, Ghent, Belgium"
   - name: Thiago Motta Venancio
-    affiliation: Universidade Estadual do Norte Fluminense Darcy Ribeiro, RJ, Brazil
+    affiliation: 
+    - "Universidade Estadual do Norte Fluminense Darcy Ribeiro, RJ, Brazil"
 output: 
   BiocStyle::html_document:
     toc: true
@@ -140,7 +143,7 @@ what happens after each step) or all at once.
 To run the candidate mining step by step, you will need the functions 
 `mine_step1()`, `mine_step2`, and `mine_step3`.
 
-## Step 1
+## Step 1: finding genes close to (or in linkage disequilibrium with) SNPs
 
 The function `mine_step1()` identifies genes based on step 1 and returns a
 GRanges object with all putative candidates and their location in the genome.
@@ -177,7 +180,7 @@ linkage disequilibrium) for which you want to extract genes. To avoid expanding
 a sliding window in such cases, set `expand_intervals = FALSE`. This will
 ensure that only SNPs are expanded, but not intervals (width >1).
 
-## Step 2
+## Step 2: finding coexpression modules enriched in guide genes
 
 The function `mine_step2()` selects candidates in coexpression modules enriched 
 in guide genes. For that, users must infer the GCN with the function exp2gcn() 
@@ -212,7 +215,7 @@ candidates2$enrichment
 
 After the step 2, we got `r length(candidates2$candidates)` candidates.
 
-## Step 3
+## Step 3: finding genes with altered expression in a condition of interest
 
 The function `mine_step3()` identifies candidate genes whose expression levels
 significantly increase or decrease in a particular condition. For that, you 
@@ -300,8 +303,8 @@ interest.
 
 This document was created under the following conditions:
 
-```{r}
-sessionInfo()
+```{r session_info}
+sessioninfo::session_info()
 ```
 
 # References {.unnumbered}
