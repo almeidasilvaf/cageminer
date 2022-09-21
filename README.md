@@ -5,9 +5,13 @@
 
 <!-- badges: start -->
 
+[![GitHub
+issues](https://img.shields.io/github/issues/almeidasilvaf/cageminer)](https://github.com/almeidasilvaf/cageminer/issues)
 [![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![R-CMD-check-bioc](https://github.com/almeidasilvaf/cageminer/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/almeidasilvaf/cageminer/actions)
+[![Codecov test
+coverage](https://codecov.io/gh/almeidasilvaf/cageminer/branch/master/graph/badge.svg)](https://codecov.io/gh/almeidasilvaf/cageminer?branch=master)
 <!-- badges: end -->
 
 The goal of `cageminer` is to integrate SNP data from GWAS results with
@@ -50,7 +54,7 @@ contributing to this project, you agree to abide by its terms.
     *[rcmdcheck](https://CRAN.R-project.org/package=rcmdcheck)*
     customized to use [Bioconductor’s docker
     containers](https://www.bioconductor.org/help/docker/) and
-    *[BiocCheck](https://bioconductor.org/packages/3.13/BiocCheck)*.
+    *[BiocCheck](https://bioconductor.org/packages/3.15/BiocCheck)*.
 -   Code coverage assessment is possible thanks to
     [codecov](https://codecov.io/gh) and
     *[covr](https://CRAN.R-project.org/package=covr)*.
@@ -67,4 +71,4 @@ contributing to this project, you agree to abide by its terms.
 For more details, check the `dev` directory.
 
 This package was developed using
-*[biocthis](https://bioconductor.org/packages/3.13/biocthis)*.
+*[biocthis](https://bioconductor.org/packages/3.15/biocthis)*.

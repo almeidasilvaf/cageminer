@@ -1,0 +1,23 @@
+
+citHeader("To cite cageminer in publications use:")
+
+citEntry(
+  entry    = "Article",
+  title    = "cageminer: an R/Bioconductor package to prioritize candidate genes by integrating genome-wide association studies and gene coexpression networks",
+  author   = personList(
+      as.person("Fabricio Almeida-Silva"),
+      as.person("Thiago M. Venancio")
+  ),
+  journal  = "in silico Plants",
+  year     = "2022",
+  volume   = "4",
+  number   = "2",
+  pages    = "diac018",
+  url      = "https://doi.org/10.1093/insilicoplants/diac018",
+  doi      = "10.1093/insilicoplants/diac018",
+  textVersion = paste(
+      "Almeida-Silva, F., & Venancio, T. M. (2022).",
+      "cageminer: an R/Bioconductor package to prioritize candidate genes by integrating genome-wide association studies and gene coexpression networks.",
+      "in silico Plants, 4(2), diac018. https://doi.org/10.1093/insilicoplants/diac018"
+  )
+)
