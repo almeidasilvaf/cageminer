@@ -37,6 +37,15 @@ associated with the studied phenotype. The goal of `cageminer` is to integrate
 GWAS-derived SNPs with transcriptomic data to mine candidate genes and identify
 high-confidence genes associated with traits of interest.
 
+# Citation
+
+If you use `cageminer` in your research, please cite us. You can obtain
+citation information with `citation('cageminer')`, as demonstrated below:
+
+```{r cit, eval = requireNamespace('cageminer')}
+print(citation('cageminer'), bibtex = TRUE)
+```
+
 # Installation
 
 ```{r installation, eval=FALSE}

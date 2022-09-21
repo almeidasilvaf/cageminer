@@ -54,32 +54,33 @@ BiocManager::install("almeidasilvaf/cageminer")
 
 ## Citation
 
-Below is the citation output from using `citation('BioNERO')` in R.
+Below is the citation output from using `citation('cageminer')` in R.
 Please run this yourself to check for any updates on how to cite
-**BioNERO**.
+**cageminer**.
 
 ``` r
-print(citation('BioNERO'), bibtex = TRUE)
+print(citation('cageminer'), bibtex = TRUE)
 #> 
-#> To cite BioNERO in publications use:
+#> To cite cageminer in publications use:
 #> 
-#>   Almeida-Silva, F., Venancio, T.M. BioNERO: an all-in-one
-#>   R/Bioconductor package for comprehensive and easy biological network
-#>   reconstruction. Funct Integr Genomics 22, 131-136 (2022).
-#>   https://doi.org/10.1007/s10142-021-00821-9
+#>   Almeida-Silva, F., & Venancio, T. M. (2022). cageminer: an
+#>   R/Bioconductor package to prioritize candidate genes by integrating
+#>   genome-wide association studies and gene coexpression networks. in
+#>   silico Plants, 4(2), diac018.
+#>   https://doi.org/10.1093/insilicoplants/diac018
 #> 
 #> A BibTeX entry for LaTeX users is
 #> 
 #>   @Article{,
-#>     title = {BioNERO: an all-in-one R/Bioconductor package for comprehensive and easy biological network reconstruction},
+#>     title = {cageminer: an R/Bioconductor package to prioritize candidate genes by integrating genome-wide association studies and gene coexpression networks},
 #>     author = {Fabricio Almeida-Silva and Thiago M. Venancio},
-#>     journal = {Functional And Integrative Genomics},
+#>     journal = {in silico Plants},
 #>     year = {2022},
-#>     volume = {22},
-#>     number = {1},
-#>     pages = {131-136},
-#>     url = {https://link.springer.com/article/10.1007/s10142-021-00821-9},
-#>     doi = {10.1007/s10142-021-00821-9},
+#>     volume = {4},
+#>     number = {2},
+#>     pages = {diac018},
+#>     url = {https://doi.org/10.1093/insilicoplants/diac018},
+#>     doi = {10.1093/insilicoplants/diac018},
 #>   }
 ```
 
