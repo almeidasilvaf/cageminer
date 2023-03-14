@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 [![GitHub issues](https://img.shields.io/github/issues/almeidasilvaf/cageminer)](https://github.com/almeidasilvaf/cageminer/issues)
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![R-CMD-check-bioc](https://github.com/almeidasilvaf/cageminer/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/almeidasilvaf/cageminer/actions)
-[![Codecov test coverage](https://codecov.io/gh/almeidasilvaf/cageminer/branch/master/graph/badge.svg)](https://codecov.io/gh/almeidasilvaf/cageminer?branch=master)
+[![Codecov test coverage](https://codecov.io/gh/almeidasilvaf/cageminer/branch/devel/graph/badge.svg)](https://codecov.io/gh/almeidasilvaf/cageminer?branch=devel)
 <!-- badges: end -->
 
 The goal of `cageminer` is to integrate SNP data from GWAS results with gene coexpression networks to identify high-confidence candidate genes involved in a particular phenotype. To identify high-confidence candidate genes, `cageminer`
