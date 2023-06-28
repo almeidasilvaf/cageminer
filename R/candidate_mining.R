@@ -91,6 +91,7 @@ mine_step1 <- function(gene_ranges, marker_ranges, window = 2,
 #' @param guides Guide genes as a character vector or as a data frame with
 #' genes in the first column and gene annotation class in the second column.
 #' @param candidates Character vector of all candidates genes to be inspected.
+#' @param ... Additional arguments to \code{BioNERO::module_enrichment}
 #'
 #' @return A list of 2 elements:
 #' \describe{
@@ -105,26 +106,37 @@ mine_step1 <- function(gene_ranges, marker_ranges, window = 2,
 #' data(guides)
 #' data(gcn)
 #' set.seed(1)
-#' mine2 <- mine_step2(pepper_se, gcn = gcn, guides = guides$Gene,
-#'                     candidates = rownames(pepper_se))
-mine_step2 <- function(exp, gcn, guides, candidates) {
+#' mine2 <- mine_step2(
+#'     exp = pepper_se,
+#'     gcn = gcn,
+#'     guides = guides$Gene,
+#'     candidates = rownames(pepper_se)
+#' )
+mine_step2 <- function(exp, gcn, guides, candidates, ...) {
     if(is.character(guides)) {
-        guides <- data.frame(Gene = guides, Class="guide")
+        guides <- data.frame(Gene = guides, Class = "guide")
     }
     bkgenes <- rownames(exp)
-    annotation <- merge(guides, as.data.frame(bkgenes), by=1, all.y=TRUE)
+    annotation <- merge(guides, as.data.frame(bkgenes), by = 1, all.y=TRUE)
     annotation[,2][is.na(annotation[,2])] <- "None"
     enrichment <- BioNERO::module_enrichment(
-        gcn, background_genes = bkgenes, annotation = annotation
+        gcn,
+        background_genes = bkgenes,
+        annotation = annotation,
+        max_setsize = Inf,
+        ...
     )
-    enrichment <- enrichment[enrichment$TermID != "None", ]
-    key_modules <- unique(enrichment$Module)
+    enrichment <- enrichment[enrichment$term != "None", ]
+    key_modules <- unique(enrichment$module)
     if(is.null(key_modules)) { stop("No modules enriched in guide genes.") }
     genes_f1 <- gcn$genes_and_modules$Genes[gcn$genes_and_modules$Modules %in%
                                                 key_modules]
     genes_f1 <- genes_f1[genes_f1 %in% candidates]
-    result_list <- list(candidates = genes_f1,
-                        enrichment = enrichment)
+
+    result_list <- list(
+        candidates = genes_f1,
+        enrichment = enrichment
+    )
     return(result_list)
 }
 
@@ -141,8 +153,8 @@ mine_step2 <- function(exp, gcn, guides, candidates) {
 #' @param min_cor Minimum correlation value for
 #' \code{BioNERO::gene_significance()}. Default: 0.2
 #' @param alpha Numeric indicating significance level. Default: 0.05
-#' @param continuous Logical indicating whether metadata is continuous or not.
-#' Default: FALSE
+#' @param ... Additional arguments to \code{BioNERO::gene_significance}.
+#'
 #' @return A data frame with mined candidate genes and their correlation to
 #' the condition of interest.
 #'
@@ -157,20 +169,27 @@ mine_step2 <- function(exp, gcn, guides, candidates) {
 #' data(gcn)
 #' data(mine2)
 #' set.seed(1)
-#' mine3 <- mine_step3(pepper_se, candidates = mine2$candidates,
-#'                     sample_group = "PRR_stress")
-mine_step3 <- function(exp, metadata, candidates, sample_group,
-                       min_cor = 0.2, alpha = 0.05,
-                       continuous = FALSE) {
+#' mine3 <- mine_step3(
+#'     exp = pepper_se,
+#'     candidates = mine2$candidates,
+#'     sample_group = "PRR_stress"
+#' )
+mine_step3 <- function(
+        exp, metadata, candidates, sample_group,
+        min_cor = 0.2, alpha = 0.05, ...
+) {
     exp <- exp[candidates, , drop = FALSE]
     genes_f2 <- BioNERO::gene_significance(
-        exp, genes = candidates, alpha = alpha, min_cor = min_cor,
-        continuous_trait = continuous, metadata = metadata
+        exp,
+        metadata = metadata,
+        genes = candidates,
+        alpha = alpha,
+        min_cor = min_cor,
+        ...
     )
-    genes_f2 <- genes_f2$filtered_corandp[
-        genes_f2$filtered_corandp$trait %in% sample_group,
-    ]
+    genes_f2 <- genes_f2[genes_f2$trait %in% sample_group, ]
     genes_final <- genes_f2[order(-genes_f2$cor), ]
+
     return(genes_final)
 }
 
@@ -204,8 +223,7 @@ mine_step3 <- function(exp, metadata, candidates, sample_group,
 #' @param min_cor Minimum correlation value for
 #' \code{BioNERO::gene_significance()}. Default: 0.2
 #' @param alpha Numeric indicating significance level. Default: 0.05
-#' @param continuous Logical indicating whether metadata is continuous or not.
-#' Default: FALSE
+#'
 #' @return A data frame with mined candidate genes and their correlation to
 #' the condition of interest.
 #' @importFrom GenomicRanges mcols
@@ -223,26 +241,41 @@ mine_step3 <- function(exp, metadata, candidates, sample_group,
 #'                               gcn = gcn, guides = guides$Gene,
 #'                               sample_group = "PRR_stress")
 #' }
-mine_candidates <- function(gene_ranges=NULL, marker_ranges=NULL, window = 2,
-                            expand_intervals = TRUE,
-                            gene_col = "ID",
-                            exp=NULL, gcn=NULL, guides=NULL,
-                            metadata, sample_group,
-                            min_cor = 0.2, alpha = 0.05,
-                            continuous = FALSE) {
+mine_candidates <- function(
+        gene_ranges = NULL, marker_ranges = NULL,
+        window = 2, expand_intervals = TRUE, gene_col = "ID",
+        exp = NULL, gcn = NULL, guides = NULL,
+        metadata, sample_group,
+        min_cor = 0.2, alpha = 0.05
+) {
 
     # Step 1
-    candidates1 <- mine_step1(gene_ranges, marker_ranges, window = window,
-                              expand_intervals = expand_intervals)
+    candidates1 <- mine_step1(
+        gene_ranges = gene_ranges,
+        marker_ranges = marker_ranges,
+        window = window,
+        expand_intervals = expand_intervals
+    )
     candidates1 <- GenomicRanges::mcols(candidates1)[[gene_col]]
 
     # Step 2
-    candidates2 <- mine_step2(exp, gcn, guides, candidates1)
+    candidates2 <- mine_step2(
+        exp = exp,
+        gcn = gcn,
+        guides = guides,
+        candidates = candidates1
+    )
 
     # Step 3
-    candidates3 <- mine_step3(exp, metadata, candidates2$candidates,
-                              sample_group, min_cor = min_cor, alpha = alpha,
-                              continuous = continuous)
+    candidates3 <- mine_step3(
+        exp = exp,
+        metadata = metadata,
+        candidates = candidates2$candidates,
+        sample_group = sample_group,
+        min_cor = min_cor,
+        alpha = alpha
+    )
+
     return(candidates3)
 }
 
@@ -304,12 +337,4 @@ score_genes <- function(mined_candidates, hubs = NULL, tfs = NULL,
     }
     return(scored)
 }
-
-
-
-
-
-
-
-
 
