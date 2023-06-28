@@ -4,7 +4,7 @@
 \alias{mine_step2}
 \title{Step 2: Get candidates in modules enriched in guide genes}
 \usage{
-mine_step2(exp, gcn, guides, candidates)
+mine_step2(exp, gcn, guides, candidates, ...)
 }
 \arguments{
 \item{exp}{Expression data frame with genes in row names and samples in
@@ -16,6 +16,8 @@ column names or a SummarizedExperiment object.}
 genes in the first column and gene annotation class in the second column.}
 
 \item{candidates}{Character vector of all candidates genes to be inspected.}
+
+\item{...}{Additional arguments to \code{BioNERO::module_enrichment}}
 }
 \value{
 A list of 2 elements:
@@ -32,6 +34,10 @@ data(pepper_se)
 data(guides)
 data(gcn)
 set.seed(1)
-mine2 <- mine_step2(pepper_se, gcn = gcn, guides = guides$Gene,
-                    candidates = rownames(pepper_se))
+mine2 <- mine_step2(
+    exp = pepper_se,
+    gcn = gcn,
+    guides = guides$Gene,
+    candidates = rownames(pepper_se)
+)
 }

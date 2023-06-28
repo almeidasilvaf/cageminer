@@ -76,7 +76,7 @@ test_that("mine_candidates() returns a data frame", {
     )
 
     expect_equal(class(mc1), "data.frame")
-    expect_equal(ncol(mc1), 4)
+    expect_equal(ncol(mc1), 5)
 })
 
 test_that("score_genes() returns a data frame", {

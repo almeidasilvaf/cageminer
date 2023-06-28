@@ -28,7 +28,7 @@
 #' @export
 #' @importFrom IRanges subsetByOverlaps
 #' @importFrom reshape2 melt
-#' @importFrom ggplot2 ggplot aes_ geom_line geom_point scale_color_manual labs theme element_text
+#' @importFrom ggplot2 ggplot aes geom_line geom_point scale_color_manual labs theme element_text
 #' @importFrom methods is
 #' @examples
 #' data(snp_pos)
@@ -65,9 +65,12 @@ simulate_windows <- function(gene_ranges, marker_ranges,
     gene_count$windows <- as.factor(seq(0.1, 2, by = 0.1))
     gene_count_melt <- reshape2::melt(gene_count, id.vars = "windows")
 
-    p <- ggplot2::ggplot(gene_count_melt,
-                         ggplot2::aes_(x=~windows, y=~value,
-                                      group=~variable, color=~variable)) +
+    p <- ggplot(
+        gene_count_melt, aes(
+            x = .data$windows, y = .data$value,
+            group = .data$variable, color = .data$variable
+        )
+    ) +
         ggplot2::geom_line() +
         ggplot2::geom_point() +
         ggplot2::scale_color_manual(values = custom_pal(1)) +

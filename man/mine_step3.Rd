@@ -11,7 +11,7 @@ mine_step3(
   sample_group,
   min_cor = 0.2,
   alpha = 0.05,
-  continuous = FALSE
+  ...
 )
 }
 \arguments{
@@ -32,8 +32,7 @@ in gene-trait correlation.}
 
 \item{alpha}{Numeric indicating significance level. Default: 0.05}
 
-\item{continuous}{Logical indicating whether metadata is continuous or not.
-Default: FALSE}
+\item{...}{Additional arguments to \code{BioNERO::gene_significance}.}
 }
 \value{
 A data frame with mined candidate genes and their correlation to
@@ -50,6 +49,9 @@ data(guides)
 data(gcn)
 data(mine2)
 set.seed(1)
-mine3 <- mine_step3(pepper_se, candidates = mine2$candidates,
-                    sample_group = "PRR_stress")
+mine3 <- mine_step3(
+    exp = pepper_se,
+    candidates = mine2$candidates,
+    sample_group = "PRR_stress"
+)
 }

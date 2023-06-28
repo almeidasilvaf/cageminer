@@ -112,8 +112,9 @@ add_seqlen <- function(genome_ranges, gene_ranges, marker_ranges) {
 #' across chromosomes.
 #' @rdname plot_snp_circos
 #' @export
+#' @importFrom rlang .data
 #' @importFrom GenomeInfoDb seqinfo
-#' @importFrom ggplot2 labs theme margin aes_ scale_fill_gradient
+#' @importFrom ggplot2 labs theme margin aes scale_fill_gradient
 #' @importFrom ggtext element_textbox_simple
 #' @importFrom GenomicRanges end tileGenome countOverlaps
 #' @importFrom ggbio circle ggbio
@@ -153,20 +154,28 @@ plot_snp_circos <- function(genome_ranges, gene_ranges, marker_ranges) {
         "<span style = 'font-size:10pt'>Gene density and SNPs associated with ",
         traits, ".</span>")
     p <- p +
-        ggbio::circle(windows, geom = "bar", stat="identity",
-                      ggplot2::aes_(fill = ~ngenes, y = ~ngenes), color=NA) +
+        ggbio::circle(
+            windows, geom = "bar", stat="identity",
+            aes(fill = .data$ngenes, y = .data$ngenes),
+            color = NA
+        ) +
         ggplot2::scale_fill_gradient(low="#74c476", high="darkgreen") +
         ggbio::circle(genome_ranges, geom = "scale", size = 2) +
-        ggbio::circle(genome_ranges, geom = "text",
-                      ggplot2::aes_(label = ~seqnames), vjust = -1, size = 3) +
-        ggplot2::labs(title = title, fill = "Gene frequency") +
-        ggplot2::theme(plot.title.position = "plot",
-                       plot.title = ggtext::element_textbox_simple(
-                           size = 13,
-                           lineheight = 1,
-                           padding = ggplot2::margin(5.5, 5.5, 5.5, 5.5),
-                           margin = ggplot2::margin(0, 0, 5.5, 0),
-                       ))
+        ggbio::circle(
+            genome_ranges, geom = "text",
+            aes(label = .data$seqnames), vjust = -1, size = 3
+        ) +
+        labs(title = title, fill = "Gene frequency") +
+        theme(
+            plot.title.position = "plot",
+            plot.title = ggtext::element_textbox_simple(
+                size = 13,
+                lineheight = 1,
+                padding = ggplot2::margin(5.5, 5.5, 5.5, 5.5),
+                margin = ggplot2::margin(0, 0, 5.5, 0),
+                )
+        )
+
     return(p)
 }
 
@@ -179,7 +188,7 @@ plot_snp_circos <- function(genome_ranges, gene_ranges, marker_ranges) {
 #' @return A ggplot object.
 #' @rdname plot_snp_distribution
 #' @export
-#' @importFrom ggplot2 ggplot aes_ geom_bar facet_wrap coord_flip theme_bw
+#' @importFrom ggplot2 ggplot aes geom_bar facet_wrap coord_flip theme_bw
 #' ggtitle theme element_text element_blank scale_fill_manual
 #' @importFrom methods is
 #' @examples
@@ -207,14 +216,14 @@ plot_snp_distribution <- function(marker_ranges) {
                                          marker_df[["seqnames"]]))
         colnames(marker_df) <- c("Trait", "Chromosome", "Frequency")
         ntr <- nlevels(marker_df$Trait)
-        wrap <- ggplot2::facet_wrap(~Trait, ncol = ntr)
-        bar <- ggplot2::geom_bar(ggplot2::aes_(fill = ~Trait), stat = "identity",
+        wrap <- facet_wrap(~Trait, ncol = ntr)
+        bar <- geom_bar(aes(fill = .data$Trait), stat = "identity",
                                  show.legend = FALSE)
         cols <- ggplot2::scale_fill_manual(values = custom_pal(2)[seq_len(ntr)])
     }
-    p <- ggplot2::ggplot(marker_df, ggplot2::aes_(x=~Chromosome, y=~Frequency)) +
+    p <- ggplot(marker_df, aes(x = .data$Chromosome, y = .data$Frequency)) +
         bar + cols + wrap +
-        ggplot2::coord_flip() +
+        coord_flip() +
         ggplot2::ggtitle("SNP distribution across chromosomes") +
         ggplot_theme()
     return(p)

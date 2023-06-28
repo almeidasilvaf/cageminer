@@ -16,8 +16,7 @@ mine_candidates(
   metadata,
   sample_group,
   min_cor = 0.2,
-  alpha = 0.05,
-  continuous = FALSE
+  alpha = 0.05
 )
 }
 \arguments{
@@ -60,9 +59,6 @@ in gene-trait correlation.}
 \code{BioNERO::gene_significance()}. Default: 0.2}
 
 \item{alpha}{Numeric indicating significance level. Default: 0.05}
-
-\item{continuous}{Logical indicating whether metadata is continuous or not.
-Default: FALSE}
 }
 \value{
 A data frame with mined candidate genes and their correlation to
