@@ -147,6 +147,10 @@ mine_step2 <- function(exp, gcn, guides, candidates, ...) {
 #' @param metadata Sample metadata with samples in row names and sample
 #' information in the first column. Ignored if `exp` is a SummarizedExperiment
 #' object, as the colData will be extracted from the object.
+#' @param metadata_cols A vector (either numeric or character) indicating
+#' which columns should be extracted from column metadata if \strong{exp}
+#' is a `SummarizedExperiment` object. The vector can contain column indices
+#' (numeric) or column names (character). By default, all columns are used.
 #' @param candidates Character vector of candidate genes to be inspected.
 #' @param sample_group Level of sample metadata to be used for filtering
 #' in gene-trait correlation.
@@ -175,13 +179,16 @@ mine_step2 <- function(exp, gcn, guides, candidates, ...) {
 #'     sample_group = "PRR_stress"
 #' )
 mine_step3 <- function(
-        exp, metadata, candidates, sample_group,
-        min_cor = 0.2, alpha = 0.05, ...
+        exp, metadata, metadata_cols = 1,
+        candidates, sample_group,
+        min_cor = 0.2, alpha = 0.05,
+        ...
 ) {
     exp <- exp[candidates, , drop = FALSE]
     genes_f2 <- BioNERO::gene_significance(
         exp,
         metadata = metadata,
+        metadata_cols = metadata_cols,
         genes = candidates,
         alpha = alpha,
         min_cor = min_cor,
@@ -218,11 +225,16 @@ mine_step3 <- function(
 #' @param metadata Sample metadata with samples in row names and sample
 #' information in the first column. Ignored if `exp` is a SummarizedExperiment
 #' object, as the colData will be extracted from the object.
+#' @param metadata_cols A vector (either numeric or character) indicating
+#' which columns should be extracted from column metadata if \strong{exp}
+#' is a `SummarizedExperiment` object. The vector can contain column indices
+#' (numeric) or column names (character). By default, all columns are used.
 #' @param sample_group Level of sample metadata to be used for filtering
 #' in gene-trait correlation.
 #' @param min_cor Minimum correlation value for
 #' \code{BioNERO::gene_significance()}. Default: 0.2
 #' @param alpha Numeric indicating significance level. Default: 0.05
+#' @param ... Additional arguments to \code{BioNERO::gene_significance}.
 #'
 #' @return A data frame with mined candidate genes and their correlation to
 #' the condition of interest.
@@ -245,8 +257,9 @@ mine_candidates <- function(
         gene_ranges = NULL, marker_ranges = NULL,
         window = 2, expand_intervals = TRUE, gene_col = "ID",
         exp = NULL, gcn = NULL, guides = NULL,
-        metadata, sample_group,
-        min_cor = 0.2, alpha = 0.05
+        metadata, metadata_cols = 1, sample_group,
+        min_cor = 0.2, alpha = 0.05,
+        ...
 ) {
 
     # Step 1
@@ -270,10 +283,12 @@ mine_candidates <- function(
     candidates3 <- mine_step3(
         exp = exp,
         metadata = metadata,
+        metadata_cols = metadata_cols,
         candidates = candidates2$candidates,
         sample_group = sample_group,
         min_cor = min_cor,
-        alpha = alpha
+        alpha = alpha,
+        ...
     )
 
     return(candidates3)
