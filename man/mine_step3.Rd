@@ -7,6 +7,7 @@
 mine_step3(
   exp,
   metadata,
+  metadata_cols = 1,
   candidates,
   sample_group,
   min_cor = 0.2,
@@ -21,6 +22,11 @@ column names or a SummarizedExperiment object.}
 \item{metadata}{Sample metadata with samples in row names and sample
 information in the first column. Ignored if \code{exp} is a SummarizedExperiment
 object, as the colData will be extracted from the object.}
+
+\item{metadata_cols}{A vector (either numeric or character) indicating
+which columns should be extracted from column metadata if \strong{exp}
+is a \code{SummarizedExperiment} object. The vector can contain column indices
+(numeric) or column names (character). By default, all columns are used.}
 
 \item{candidates}{Character vector of candidate genes to be inspected.}
 

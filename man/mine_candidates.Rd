@@ -14,9 +14,11 @@ mine_candidates(
   gcn = NULL,
   guides = NULL,
   metadata,
+  metadata_cols = 1,
   sample_group,
   min_cor = 0.2,
-  alpha = 0.05
+  alpha = 0.05,
+  ...
 )
 }
 \arguments{
@@ -52,6 +54,11 @@ genes in the first column and gene annotation class in the second column.}
 information in the first column. Ignored if \code{exp} is a SummarizedExperiment
 object, as the colData will be extracted from the object.}
 
+\item{metadata_cols}{A vector (either numeric or character) indicating
+which columns should be extracted from column metadata if \strong{exp}
+is a \code{SummarizedExperiment} object. The vector can contain column indices
+(numeric) or column names (character). By default, all columns are used.}
+
 \item{sample_group}{Level of sample metadata to be used for filtering
 in gene-trait correlation.}
 
@@ -59,6 +66,8 @@ in gene-trait correlation.}
 \code{BioNERO::gene_significance()}. Default: 0.2}
 
 \item{alpha}{Numeric indicating significance level. Default: 0.05}
+
+\item{...}{Additional arguments to \code{BioNERO::gene_significance}.}
 }
 \value{
 A data frame with mined candidate genes and their correlation to
