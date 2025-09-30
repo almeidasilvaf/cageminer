@@ -13,6 +13,6 @@ test_that("simulate_windows() plots number of genes per sliding window", {
     p <- simulate_windows(gene_ranges, snp_pos)
     p2 <- simulate_windows(gene_ranges, snp_pos_list)
 
-    expect_equal(class(p), c("gg", "ggplot"))
-    expect_equal(class(p2), c("gg", "ggplot"))
+    expect_true("ggplot" %in% class(p))
+    expect_true("ggplot" %in% class(p2))
 })
