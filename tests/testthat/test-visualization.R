@@ -55,8 +55,8 @@ test_that("plot_snp_distribution() plots SNP distribution", {
     p <- plot_snp_distribution(snp_pos)
     p2 <- plot_snp_distribution(snp_pos_list)
 
-    expect_equal(class(p), c("gg", "ggplot"))
-    expect_equal(class(p2), c("gg", "ggplot"))
+    expect_true("ggplot" %in% class(p))
+    expect_true("ggplot" %in% class(p2))
     expect_error(plot_snp_distribution(as.data.frame(snp_pos)))
 })
 
