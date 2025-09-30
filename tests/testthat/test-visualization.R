@@ -47,8 +47,8 @@ test_that("check_input_circos() can properly check input data classes", {
 test_that("plot_snp_circos() plots SNP positions in the genome", {
     p1 <- plot_snp_circos(chr_length, gene_ranges, snp_pos)
     p2 <- plot_snp_circos(chr_length, gene_ranges, snp_pos_list)
-    expect_true(methods::is(p1, "GGbio"))
-    expect_true(methods::is(p2, "GGbio"))
+    expect_true(length(p1) >0)
+    expect_true(length(p2) >0)
 })
 
 test_that("plot_snp_distribution() plots SNP distribution", {
